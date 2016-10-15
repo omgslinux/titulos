@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Funds list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Gestora</th>
+                <th>Tipo de fondo</th>
+                <th>NIF</th>
+                <th>Fecha constitución</th>
+                <th>Cantidad</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fund in funds %}
+            <tr>
+                <td><a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">{{ fund.id }}</a></td>
+                <td>{{ fund.fundname }}</td>
+                <td>{{ fund.gestora }}</td>
+                <td>{{ fund.fundtype }}</td>
+                <td>{{ fund.nif }}</td>
+                <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
+                <td>{{ fund.amount }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">mostrar</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">editar</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_new') }}">Añadir un fondo</a>
+        </li>
+    </ul>
+{% endblock %}

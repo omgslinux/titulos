@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Funds</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fund.id }}</td>
+            </tr>
+            <tr>
+                <th>Gestora</th>
+                <td>{{ fund.gestora }}</td>
+            </tr>
+            <tr>
+                <th>Tipo fondo</th>
+                <td>{{ fund.fundtype }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de constitución</th>
+                <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>NIF</th>
+                <td>{{ fund.nif }}</td>
+            </tr>
+            <tr>
+                <th>Num registros</th>
+                <td>{{ fund.numrecords }}</td>
+            </tr>
+            <tr>
+                <th>Pag. inicio</th>
+                <td>{{ fund.paginicio }}</td>
+            </tr>
+            <tr>
+                <th>Pag. fin</th>
+                <td>{{ fund.pagfin }}</td>
+            </tr>
+            <tr>
+                <th>Legible</th>
+                <td>{% if fund.legible %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Folleto</th>
+                <td>{% if fund.folleto %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha de liquidación</th>
+                <td>{% if fund.liqdate %}{{ fund.liqdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fecha de extinción</th>
+                <td>{% if fund.extdate %}{{ fund.extdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cantidad</th>
+                <td>{{ fund.amount }}</td>
+            </tr>
+            <tr>
+                <th>Digitalizable</th>
+                <td>{{ fund.digitalizable }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_index') }}">Volver a la lista</a>
+        </li>
+        <li>
+            <a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Borrar">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

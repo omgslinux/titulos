@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Gestoras</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ gestora.id }}</td>
+            </tr>
+            <tr>
+                <th>Shortname</th>
+                <td>{{ gestora.shortname }}</td>
+            </tr>
+            <tr>
+                <th>Longname</th>
+                <td>{{ gestora.longname }}</td>
+            </tr>
+            <tr>
+                <th>Nif</th>
+                <td>{{ gestora.nif }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ gestora.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_gestoras_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('manage_gestoras_edit', { 'id': gestora.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

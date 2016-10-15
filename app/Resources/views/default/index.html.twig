@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1>Bienvenido a la aplicación de titulizaciones</h1>
+            </div>
+
+            <div id="next">
+                <h2>¿Deseas buscar tu hipoteca?</h2>
+                <p>
+                    Tenemos un <a href="{{ path('manage_securities_search') }}">buscador de hipotecas</a>
+                    que está en construcción. Cómo buscar:
+                    <ul>
+                        <li>Busca en el desplegable tu entidad y selecciónala. Si no está en la listada, puedes ayudarnos a completarla</li>
+                        <li>Introduce la cantidad exacta del préstamo, incluyendo los céntimos (si los hay)</li>
+                        <li>Introduce la fecha del préstamo. Esto sirve tanto para descartar fondos en los que buscar,
+                        así como dotar de mayor exactitud a la búsqueda</li>
+                    </ul>
+                </p>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

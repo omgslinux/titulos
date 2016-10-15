@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Securities</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ security.id }}</td>
+            </tr>
+            <tr>
+                <th>Fundid</th>
+                <td>{{ security.fundId }}</td>
+            </tr>
+            <tr>
+                <th>Credito</th>
+                <td>{{ security.credito }}</td>
+            </tr>
+            <tr>
+                <th>Loantypeid</th>
+                <td>{{ security.loantypeId }}</td>
+            </tr>
+            <tr>
+                <th>Bankid</th>
+                <td>{{ security.bankId }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if security.date %}{{ security.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ security.duration }}</td>
+            </tr>
+            <tr>
+                <th>Municipioid</th>
+                <td>{{ security.municipioId }}</td>
+            </tr>
+            <tr>
+                <th>Loanamount</th>
+                <td>{{ security.loanamount }}</td>
+            </tr>
+            <tr>
+                <th>Registration</th>
+                <td>{{ security.registration }}</td>
+            </tr>
+            <tr>
+                <th>Volume</th>
+                <td>{{ security.volume }}</td>
+            </tr>
+            <tr>
+                <th>Book</th>
+                <td>{{ security.book }}</td>
+            </tr>
+            <tr>
+                <th>Folio</th>
+                <td>{{ security.folio }}</td>
+            </tr>
+            <tr>
+                <th>Building</th>
+                <td>{{ security.building }}</td>
+            </tr>
+            <tr>
+                <th>Page</th>
+                <td>{{ security.page }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_securities_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('manage_securities_edit', { 'id': security.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
