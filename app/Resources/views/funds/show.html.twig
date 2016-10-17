@@ -1,80 +1,82 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Funds</h1>
+    <h2>Datos del fondo {{ fund.fundname }}</h2>
 
     <table>
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ fund.id }}</td>
-            </tr>
-            <tr>
                 <th>Gestora</th>
-                <td>{{ fund.gestora }}</td>
-            </tr>
-            <tr>
                 <th>Tipo fondo</th>
-                <td>{{ fund.fundtype }}</td>
-            </tr>
-            <tr>
                 <th>Fecha de constitución</th>
-                <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
-            </tr>
-            <tr>
                 <th>NIF</th>
+                <th>Cantidad</th>
+            </tr>
+            <tr>
+                <td>{{ fund.gestora }}</td>
+                <td>{{ fund.fundtype }}</td>
+                <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
                 <td>{{ fund.nif }}</td>
+                <td>{{ fund.amount|number_format(2,',','.') }}</td>
             </tr>
-            <tr>
-                <th>Num registros</th>
-                <td>{{ fund.numrecords }}</td>
-            </tr>
-            <tr>
-                <th>Pag. inicio</th>
-                <td>{{ fund.paginicio }}</td>
-            </tr>
-            <tr>
-                <th>Pag. fin</th>
-                <td>{{ fund.pagfin }}</td>
-            </tr>
-            <tr>
-                <th>Legible</th>
-                <td>{% if fund.legible %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Folleto</th>
-                <td>{% if fund.folleto %}Yes{% else %}No{% endif %}</td>
-            </tr>
+            </tbody>
+        </table>
+        <p>
+            <a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a>
+        </p>
+        {% if mfund %}
+        <table>
+            <tbody>
             <tr>
                 <th>Fecha de liquidación</th>
-                <td>{% if fund.liqdate %}{{ fund.liqdate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
                 <th>Fecha de extinción</th>
-                <td>{% if fund.extdate %}{{ fund.extdate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Cantidad</th>
-                <td>{{ fund.amount }}</td>
-            </tr>
-            <tr>
+                <th>Num registros</th>
+                <th>Pag. inicio</th>
+                <th>Pag. fin</th>
+                <th>Legible</th>
+                <th>Folleto</th>
                 <th>Digitalizable</th>
-                <td>{{ fund.digitalizable }}</td>
+            </tr>
+            <tr>
+                <td>{% if mfund.liqdate %}{{ mfund.liqdate|date('d/m/Y') }}{% endif %}</td>
+                <td>{% if mfund.extdate %}{{ mfund.extdate|date('d/m/Y') }}{% endif %}</td>
+                <td>{{ mfund.numrecords }}</td>
+                <td>{{ mfund.paginicio }}</td>
+                <td>{{ mfund.pagfin }}</td>
+                <td>{% if mfund.legible %}Yes{% else %}No{% endif %}</td>
+                <td>{% if mfund.folleto %}Yes{% else %}No{% endif %}</td>
+                <td>{% if mfund.digitalizable %}Yes{% else %}No{% endif %}</td>
             </tr>
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('manage_funds_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            <a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a>
-        </li>
-        <li>
+    <p>
+        <a href="{{ path('manage_funds_extra', { 'id': fund.id }) }}">Editar datos adicionales</a></p>
+    {% else %}
+    <p>
+        <a href="{{ path('manage_funds_extra', { 'id': fund.id }) }}">Añadir datos adicionales</a></p>
+    {% endif %}
+    {% if fundlinks %}
+    <table>
+        <tbody>
+           <tr>
+               <th>Descripción</th>
+               <th>Enlace</th>
+           </tr>
+           {% for fundlink in fundlinks %}
+           <tr>
+               <td>{{ fundlink.description }}</td>
+               <td>{{ fundlink.URL }}</td>
+           </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <p><a href="{{ path('manage_funds_links_show', { 'id': fund.id }) }}">Gesionar enlaces</a></p>
+    <p>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Borrar">
+                <input type="submit" value="Borrar todo">
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    </p>
+    <p>&nbsp</p>
+    <p><a href="{{ path('manage_funds_index') }}">Volver a la lista</a></p>
 {% endblock %}

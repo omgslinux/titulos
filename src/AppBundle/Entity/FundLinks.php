@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Funds;
+use AppBundle\Entity\FundLinks;
 
 /**
  * FundLinks
@@ -13,13 +15,13 @@ use Doctrine\ORM\Mapping as ORM;
 class FundLinks
 {
     /**
-     * @var int
+     * @var \Funds
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="id")
      * @ORM\ManyToOne(targetEntity="Funds")
      */
-    private $id;
+    private $fund;
 
     /**
      * @var string
@@ -39,7 +41,7 @@ class FundLinks
     /**
      * Get id
      *
-     * @return int
+     * @return \Funds
      */
     public function getId()
     {
@@ -75,7 +77,7 @@ class FundLinks
      *
      * @param string $url
      *
-     * @return Funds
+     * @return FundLinks
      */
     public function setUrl($url)
     {

@@ -17,17 +17,11 @@ class FundsType extends AbstractType
     {
         $builder
             ->add('gestora')
-            ->add('numrecords')
-            ->add('paginicio')
-            ->add('pagfin')
-            ->add('legible')
-            ->add('folleto')
+            ->add('fundtype')
             ->add('nif')
-            ->add('constdate', DateType::class)
-            ->add('liqdate', DateType::class)
-            ->add('extdate', DateType::class)
+            ->add('constdate', DateType::class, array(
+    'years' => range(1980, date('Y'))))
             ->add('amount')
-            ->add('digitalizable')
         ;
     }
 

@@ -3,12 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Funds;
+// use AppBundle\Entity\Funds;
 
 /**
  * FundsExtra
  *
- * @ORM\Table(name="MortgageFunds", indexes={@ORM\Index(name="fk_mortgagefunds_1_idx", columns={"fund_id"}) })
+ * @ORM\Table(name="MortgageFunds")
  * @ORM\Entity
  */
 class MortgageFunds
@@ -16,11 +16,10 @@ class MortgageFunds
     /**
      * @var \Funds
      *
-     * @ORM\Column(name="fund_id", type="integer")
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Funds")
+     * @ORM\OneToOne(targetEntity="Funds")
      */
-    private $id;
+    private $fund;
 
     /**
      * @var int
@@ -28,13 +27,6 @@ class MortgageFunds
      * @ORM\Column(name="numrecords", type="integer")
      */
     private $numrecords;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=50, nullable=false)
-     */
-    private $description;
 
     /**
      * @var int
@@ -81,20 +73,20 @@ class MortgageFunds
     /**
      * @var int
      *
-     * @ORM\Column(name="digitalizable", type="smallint", nullable=true)
+     * @ORM\Column(name="digitalizable", type="boolean", nullable=true)
      */
     private $digitalizable;
 
 
 
     /**
-     * Get fund
+     * Get id
      *
      * @return \Funds
      */
-    public function getFund()
+    public function getId()
     {
-        return $this->fund;
+        return $this->id;
     }
 
     /**

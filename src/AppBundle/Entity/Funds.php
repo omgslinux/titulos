@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Gestoras;
 use AppBundle\Entity\MortgageFunds;
+use AppBundle\Entity\FundTypes;
 
 /**
  * Funds
@@ -33,55 +34,16 @@ class Funds
     /**
      * @var \Gestoras
      *
-     * @ORM\Column(name="gestoras_id", type="integer")
      * @ORM\ManyToOne(targetEntity="Gestoras")
-     * })
      */
-    private $gestora;
+    private $gestoras;
 
     /**
      * @var \FundTypes
      *
-     * @ORM\Column(name="fundtype_id", type="integer")
      * @ORM\ManyToOne(targetEntity="FundTypes")
      */
     private $fundtype;
-
-    /**
-     * @var \MortgageFunds
-     *
-     * @ORM\Column(name="numregistros", type="integer")
-     * @ORM\OneToOne(targetEntity="MortgageFunds")
-     */
-    private $numrecords;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="paginicio", type="integer")
-     */
-    private $paginicio;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="pagfin", type="integer")
-     */
-    private $pagfin;
-
-    /**
-     * @var binary
-     *
-     * @ORM\Column(name="legible", type="boolean", nullable=true)
-     */
-    private $legible;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="folleto", type="boolean")
-     */
-    private $folleto;
 
     /**
      * @var string
@@ -98,32 +60,11 @@ class Funds
     private $constdate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="liqdate", type="datetime", nullable=true)
-     */
-    private $liqdate;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="extdate", type="datetime", nullable=true)
-     */
-    private $extdate;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="amount", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $amount;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="digitalizable", type="smallint", nullable=true)
-     */
-    private $digitalizable;
 
 
 
@@ -162,27 +103,27 @@ class Funds
     }
 
     /**
-     * Set gestora
+     * Set gestoras
      *
-     * @param \AppBundle\Entity\Gestoras $gestora
+     * @param \AppBundle\Entity\Gestoras $gestoras
      *
      * @return Funds
      */
-    public function setGestora(\AppBundle\Entity\Gestoras $gestora = null)
+    public function setGestoras(\AppBundle\Entity\Gestoras $gestoras = null)
     {
-        $this->gestora = $gestora;
+        $this->gestoras = $gestoras;
 
         return $this;
     }
 
     /**
-     * Get gestora
+     * Get gestoras
      *
      * @return \AppBundle\Entity\Gestoras
      */
     public function getGestora()
     {
-        return $this->gestora;
+        return $this->gestoras;
     }
 
     /**
@@ -207,126 +148,6 @@ class Funds
     public function getFundtype()
     {
         return $this->fundtype;
-    }
-
-    /**
-     * Set numrecords
-     *
-     * @param \AppBundle\Entity\MortgageFunds $numrecords
-     *
-     * @return Funds
-     */
-    public function setNumrecords(\AppBundle\Entity\MortgageFunds $numrecords = null)
-    {
-        $this->numrecords = $numrecords;
-
-        return $this;
-    }
-
-    /**
-     * Get numrecords
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getNumrecords()
-    {
-        return $this->numrecords;
-    }
-
-    /**
-     * Set paginicio
-     *
-     * @param \AppBundle\Entities\MortgageFunds $paginicio
-     *
-     * @return Funds
-     */
-    public function setPaginicio(\AppBundle\Entities\MortgageFunds $paginicio = null)
-    {
-        $this->paginicio = $paginicio;
-
-        return $this;
-    }
-
-    /**
-     * Get paginicio
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getPaginicio()
-    {
-        return $this->paginicio;
-    }
-
-    /**
-     * Set pagfin
-     *
-     * @param \AppBundle\Entities\MortgageFunds $pagfin
-     *
-     * @return Funds
-     */
-    public function setPagfin(\AppBundle\Entities\MortgageFunds $pagfin = null)
-    {
-        $this->pagfin = $pagfin;
-
-        return $this;
-    }
-
-    /**
-     * Get pagfin
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getPagfin()
-    {
-        return $this->pagfin;
-    }
-
-    /**
-     * Set legible
-     *
-     * @param \AppBundle\Entities\MortgageFunds $legible
-     *
-     * @return Funds
-     */
-    public function setLegible(\AppBundle\Entities\MortgageFunds $legible = null)
-    {
-        $this->legible = $legible;
-
-        return $this;
-    }
-
-    /**
-     * Get legible
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getLegible()
-    {
-        return $this->legible;
-    }
-
-    /**
-     * Set folleto
-     *
-     * @param \AppBundle\Entities\MortgageFunds $folleto
-     *
-     * @return Funds
-     */
-    public function setFolleto(\AppBundle\Entities\MortgageFunds $folleto = null)
-    {
-        $this->folleto = $folleto;
-
-        return $this;
-    }
-
-    /**
-     * Get folleto
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getFolleto()
-    {
-        return $this->folleto;
     }
 
     /**
@@ -378,54 +199,6 @@ class Funds
     }
 
     /**
-     * Set liqdate
-     *
-     * @param \AppBundle\Entities\MortgageFunds $liqdate
-     *
-     * @return Funds
-     */
-    public function setLiqdate(\AppBundle\Entities\MortgageFunds $liqdate = null)
-    {
-        $this->liqdate = $liqdate;
-
-        return $this;
-    }
-
-    /**
-     * Get liqdate
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getLiqdate()
-    {
-        return $this->liqdate;
-    }
-
-    /**
-     * Set extdate
-     *
-     * @param \AppBundle\Entities\MortgageFunds $extdate
-     *
-     * @return Funds
-     */
-    public function setExtdate(\AppBundle\Entities\MortgageFunds $extdate = null)
-    {
-        $this->extdate = $extdate;
-
-        return $this;
-    }
-
-    /**
-     * Get extdate
-     *
-     * @return \AppBundle\Entities\MortgageFunds
-     */
-    public function getExtdate()
-    {
-        return $this->extdate;
-    }
-
-    /**
      * Set amount
      *
      * @param string $amount
@@ -450,23 +223,80 @@ class Funds
     }
 
     /**
-     * Set digitalizable
+     * Get numrecords
      *
-     * @param \AppBundle\Entities\MortgageFunds $digitalizable
-     *
-     * @return Funds
+     * @return \AppBundle\Entity\MortgageFunds
      */
-    public function setDigitalizable(\AppBundle\Entities\MortgageFunds $digitalizable = null)
+    public function getNumrecords()
     {
-        $this->digitalizable = $digitalizable;
+        return MortgageFunds::numrecords();
+    }
 
-        return $this;
+
+    /**
+     * Get paginicio
+     *
+     * @return \AppBundle\Entities\MortgageFunds
+     */
+    public function getPaginicio()
+    {
+        return $this->paginicio;
+    }
+
+    /**
+     * Get pagfin
+     *
+     * @return \AppBundle\Entity\MortgageFunds
+     */
+    public function getPagfin()
+    {
+        return $this->pagfin;
+    }
+
+    /**
+     * Get legible
+     *
+     * @return \AppBundle\Entity\MortgageFunds
+     */
+    public function getLegible()
+    {
+        return $this->legible;
+    }
+
+    /**
+     * Get folleto
+     *
+     * @return \AppBundle\Entity\MortgageFunds
+     */
+    public function getFolleto()
+    {
+        return $this->folleto;
+    }
+
+    /**
+     * Get liqdate
+     *
+     * @return \AppBundle\Entity\MortgageFunds
+     */
+    public function getLiqdate()
+    {
+        return $this->liqdate;
+    }
+
+    /**
+     * Get extdate
+     *
+     * @return \AppBundle\Entity\MortgageFunds
+     */
+    public function getExtdate()
+    {
+        return $this->extdate;
     }
 
     /**
      * Get digitalizable
      *
-     * @return \AppBundle\Entities\MortgageFunds
+     * @return \AppBundle\Entity\MortgageFunds
      */
     public function getDigitalizable()
     {

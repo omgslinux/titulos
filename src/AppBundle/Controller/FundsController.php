@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Funds;
+use AppBundle\Entity\FundLinks;
+use AppBundle\Entity\MortgageFunds;
 use AppBundle\Form\FundsType;
 
 /**
@@ -67,10 +69,20 @@ class FundsController extends Controller
      */
     public function showAction(Funds $fund)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $mfund = $em->getRepository('AppBundle:MortgageFunds')->find($fund);
+
+        $fundlinks = $em->getRepository('AppBundle:FundLinks')->findAll($fund);
+
         $deleteForm = $this->createDeleteForm($fund);
+
 
         return $this->render('funds/show.html.twig', array(
             'fund' => $fund,
+            'mfund' => $mfund,
+            'fundlinks' => $fundlinks,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -137,4 +149,68 @@ class FundsController extends Controller
             ->getForm()
         ;
     }
+
+
+    /**
+     * Creates a new MortgageFunds entity.
+     *
+     * @Route("/extra/{id}/edit", name="manage_funds_extra")
+     * @Method({"GET", "POST"})
+     */
+    public function extraeditAction(Request $request,Funds $fund)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mfund = $em->getRepository('AppBundle:MortgageFunds')->find($fund);
+        $form = $this->createForm('AppBundle\Form\MortgageFundsType', $mfund);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fund);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+        }
+
+        return $this->render('funds/extra.html.twig', array(
+            'mfund' => $mfund,
+            'fund' => $fund,
+            'form' => $form->createView(),
+        ));
+    }
+
+
+    /**
+     * Creates a new FundLinks entity.
+     *
+     * @Route("/links/{id}/t", name="manage_funds_")
+     * @Method({"GET", "POST"})
+     */
+    public function linkseditAction(Request $request,Funds $fund)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fundlinks = $em->getRepository('AppBundle:FundLinks')->findAll($fund);
+        $form = $this->createForm('AppBundle\Form\MortgageFundsType', $fundlinks);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fund);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+        }
+
+        return $this->render('funds/extra.html.twig', array(
+            'mfund' => $mfund,
+            'fund' => $fund,
+            'form' => $form->createView(),
+        ));
+    }
+
+
+
+
+
+
 }
