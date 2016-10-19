@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Gestoras</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fundmanager.id }}</td>
+            </tr>
+            <tr>
+                <th>Shortname</th>
+                <td>{{ fundmanager.shortname }}</td>
+            </tr>
+            <tr>
+                <th>Longname</th>
+                <td>{{ fundmanager.longname }}</td>
+            </tr>
+            <tr>
+                <th>Nif</th>
+                <td>{{ fundmanager.nif }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ fundmanager.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_fundmanagers_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('manage_fundamanagers_edit', { 'id': fundmanager.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

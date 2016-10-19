@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Gestoras list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Shortname</th>
+                <th>Longname</th>
+                <th>Nif</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fundmanager in fundmanagers %}
+            <tr>
+                <td><a href="{{ path('manage_fundmanagers_show', { 'id': fundmanager.id }) }}">{{ fundmanager.id }}</a></td>
+                <td>{{ fundmanager.shortname }}</td>
+                <td>{{ fundmanager.longname }}</td>
+                <td>{{ fundmanager.nif }}</td>
+                <td>{{ fundmanager.description }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('manage_fundmanagers_show', { 'id': fundmanager.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('manage_fundamanagers_edit', { 'id': fundmanager.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_fundmanagers_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
