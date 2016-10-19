@@ -31,7 +31,7 @@ class FundLinks
     private $description;
 
     /**
-     * @var string
+     * @var url
      *
      * @ORM\Column(name="URL", type="string", length=100, nullable=false)
      */
@@ -75,7 +75,7 @@ class FundLinks
     /**
      * Set url
      *
-     * @param string $url
+     * @param url $url
      *
      * @return FundLinks
      */

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Provincies;
 
 /**
  * Cities
@@ -15,7 +16,7 @@ class Cities
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -26,8 +27,14 @@ class Cities
      *
      * @ORM\Column(type="string", length=64)
      */
-    private $name;
+    private $city;
 
+    /**
+    * @var \Provincies
+    *
+    * @ORM\ManyToOne(targetEntity="Provinces")
+    */
+    private $province;
 
     /**
      * Get id
@@ -40,32 +47,56 @@ class Cities
     }
 
     /**
-     * Set name
+     * Set city
      *
-     * @param string $name
+     * @param string $city
      *
      * @return Cities
      */
-    public function setName($name)
+    public function setCity($city)
     {
-        $this->name = $name;
+        $this->name = $city;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get city
      *
      * @return string
      */
-    public function getName()
+    public function getCity()
     {
-        return $this->name;
+        return $this->city;
+    }
+
+    /**
+     * Set province
+     *
+     * @param \Provinces $Province
+     *
+     * @return Cities
+     */
+    public function setProvince(\Provinces $province = null)
+    {
+        $this->province = $province;
+
+        return $this;
+    }
+
+    /**
+     * Get province
+     *
+     * @return \Provinces
+     */
+    public function getProvince()
+    {
+        return $this->province;
     }
 
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getCity();
     }
 }

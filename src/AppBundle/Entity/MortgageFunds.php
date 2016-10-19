@@ -3,12 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-// use AppBundle\Entity\Funds;
 
 /**
  * FundsExtra
  *
- * @ORM\Table(name="MortgageFunds")
+ * @ORM\Table(name="mortgagefunds")
  * @ORM\Entity
  */
 class MortgageFunds

@@ -26,9 +26,16 @@ class Banks
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
-    private $name;
+    private $shortname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=128)
+     */
+    private $longname;
 
     /**
      * @var string

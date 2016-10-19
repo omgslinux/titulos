@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LoanTypes
  *
- * @ORM\Table(name="loan_types")
+ * @ORM\Table(name="loantypes")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\LoanTypesRepository")
  */
 class LoanTypes
@@ -94,4 +94,3 @@ class LoanTypes
         return $this->abbreviation;
     }
 }
-

@@ -3,14 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Gestoras;
+use AppBundle\Entity\FundManagers;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Entity\FundTypes;
 
 /**
  * Funds
  *
- * @ORM\Table(name="funds", indexes={@ORM\Index(name="fk_funds_1_idx", columns={"gestoras_id"}), @ORM\Index(name="fk_funds_2_idx", columns={"fundtype_id"}) })
+ * @ORM\Table(name="funds")
  * @ORM\Entity
  */
 class Funds
@@ -32,11 +32,11 @@ class Funds
     private $fundname;
 
     /**
-     * @var \Gestoras
+     * @var \FundManagers
      *
-     * @ORM\ManyToOne(targetEntity="Gestoras")
+     * @ORM\ManyToOne(targetEntity="FundManagers")
      */
-    private $gestoras;
+    private $fundmanager;
 
     /**
      * @var \FundTypes
@@ -55,16 +55,23 @@ class Funds
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="constdate", type="datetime")
+     * @ORM\Column(name="constdate", type="datetime",nullable=true)
      */
     private $constdate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="amount", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="amount", type="decimal", precision=16, scale=2, nullable=true)
      */
     private $amount;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $notes;
 
 
 
@@ -103,27 +110,32 @@ class Funds
     }
 
     /**
-     * Set gestoras
+     * Set fundmanager
      *
-     * @param \AppBundle\Entity\Gestoras $gestoras
+     * @param \AppBundle\Entity\FundManagers $fundmanager
      *
      * @return Funds
      */
-    public function setGestoras(\AppBundle\Entity\Gestoras $gestoras = null)
+    public function setFundManager(\AppBundle\Entity\FundManagers $fundmanager = null)
     {
-        $this->gestoras = $gestoras;
+        $this->fundmanager = $fundmanager;
 
         return $this;
     }
 
     /**
-     * Get gestoras
+     * Get fundmanager
      *
-     * @return \AppBundle\Entity\Gestoras
+     * @return \AppBundle\Entity\FundManagers
      */
-    public function getGestora()
+    public function getFundmanager()
     {
-        return $this->gestoras;
+        return $this->fundmanager;
+    }
+
+    public function setFundManagerId($fundmanagerid)
+    {
+        $this->fundmanager = $fundmanagerid;
     }
 
     /**
@@ -148,6 +160,11 @@ class Funds
     public function getFundtype()
     {
         return $this->fundtype;
+    }
+
+    public function setFundTypeId($fundtypeid)
+    {
+        $this->fundtype = $fundtypeid;
     }
 
     /**
@@ -302,6 +319,33 @@ class Funds
     {
         return $this->digitalizable;
     }
+
+    /**
+     * Set notes
+     *
+     * @param text $notes
+     *
+     * @return Funds
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes
+     *
+     * @return text
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+
+
 
     public function __toString()
     {

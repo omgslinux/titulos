@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FundTypes
  *
- * @ORM\Table(name="fund_types")
+ * @ORM\Table(name="fundtypes")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FundTypesRepository")
  */
 class FundTypes
