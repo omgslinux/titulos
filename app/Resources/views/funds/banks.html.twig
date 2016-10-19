@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Añadir enlace para el fondo {{ FundBanks.fund }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Crear" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_show', { 'id:' fund_id } ) }}">Volver al fondo</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -13,7 +13,7 @@
                 <th>Cantidad</th>
             </tr>
             <tr>
-                <td>{{ fund.gestora }}</td>
+                <td>{{ fund.fundmanager }}</td>
                 <td>{{ fund.fundtype }}</td>
                 <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
                 <td>{{ fund.nif }}</td>
@@ -55,6 +55,25 @@
     <p>
         <a href="{{ path('manage_funds_extra', { 'id': fund.id }) }}">Añadir datos adicionales</a></p>
     {% endif %}
+    {% if fundbanks %}
+    <table>
+        <tbody>
+           <tr>
+               <th>Banco</th>
+               <th>Tipo préstamo</th>
+               <th>Número préstamos</th>
+           </tr>
+           {% for fundbank in fundbanks %}
+           <tr>
+               <td>{{ fundbank.bank }}</td>
+               <td>{{ fundbank.loantype }}</td>
+               <td>{{ fundbank.count }}</td>
+           </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <p><a href="{{ path('manage_funds_banks', { 'id': fund.id }) }}">Gestionar bancos</a></p>
     {% if fundlinks %}
     <table>
         <tbody>
@@ -71,7 +90,7 @@
         </tbody>
     </table>
     {% endif %}
-    <p><a href="{{ path('manage_funds_links_show', { 'id': fund.id }) }}">Gesionar enlaces</a></p>
+    <p><a href="{{ path('manage_funds_links', { 'id': fund.id }) }}">Gestionar enlaces</a></p>
     <p>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Borrar todo">

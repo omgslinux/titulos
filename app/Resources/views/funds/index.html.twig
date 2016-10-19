@@ -21,7 +21,7 @@
             <tr>
                 <td><a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">{{ fund.id }}</a></td>
                 <td>{{ fund.fundname }}</td>
-                <td>{{ fund.gestora }}</td>
+                <td>{{ fund.fundmanager }}</td>
                 <td>{{ fund.fundtype }}</td>
                 <td>{{ fund.nif }}</td>
                 <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>

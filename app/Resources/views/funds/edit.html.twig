@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Funds edit</h1>
+    <h1>Editar fondo</h1>
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
@@ -10,11 +10,11 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_funds_index') }}">Back to the list</a>
+            <a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">Volver al fondo</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Borrar">
             {{ form_end(delete_form) }}
         </li>
     </ul>
