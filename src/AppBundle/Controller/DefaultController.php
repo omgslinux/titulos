@@ -19,4 +19,16 @@ class DefaultController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/manage/", name="manage")
+     */
+    public function manageAction(Request $request)
+    {
+        // replace this example code with whatever you need
+        return $this->render('default/manage.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+        ]);
+    }
+
+
 }

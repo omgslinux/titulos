@@ -53,12 +53,16 @@ class FundsController extends Controller
             $em->persist($fund);
             $em->flush();
 
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+//            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+            return $this->redirectToRoute('manage_funds_index');
         }
 
-        return $this->render('funds/new.html.twig', array(
+        return $this->render('funds/edit.html.twig', array(
             'fund' => $fund,
-            'form' => $form->createView(),
+            'h1' => 'Crear fondo ',
+            'backlink' => $this->generateUrl('manage_funds_index'),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
         ));
     }
 
@@ -76,7 +80,7 @@ class FundsController extends Controller
         $mfund = $em->getRepository('AppBundle:MortgageFunds')->find($fund);
 
         $fundlinks = $em->getRepository('AppBundle:FundLinks')->findAll($fund);
-        $fundbanks = $em->getRepository('AppBundle:FundBanks')->findAll($fund);
+        $fundbanks = $em->getRepository('AppBundle:FundBanks')->findBy(array('fund' => $fund->getId()));
 
         $deleteForm = $this->createDeleteForm($fund);
 
@@ -112,6 +116,9 @@ class FundsController extends Controller
 
         return $this->render('funds/edit.html.twig', array(
             'fund' => $fund,
+            'h1' => 'Editar fondo',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al fondo',
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -154,31 +161,61 @@ class FundsController extends Controller
     }
 
 
+
+
     /**
      * Creates a new MortgageFunds entity.
      *
-     * @Route("/extra/{id}/edit", name="manage_funds_extra")
+     * @Route("/{id}/extra/new", name="manage_funds_extra_new")
      * @Method({"GET", "POST"})
      */
-    public function extraeditAction(Request $request,Funds $fund)
+    public function extranewAction(Request $request, Funds $fund)
     {
-        $em = $this->getDoctrine()->getManager();
-        $mfund = $em->getRepository('AppBundle:MortgageFunds')->find($fund);
+        $mfund = new MortgageFunds($fund);
         $form = $this->createForm('AppBundle\Form\MortgageFundsType', $mfund);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($fund);
+            $em->persist($mfund);
             $em->flush();
 
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+            return $this->redirectToRoute('manage_funds_show', array('id' => $mfund->getId()));
         }
 
         return $this->render('funds/extra.html.twig', array(
+//            'fund' => $fund,
             'mfund' => $mfund,
-            'fund' => $fund,
-            'form' => $form->createView(),
+            'create_form' => $form->createView(),
+        ));
+    }
+
+
+    /**
+     * Creates a new FundBanks entity.
+     *
+     * @Route("/{id}/banks/new", name="manage_funds_banks_new")
+     * @Method({"GET", "POST"})
+     */
+    public function banksnewAction(Request $request,Funds $fund)
+    {
+        //$em = $this->getDoctrine()->getManager();
+        //$fundbanks = $em->getRepository('AppBundle:FundBanks')->find($fund);
+        $fundbanks = new FundBanks($fund);
+        $form = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fundbanks);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundbanks->getFundid()));
+        }
+
+        return $this->render('funds/banks.html.twig', array(
+            'fundbanks' => $fundbanks,
+            'create_form' => $form->createView(),
         ));
     }
 
@@ -186,13 +223,13 @@ class FundsController extends Controller
     /**
      * Creates a new FundLinks entity.
      *
-     * @Route("/links/{id}/edit", name="manage_funds_links")
+     * @Route("/{id}/links/new", name="manage_funds_links_new")
      * @Method({"GET", "POST"})
      */
-    public function linkseditAction(Request $request,Funds $fund)
+    public function linksnewAction(Request $request,Funds $fund)
     {
-        $em = $this->getDoctrine()->getManager();
-        $fundlinks = $em->getRepository('AppBundle:FundLinks')->findAll($fund);
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $fundlinks = new FundLinks($fund);
         $form = $this->createForm('AppBundle\Form\FundLinksType', $fundlinks);
         $form->handleRequest($request);
 
@@ -201,44 +238,14 @@ class FundsController extends Controller
             $em->persist($fund);
             $em->flush();
 
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFundid()));
         }
 
-        return $this->render('funds/extra.html.twig', array(
-            'mfund' => $mfund,
-            'fund' => $fund,
-            'form' => $form->createView(),
+        return $this->render('funds/links.html.twig', array(
+            'fundlinks' => $fundlinks,
+            'create_form' => $form->createView(),
         ));
     }
-
-    /**
-     * Creates a new FundBanks entity.
-     *
-     * @Route("/banks/{id}/edit", name="manage_funds_banks")
-     * @Method({"GET", "POST"})
-     */
-    public function bankseditAction(Request $request,Funds $fund)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $fundbanks = $em->getRepository('AppBundle:FundBanks')->findAll($fund);
-        $form = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fund);
-            $em->flush();
-
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
-        }
-
-        return $this->render('funds/banks.html.twig', array(
-            'fundbanks' => $fundbanks,
-            'fund' => $fund,
-            'form' => $form->createView(),
-        ));
-    }
-
 
 
 

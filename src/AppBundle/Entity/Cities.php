@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Provincies;
+use AppBundle\Entity\Provinces;
 
 /**
  * Cities
@@ -30,7 +30,7 @@ class Cities
     private $city;
 
     /**
-    * @var \Provincies
+    * @var Provincies
     *
     * @ORM\ManyToOne(targetEntity="Provinces")
     */
@@ -73,11 +73,11 @@ class Cities
     /**
      * Set province
      *
-     * @param \Provinces $Province
+     * @param Provinces $province
      *
      * @return Cities
      */
-    public function setProvince(\Provinces $province = null)
+    public function setProvince(Provinces $province = null)
     {
         $this->province = $province;
 
@@ -87,7 +87,7 @@ class Cities
     /**
      * Get province
      *
-     * @return \Provinces
+     * @return Provinces
      */
     public function getProvince()
     {

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Funds;
 
 /**
  * FundsExtra
@@ -77,6 +78,10 @@ class MortgageFunds
     private $digitalizable;
 
 
+    public function __construct(Funds $fund)
+    {
+        $this->fund = $fund;
+    }
 
     /**
      * Get id
@@ -85,7 +90,12 @@ class MortgageFunds
      */
     public function getId()
     {
-        return $this->id;
+        return $this->fund->getId();
+    }
+
+    public function getFundname()
+    {
+        return $this->fund->getFundname();
     }
 
     /**

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\FundManagers;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Entity\FundTypes;
+use AppBundle\Util\Slugger;
 
 /**
  * Funds
@@ -112,11 +113,11 @@ class Funds
     /**
      * Set fundmanager
      *
-     * @param \AppBundle\Entity\FundManagers $fundmanager
+     * @param FundManagers $fundmanager
      *
      * @return Funds
      */
-    public function setFundManager(\AppBundle\Entity\FundManagers $fundmanager = null)
+    public function setFundManager(FundManagers $fundmanager = null)
     {
         $this->fundmanager = $fundmanager;
 
@@ -126,7 +127,7 @@ class Funds
     /**
      * Get fundmanager
      *
-     * @return \AppBundle\Entity\FundManagers
+     * @return FundManagers
      */
     public function getFundmanager()
     {
@@ -141,11 +142,11 @@ class Funds
     /**
      * Set fundtype
      *
-     * @param \AppBundle\Entity\FundTypes $fundtype
+     * @param FundTypes $fundtype
      *
      * @return Funds
      */
-    public function setFundtype(\AppBundle\Entity\FundTypes $fundtype = null)
+    public function setFundtype(FundTypes $fundtype = null)
     {
         $this->fundtype = $fundtype;
 
@@ -155,7 +156,7 @@ class Funds
     /**
      * Get fundtype
      *
-     * @return \AppBundle\Entity\FundTypes
+     * @return FundTypes
      */
     public function getFundtype()
     {
@@ -242,7 +243,7 @@ class Funds
     /**
      * Get numrecords
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getNumrecords()
     {
@@ -253,7 +254,7 @@ class Funds
     /**
      * Get paginicio
      *
-     * @return \AppBundle\Entities\MortgageFunds
+     * @return MortgageFunds
      */
     public function getPaginicio()
     {
@@ -263,7 +264,7 @@ class Funds
     /**
      * Get pagfin
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getPagfin()
     {
@@ -273,7 +274,7 @@ class Funds
     /**
      * Get legible
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getLegible()
     {
@@ -283,7 +284,7 @@ class Funds
     /**
      * Get folleto
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getFolleto()
     {
@@ -293,7 +294,7 @@ class Funds
     /**
      * Get liqdate
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getLiqdate()
     {
@@ -303,7 +304,7 @@ class Funds
     /**
      * Get extdate
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getExtdate()
     {
@@ -313,7 +314,7 @@ class Funds
     /**
      * Get digitalizable
      *
-     * @return \AppBundle\Entity\MortgageFunds
+     * @return MortgageFunds
      */
     public function getDigitalizable()
     {
@@ -344,7 +345,16 @@ class Funds
         return $this->notes;
     }
 
+    public function getSlugger()
+    {
+        return Slugger::getSlug($this->getFundname(),'-');
+    }
 
+    public function getFullSlugger()
+    {
+        // return Slugger::getSlug($this->getFundmanager(),'-'). '/'. Slugger::getSlug($this->getFundname(),'-');
+        return $this->getFundmanager()->getSlugger(). '/'. $this->getSlugger();
+    }
 
 
     public function __toString()

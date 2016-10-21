@@ -6,8 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\FundBanks;
 
-class FundsType extends AbstractType
+class FundBanksType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,14 +17,9 @@ class FundsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fundname')
-            ->add('fundmanager')
-            ->add('fundtype')
-            ->add('nif')
-            ->add('constdate', DateType::class, array(
-    'years' => range(1980, date('Y'))))
-            ->add('amount')
-            ->add('notes')
+            ->add('bank')
+            ->add('loantype')
+            ->add('count')
         ;
     }
 
@@ -33,7 +29,7 @@ class FundsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Funds'
+            'data_class' => 'AppBundle\Entity\FundBanks'
         ));
     }
 }

@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\FundManagers;
+use AppBundle\Util\Slugger;
+
 /**
 * FundManagers
 *
@@ -81,6 +83,11 @@ class FundManagers
   public function getDescription()
   {
      return $this->description;
+  }
+
+  public function getSlugger()
+  {
+      return Slugger::getSlug($this->getShortName(), '-');
   }
 
   public function __toString()

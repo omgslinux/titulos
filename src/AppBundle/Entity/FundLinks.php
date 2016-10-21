@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLinks;
+use AppBundle\Entity\FundLinkTypes;
 
 /**
  * FundLinks
@@ -15,13 +16,27 @@ use AppBundle\Entity\FundLinks;
 class FundLinks
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @var \Funds
      *
-     * @ORM\Id
-     * @ORM\Column(name="id")
      * @ORM\ManyToOne(targetEntity="Funds")
      */
     private $fund;
+
+    /**
+     * @var FundLinkTypes
+     *
+     * @ORM\ManyToOne(targetEntity="FundLinkTypes")
+     */
+    private $linktype;
 
     /**
      * @var string
@@ -38,14 +53,77 @@ class FundLinks
     private $url;
 
 
+    public function __construct(Funds $fund)
+    {
+        return $this->setFund($fund);
+    }
+
     /**
      * Get id
      *
-     * @return \Funds
+     * @return \FundLinks
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getFundid()
+    {
+        return $this->fund->getId();
+    }
+
+    public function getFundname()
+    {
+        return $this->getFund()->getFundname();
+    }
+
+    /**
+     * Set fund
+     *
+     * @param Funds $fund
+     *
+     * @return FundLinks
+     */
+    public function setFund(Funds $fund)
+    {
+        $this->fund = $fund;
+
+        return $this;
+    }
+
+    /**
+     * Get fund
+     *
+     * @return Funds
+     */
+    public function getFund()
+    {
+        return $this->fund;
+    }
+
+    /**
+     * Set linktype
+     *
+     * @param FundLinkTypes $linktype
+     *
+     * @return FundLinks
+     */
+    public function setLinktype(FundLinkTypes $linktype)
+    {
+        $this->linktype = $linktype;
+
+        return $this;
+    }
+
+    /**
+     * Get linktype
+     *
+     * @return FundLinkTypes
+     */
+    public function getLinkype()
+    {
+        return $this->linktype;
     }
 
     /**

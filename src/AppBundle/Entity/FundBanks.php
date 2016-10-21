@@ -16,10 +16,17 @@ use AppBundle\Entity\LoanTypes;
 class FundBanks
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @var \Funds
      *
-     * @ORM\Id
-     * @ORM\Column(name="fund_id")
      * @ORM\ManyToOne(targetEntity="Funds")
      */
     private $fund;
@@ -27,7 +34,6 @@ class FundBanks
     /**
      * @var \Banks
      *
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Banks")
      */
     private $bank;
@@ -35,7 +41,6 @@ class FundBanks
     /**
      * @var \LoanTypes
      *
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="LoanTypes")
      */
     private $loantype;
@@ -47,6 +52,20 @@ class FundBanks
     */
     private $count;
 
+    public function __construct(Funds $fund)
+    {
+        $this->setFund($fund);
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set fund
@@ -55,7 +74,7 @@ class FundBanks
      *
      * @return FundBanks
      */
-    public function setFund(\Funds $fund = null)
+    public function setFund(Funds $fund = null)
     {
         $this->fund = $fund;
 
@@ -65,11 +84,16 @@ class FundBanks
     /**
      * Get fund
      *
-     * @return \FundBanks
+     * @return \Funds
      */
     public function getFund()
     {
         return $this->fund;
+    }
+
+    public function getFundid()
+    {
+        return $this->getFund()->getId();
     }
 
     /**
@@ -79,7 +103,7 @@ class FundBanks
      *
      * @return FundBanks
      */
-    public function setBank(\Banks $bank = null)
+    public function setBank(Banks $bank = null)
     {
         $this->bank = $bank;
 
@@ -103,7 +127,7 @@ class FundBanks
      *
      * @return FundLinks
      */
-    public function setLoantype(\LoanTypes $loantype = null)
+    public function setLoantype(LoanTypes $loantype = null)
     {
         $this->loantype = $loantype;
 

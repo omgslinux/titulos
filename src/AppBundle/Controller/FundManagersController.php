@@ -92,7 +92,7 @@ class FundManagersController extends Controller
             $em->persist($fundmanager);
             $em->flush();
 
-            return $this->redirectToRoute('manage_fundamanagers_edit', array('id' => $fundmanager->getId()));
+            return $this->redirectToRoute('manage_fundmanagers_show', array('id' => $fundmanager->getId()));
         }
 
         return $this->render('fundmanagers/edit.html.twig', array(

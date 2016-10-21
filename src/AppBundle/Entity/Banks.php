@@ -5,12 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\Cities;
+use AppBundle\Repository\BanksRepository;
 
 /**
  * Banks
  *
  * @ORM\Table(name="banks")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\BankRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BanksRepository")
  */
 class Banks
 {
@@ -71,20 +72,6 @@ class Banks
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Banks
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * Get acronym
      *
      * @return string
@@ -109,13 +96,51 @@ class Banks
     }
 
     /**
-     * Get name
+     * Set shortname
+     *
+     * @param string $shortname
+     *
+     * @return Banks
+     */
+    public function setShortname($shortname)
+    {
+        $this->shortname = $shortname;
+
+        return $this;
+    }
+
+    /**
+     * Get shortname
      *
      * @return string
      */
-    public function getName()
+    public function getShortname()
     {
-        return $this->name;
+        return $this->shortname;
+    }
+
+    /**
+     * Set longname
+     *
+     * @param string $longname
+     *
+     * @return Banks
+     */
+    public function setLongname($longname)
+    {
+        $this->longname = $longname;
+
+        return $this;
+    }
+
+    /**
+     * Get longname
+     *
+     * @return string
+     */
+    public function getLongname()
+    {
+        return $this->longname;
     }
 
     /**
@@ -125,7 +150,7 @@ class Banks
      *
      * @return Banks
      */
-    public function setAdress($address)
+    public function setAddress($address)
     {
         $this->address = $address;
 
@@ -149,7 +174,7 @@ class Banks
      *
      * @return Banks
      */
-    public function setCity(\Cities $city = null)
+    public function setCity(Cities $city = null)
     {
         $this->city = $city;
 
@@ -169,7 +194,7 @@ class Banks
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getShortname();
     }
 
 }
