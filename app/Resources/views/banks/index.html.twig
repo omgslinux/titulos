@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de bancos</h1>
+    <ul>
+        <li>
+            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+        </li>
+    </ul>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Acrónimo</th>
+                <th>Shortname</th>
+                <th>Longname</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bank in banks %}
+            <tr>
+                <td><a href="{{ path('manage_banks_show', { 'id': bank.id }) }}">{{ bank.id }}</a></td>
+                <td>{{ bank.acronym }}</td>
+                <td>{{ bank.shortname }}</td>
+                <td>{{ bank.longname }}</td>
+                <td>{{ bank.address }}</td>
+                <td>{{ bank.city }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_banks_new') }}">Añadir un banco</a>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+        </li>
+    </ul>
+{% endblock %}

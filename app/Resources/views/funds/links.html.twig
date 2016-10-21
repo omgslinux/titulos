@@ -1,0 +1,13 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+    <h1>Añadir enlace para el fondo {{ fundlinks.getFundname }}</h1>
+
+    {{ block('crudform') }}
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_show', { 'id': fundlinks.getId } ) }}">Volver al fondo</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,41 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Funds list</h1>
+    <h1>Listado de fondos de titulización</h1>
+    <ul>
+        <li>
+            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+        </li>
+    </ul>
 
     <table>
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
                 <th>Gestora</th>
+                <th>Nombre</th>
                 <th>Tipo de fondo</th>
                 <th>NIF</th>
                 <th>Fecha constitución</th>
                 <th>Cantidad</th>
-                <th>Acción</th>
             </tr>
         </thead>
         <tbody>
         {% for fund in funds %}
             <tr>
-                <td><a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">{{ fund.id }}</a></td>
-                <td>{{ fund.fundname }}</td>
                 <td>{{ fund.fundmanager }}</td>
+                <td><a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">{{ fund.fundname }}</a></td>
                 <td>{{ fund.fundtype }}</td>
                 <td>{{ fund.nif }}</td>
                 <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
-                <td>{{ fund.amount }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">mostrar</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">editar</a>
-                        </li>
-                    </ul>
-                </td>
+                <td>{{ fund.amount|number_format(2,',','.') }} €</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -46,4 +38,10 @@
             <a href="{{ path('manage_funds_new') }}">Añadir un fondo</a>
         </li>
     </ul>
+    <ul>
+        <li>
+            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+        </li>
+    </ul>
+
 {% endblock %}

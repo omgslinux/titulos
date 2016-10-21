@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>LoanTypes</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ loanType.id }}</td>
+            </tr>
+            <tr>
+                <th>Loantype</th>
+                <td>{{ loanType.loanType }}</td>
+            </tr>
+            <tr>
+                <th>Abbreviation</th>
+                <td>{{ loanType.abbreviation }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_loans_types_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('manage_loans_types_edit', { 'id': loanType.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

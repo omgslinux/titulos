@@ -15,9 +15,9 @@
             <tr>
                 <td>{{ fund.fundmanager }}</td>
                 <td>{{ fund.fundtype }}</td>
-                <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
+                <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
                 <td>{{ fund.nif }}</td>
-                <td>{{ fund.amount|number_format(2,',','.') }}</td>
+                <td>{{ fund.amount|number_format(2,',','.') }} €</td>
             </tr>
             </tbody>
         </table>
@@ -38,22 +38,22 @@
                 <th>Digitalizable</th>
             </tr>
             <tr>
-                <td>{% if mfund.liqdate %}{{ mfund.liqdate|date('d/m/Y') }}{% endif %}</td>
-                <td>{% if mfund.extdate %}{{ mfund.extdate|date('d/m/Y') }}{% endif %}</td>
+                <td>{% if mfund.liqdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.liqdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
+                <td>{% if mfund.extdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.extdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
                 <td>{{ mfund.numrecords }}</td>
                 <td>{{ mfund.paginicio }}</td>
                 <td>{{ mfund.pagfin }}</td>
-                <td>{% if mfund.legible %}Yes{% else %}No{% endif %}</td>
-                <td>{% if mfund.folleto %}Yes{% else %}No{% endif %}</td>
-                <td>{% if mfund.digitalizable %}Yes{% else %}No{% endif %}</td>
+                <td>{% if mfund.legible %}X{% else %}--{% endif %}</td>
+                <td>{% if mfund.folleto %}X{% else %}--{% endif %}</td>
+                <td>{% if mfund.digitalizable %}X{% else %}--{% endif %}</td>
             </tr>
         </tbody>
     </table>
     <p>
-        <a href="{{ path('manage_funds_extra', { 'id': fund.id }) }}">Editar datos adicionales</a></p>
+        <a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos adicionales</a></p>
     {% else %}
     <p>
-        <a href="{{ path('manage_funds_extra', { 'id': fund.id }) }}">Añadir datos adicionales</a></p>
+        <a href="{{ path('manage_funds_extra_new', { 'id': fund.id }) }}">Añadir datos adicionales</a></p>
     {% endif %}
     {% if fundbanks %}
     <table>
@@ -62,35 +62,55 @@
                <th>Banco</th>
                <th>Tipo préstamo</th>
                <th>Número préstamos</th>
+               <th>Acción</th>
            </tr>
            {% for fundbank in fundbanks %}
            <tr>
                <td>{{ fundbank.bank }}</td>
                <td>{{ fundbank.loantype }}</td>
                <td>{{ fundbank.count }}</td>
+               <td>
+                    <ul>
+                        <li><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">Editar</a></li>
+                        <li><a href="{{ path('manage_funds_banks_delete', { 'id': fundbank.id } ) }}">Borrar</a></li>
+                    </ul>
+                </td>
            </tr>
            {% endfor %}
         </tbody>
     </table>
     {% endif %}
-    <p><a href="{{ path('manage_funds_banks', { 'id': fund.id }) }}">Gestionar bancos</a></p>
+    <p>
+        <a href="{{ path('manage_funds_banks_new', { 'id': fund.id }) }}">Añadir entidades cedentes</a></p>
     {% if fundlinks %}
     <table>
         <tbody>
            <tr>
                <th>Descripción</th>
                <th>Enlace</th>
+               <th>Acción</th>
            </tr>
            {% for fundlink in fundlinks %}
            <tr>
                <td>{{ fundlink.description }}</td>
                <td>{{ fundlink.URL }}</td>
+               <td>
+                    <ul>
+                        <li><a href="{{ path('manage_funds_links_edit', { 'id': fundlink.fund } ) }}">Editar</a></li>
+                        <li><a href="{{ path('manage_funds_links_delete', { 'id': fundlink.fund } ) }}">Borrar</a></li>
+                    </ul>
+                </td>
            </tr>
            {% endfor %}
         </tbody>
     </table>
+    <p>
+        <a href="{{ path('manage_funds_links_edit', { 'id': fund.id }) }}">Editar enlaces</a></p>
+    {% else %}
+    <p>
+        <a href="{{ path('manage_funds_links_new', { 'id': fund.id }) }}">Añadir enlaces</a></p>
     {% endif %}
-    <p><a href="{{ path('manage_funds_links', { 'id': fund.id }) }}">Gestionar enlaces</a></p>
+    <p>Base: {{ fund.FullSlugger }}</p>
     <p>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Borrar todo">

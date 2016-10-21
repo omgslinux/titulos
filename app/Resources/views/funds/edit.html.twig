@@ -1,21 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'custom.html.twig' %}
 
 {% block body %}
-    <h1>Editar fondo</h1>
+    <h1>{{ h1 }} {{ fund.fundname }}</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Guardar" />
-    {{ form_end(edit_form) }}
+    {{ block('crudform') }}
 
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">Volver al fondo</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Borrar">
-            {{ form_end(delete_form) }}
+            <a href="{{ backlink }}">{{ backmessage }}</a>
         </li>
     </ul>
 {% endblock %}
