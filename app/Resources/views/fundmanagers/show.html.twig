@@ -3,22 +3,26 @@
 {% block body %}
     <h1>Gestora {{ fundmanager.shortname }}</h1>
 
+    <p><a href="{{ fundmanager.getCNMVUrl }}" target="_blank">{{ fundmanager.longname }} en la CNMV</a></p>
+
     <table>
         <tbody>
             <tr>
                 <th>Shortname</th>
-                <td>{{ fundmanager.shortname }}</td>
-            </tr>
-            <tr>
                 <th>Longname</th>
-                <td>{{ fundmanager.longname }}</td>
-            </tr>
-            <tr>
                 <th>Nif</th>
-                <td>{{ fundmanager.nif }}</td>
+                <th>Dirección</th>
+                <th>Capital social</th>
+                <th>Fecha de registro</th>
+                <th>Description</th>
             </tr>
             <tr>
-                <th>Description</th>
+                <td>{{ fundmanager.shortname }}</td>
+                <td>{{ fundmanager.longname }}</td>
+                <td>{{ fundmanager.nif }}</td>
+                <td>{{ fundmanager.address }}</td>
+                <td>{{ fundmanager.capitalsocial|number_format(2,',') }}€</td>
+                <td>{{ fundmanager.regdate|date('d/m/Y') }}</td>
                 <td>{{ fundmanager.description }}</td>
             </tr>
         </tbody>

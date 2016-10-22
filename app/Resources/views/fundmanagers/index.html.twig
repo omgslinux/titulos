@@ -6,20 +6,16 @@
     <table>
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Shortname</th>
-                <th>Longname</th>
-                <th>Nif</th>
+                <th>Nombre corto</th>
+                <th>Nombre largo</th>
                 <th>Description</th>
             </tr>
         </thead>
         <tbody>
         {% for fundmanager in fundmanagers %}
             <tr>
-                <td><a href="{{ path('manage_fundmanagers_show', { 'id': fundmanager.id }) }}">{{ fundmanager.id }}</a></td>
-                <td>{{ fundmanager.shortname }}</td>
+                <td><a href="{{ path('manage_fundmanagers_show', { 'id': fundmanager.id }) }}">{{ fundmanager.shortname }}</a></td>
                 <td>{{ fundmanager.longname }}</td>
-                <td>{{ fundmanager.nif }}</td>
                 <td>{{ fundmanager.description }}</td>
             </tr>
         {% endfor %}

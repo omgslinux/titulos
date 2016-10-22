@@ -1,33 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>LoanTypes list</h1>
+    <h1>Lista de tipos de enlace</h1>
 
     <table>
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Loantype</th>
-                <th>Abbreviation</th>
-                <th>Actions</th>
+                <th>Número</th>
+                <th>Tipo de enlace</th>
+                <th>Slug</th>
             </tr>
         </thead>
         <tbody>
-        {% for loanType in loanTypes %}
+        {% for flt in fltype %}
             <tr>
-                <td><a href="{{ path('manage_loans_types_show', { 'id': loanType.id }) }}">{{ loanType.id }}</a></td>
-                <td>{{ loanType.loanType }}</td>
-                <td>{{ loanType.abbreviation }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('manage_loans_types_show', { 'id': loanType.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('manage_loans_types_edit', { 'id': loanType.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+                <td>{{ flt.id }}</td>
+                <td><a href="{{ path('manage_linktypes_show', { 'id': flt.id }) }}">{{ flt }}</a></td>
+                <td>{{ flt.getSlugger }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -35,7 +24,8 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_loans_types_new') }}">Create a new entry</a>
+            <a href="{{ path('manage_linktypes_new') }}">Crear un tipo de enlace</a>
         </li>
     </ul>
+    <p><a href="{{ path('manage') }}">Volver al menú de gestión</a></p>
 {% endblock %}

@@ -62,19 +62,12 @@
                <th>Banco</th>
                <th>Tipo préstamo</th>
                <th>Número préstamos</th>
-               <th>Acción</th>
            </tr>
            {% for fundbank in fundbanks %}
            <tr>
-               <td>{{ fundbank.bank }}</td>
+               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
                <td>{{ fundbank.loantype }}</td>
                <td>{{ fundbank.count }}</td>
-               <td>
-                    <ul>
-                        <li><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">Editar</a></li>
-                        <li><a href="{{ path('manage_funds_banks_delete', { 'id': fundbank.id } ) }}">Borrar</a></li>
-                    </ul>
-                </td>
            </tr>
            {% endfor %}
         </tbody>
