@@ -4,16 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Users;
-use AppBundle\Entity\Funds;
-use AppBundle\Entity\FundTasks;
+use AppBundle\Entity\FundBanks;
 
 /**
  * FundTasks
  *
- * @ORM\Table(name="fundtasks")
+ * @ORM\Table(name="fundbanktasks")
  * @ORM\Entity
  */
-class FundTasks
+class FundBankTasks
 {
     /**
      * @var int
@@ -25,14 +24,14 @@ class FundTasks
     private $id;
 
     /**
-     * @var \Funds
+     * @var FundBanks
      *
-     * @ORM\ManyToOne(targetEntity="Funds")
+     * @ORM\ManyToOne(targetEntity="FundBanks")
      */
     private $fund;
 
     /**
-     * @var \Users
+     * @var Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      */
@@ -72,7 +71,7 @@ class FundTasks
     /**
      * Get id
      *
-     * @return \FundTasks
+     * @return FundBankTasks
      */
     public function getId()
     {
@@ -80,37 +79,37 @@ class FundTasks
     }
 
     /**
-     * Set fund
+     * Set fundbank
      *
-     * @param \Funds $fund
+     * @param FundBanks $fundbank
      *
-     * @return FundTasks
+     * @return FundBankTasks
      */
-    public function setFund($fund)
+    public function setFundbank($fundbank)
     {
-        $this->fund = $fund;
+        $this->fundbank = $fundbank;
 
         return $this;
     }
 
     /**
-     * Get fund
+     * Get fundbank
      *
-     * @return \Funds
+     * @return FundBanks
      */
-    public function getFund()
+    public function getFundbank()
     {
-        return $this->fund;
+        return $this->fundbank;
     }
 
     /**
      * Set user
      *
-     * @param \Users $user
+     * @param Users $user
      *
-     * @return FundTasks
+     * @return FundBankTasks
      */
-    public function setUser(\Users $user = null)
+    public function setUser(Users $user = null)
     {
         $this->user = $user;
 
@@ -120,7 +119,7 @@ class FundTasks
     /**
      * Get user
      *
-     * @return \Users
+     * @return Users
      */
     public function getUser()
     {
@@ -132,7 +131,7 @@ class FundTasks
      *
      * @param DateTime $taskdate
      *
-     * @return FundTasks
+     * @return FundBankTasks
      */
     public function setTaskdate($taskdate)
     {
@@ -156,7 +155,7 @@ class FundTasks
      *
      * @param string $description
      *
-     * @return FundTasks
+     * @return FundBankTasks
      */
     public function setShortdescription($shortdescription)
     {
@@ -180,7 +179,7 @@ class FundTasks
      *
      * @param text $longdescription
      *
-     * @return FundTasks
+     * @return FundBankTasks
      */
     public function setLongdescription($longdescription)
     {
@@ -204,7 +203,7 @@ class FundTasks
      *
      * @param boolean $finished
      *
-     * @return FundTasks
+     * @return FundBankTasks
      */
     public function setFinished($finished)
     {
