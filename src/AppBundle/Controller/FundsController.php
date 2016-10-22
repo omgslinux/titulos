@@ -235,7 +235,7 @@ class FundsController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($fund);
+            $em->persist($fundlinks);
             $em->flush();
 
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFundid()));

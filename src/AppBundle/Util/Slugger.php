@@ -4,7 +4,7 @@ namespace AppBundle\Util;
 
 class Slugger
 {
-    static public function getSlug($cadena, $separador = '-')
+    static public function getSlug($cadena, $separador = '_')
     {
         // Código copiado de http://cubiq.org/the-perfect-php-clean-url-generator
         $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $cadena);

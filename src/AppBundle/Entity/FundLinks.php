@@ -4,13 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Funds;
-use AppBundle\Entity\FundLinks;
-use AppBundle\Entity\FundLinkTypes;
+use AppBundle\Util\Slugger;
 
 /**
  * FundLinks
  *
- * @ORM\Table(name="fundlinks", indexes={@ORM\Index(name="fk_fundlinks_1_idx", columns={"id"}) })
+ * @ORM\Table(name="fundlinks")
  * @ORM\Entity
  */
 class FundLinks
@@ -121,7 +120,7 @@ class FundLinks
      *
      * @return FundLinkTypes
      */
-    public function getLinkype()
+    public function getLinktype()
     {
         return $this->linktype;
     }
@@ -172,6 +171,21 @@ class FundLinks
     public function getUrl()
     {
         return $this->url;
+    }
+
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
+
+    public function getSlugger()
+    {
+        return Slugger::getSlug($this->getDescription() ,'_');
+    }
+
+    public function getFullSlugger()
+    {
+        return $this->getFund()->getFullSlugger() . '/' . $this->getSlugger();
     }
 
 }

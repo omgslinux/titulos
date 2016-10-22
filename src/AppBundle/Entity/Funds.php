@@ -347,7 +347,7 @@ class Funds
 
     public function getSlugger()
     {
-        return Slugger::getSlug($this->getFundname(),'-');
+        return Slugger::getSlug($this->getFundname(),'_');
     }
 
     public function getFullSlugger()

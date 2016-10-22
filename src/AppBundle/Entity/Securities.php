@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\FundBanks;
+use AppBundle\Entity\Cities;
 
 /**
  * Securities
@@ -22,102 +24,72 @@ class Securities
     private $id;
 
     /**
-     * @var int
+     * @var FundBanks
      *
-     * @ORM\Column(name="fund_id", type="integer")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Funds")
+     * @ORM\ManyToOne(targetEntity="FundBanks")
      */
-    private $fundId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="credito", type="string", length=64)
-     */
-    private $credito;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="loantype_id", type="integer")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\LoanTypes")
-     */
-    private $loantypeId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="bank_id", type="integer")
-     */
-    private $bankId;
+    private $fundbank;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(type="date")
      */
-    private $date;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="duration", type="integer")
-     */
-    private $duration;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="municipio_id", type="integer")
-     */
-    private $municipioId;
+    private $startdate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="loanamount", type="decimal", precision=10, scale=2)
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
-    private $loanamount;
+    private $amount;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="registration", type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $registration;
+    private $duration;
+
+    /**
+     * @var Cities
+     *
+     * @ORM\ManyToOne(targetEntity="Cities")
+     */
+    private $city;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="volume", type="integer", nullable=true)
+     * @ORM\Column(type="string", length=8, nullable=true)
      */
     private $volume;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="book", type="integer", nullable=true)
+     * @ORM\Column(type="string", length=8, nullable=true)
      */
     private $book;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="folio", type="integer", nullable=true)
+     * @ORM\Column(type="string", length=8,nullable=true)
      */
     private $folio;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="building", type="string", length=16, nullable=true)
+     * @ORM\Column(type="string", length=8,nullable=true)
      */
     private $building;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="page", type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $page;
 
@@ -133,123 +105,75 @@ class Securities
     }
 
     /**
-     * Set fundId
+     * Set fundbank
      *
-     * @param integer $fundId
+     * @param FundBanks $fundbank
      *
      * @return Securities
      */
-    public function setFundId($fundId)
+    public function setFundbank(FundBanks $fundbank = null)
     {
-        $this->fundId = $fundId;
+        $this->fundbank = $fundbank;
 
         return $this;
     }
 
     /**
-     * Get fundId
+     * Get fundbank
      *
-     * @return int
+     * @return FundBanks
      */
-    public function getFundId()
+    public function getFundbank()
     {
-        return $this->fundId;
+        return $this->fundbank;
     }
 
     /**
-     * Set credito
+     * Set startdate
      *
-     * @param string $credito
+     * @param date $startdate
      *
      * @return Securities
      */
-    public function setCredito($credito)
+    public function setStartdate($startdate)
     {
-        $this->credito = $credito;
+        $this->startdate = $startdate;
 
         return $this;
     }
 
     /**
-     * Get credito
+     * Get startdate
      *
-     * @return string
+     * @return date
      */
-    public function getCredito()
+    public function getStartdate()
     {
-        return $this->credito;
+        return $this->startdate;
     }
 
     /**
-     * Set loantypeId
+     * Set amount
      *
-     * @param integer $loantypeId
+     * @param decimal $amount
      *
      * @return Securities
      */
-    public function setLoantypeId($loantypeId)
+    public function setAmount($amount)
     {
-        $this->loantypeId = $loantypeId;
+        $this->amount = $amount;
 
         return $this;
     }
 
     /**
-     * Get loantypeId
+     * Get amount
      *
-     * @return int
+     * @return decimal
      */
-    public function getLoantypeId()
+    public function getAmount()
     {
-        return $this->loantypeId;
-    }
-
-    /**
-     * Set bankId
-     *
-     * @param integer $bankId
-     *
-     * @return Securities
-     */
-    public function setBankId($bankId)
-    {
-        $this->bankId = $bankId;
-
-        return $this;
-    }
-
-    /**
-     * Get bankId
-     *
-     * @return int
-     */
-    public function getBankId()
-    {
-        return $this->bankId;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Securities
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
+        return $this->amount;
     }
 
     /**
@@ -277,81 +201,33 @@ class Securities
     }
 
     /**
-     * Set municipioId
+     * Set city
      *
-     * @param integer $municipioId
+     * @param Cities $city
      *
      * @return Securities
      */
-    public function setMunicipioId($municipioId)
+    public function setCity(Cities $city = null)
     {
-        $this->municipioId = $municipioId;
+        $this->city = $city;
 
         return $this;
     }
 
     /**
-     * Get municipioId
+     * Get city
      *
-     * @return int
+     * @return Cities
      */
-    public function getMunicipioId()
+    public function getCity()
     {
-        return $this->municipioId;
-    }
-
-    /**
-     * Set loanamount
-     *
-     * @param string $loanamount
-     *
-     * @return Securities
-     */
-    public function setLoanamount($loanamount)
-    {
-        $this->loanamount = $loanamount;
-
-        return $this;
-    }
-
-    /**
-     * Get loanamount
-     *
-     * @return string
-     */
-    public function getLoanamount()
-    {
-        return $this->loanamount;
-    }
-
-    /**
-     * Set registration
-     *
-     * @param integer $registration
-     *
-     * @return Securities
-     */
-    public function setRegistration($registration)
-    {
-        $this->registration = $registration;
-
-        return $this;
-    }
-
-    /**
-     * Get registration
-     *
-     * @return int
-     */
-    public function getRegistration()
-    {
-        return $this->registration;
+        return $this->city;
     }
 
     /**
      * Set volume
      *
-     * @param integer $volume
+     * @param string $volume
      *
      * @return Securities
      */
@@ -365,7 +241,7 @@ class Securities
     /**
      * Get volume
      *
-     * @return int
+     * @return string
      */
     public function getVolume()
     {
@@ -375,7 +251,7 @@ class Securities
     /**
      * Set book
      *
-     * @param integer $book
+     * @param string $book
      *
      * @return Securities
      */
@@ -389,7 +265,7 @@ class Securities
     /**
      * Get book
      *
-     * @return int
+     * @return string
      */
     public function getBook()
     {
@@ -399,7 +275,7 @@ class Securities
     /**
      * Set folio
      *
-     * @param integer $folio
+     * @param string $folio
      *
      * @return Securities
      */
@@ -413,7 +289,7 @@ class Securities
     /**
      * Get folio
      *
-     * @return int
+     * @return string
      */
     public function getFolio()
     {

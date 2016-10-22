@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Form\FundLinksType;
+use AppBundle\Util\Slugger;
 
 /**
  * FundLinkTypes
@@ -45,9 +45,9 @@ class FundLinkTypes
      *
      * @param string $type
      *
-     * @return FundLinksType
+     * @return FundLinkTypes
      */
-    public function setLinktype($type)
+    public function setLinktype($linktype)
     {
         $this->linktype = $linktype;
 
@@ -57,15 +57,20 @@ class FundLinkTypes
     /**
      * Get linktype
      *
-     * @return FundLinksType
+     * @return FundLinkTypes
      */
-    public function getLinkype()
+    public function getLinktype()
     {
         return $this->linktype;
     }
 
+    public function getSlugger()
+    {
+        return Slugger::getSlug($this->getLinktype() , '_');
+    }
+
     public function __toString()
     {
-        return $this->getLinkype();
+        return $this->getLinktype();
     }
 }
