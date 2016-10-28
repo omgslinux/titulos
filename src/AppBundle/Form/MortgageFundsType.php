@@ -18,10 +18,12 @@ class MortgageFundsType extends AbstractType
     {
         $builder
             ->add('numrecords')
-            ->add('paginicio')
-            ->add('pagfin')
+            ->add('openfund')
+            ->add('loansfirstpage')
+            ->add('loanslastpage')
+            ->add('fundpages')
             ->add('legible')
-            ->add('folleto')
+            ->add('brochure')
             ->add('digitalizable')
             ->add('liqdate', DateType::class, array(
     'years' => range(1980, date('Y'))))

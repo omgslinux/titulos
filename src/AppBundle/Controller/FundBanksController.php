@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundBanks;
+use AppBundle\Entity\FundBankTasks;
 use AppBundle\Form\FundBanksType;
 
 /**
@@ -17,6 +18,24 @@ use AppBundle\Form\FundBanksType;
  */
 class FundBanksController extends Controller
 {
+
+    /**
+     * Creates a form to edit a FundBanks entity.
+     *
+     * @Route("/{id}", name="manage_funds_banks_show")
+     * @Method({"GET", "POST"})
+     */
+    public function showAction(Request $request,FundBanks $fundbanks)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findAll(array('fundbank' => $fundbanks->getId()));
+
+
+        return $this->render('funds/banks.html.twig', array(
+            'fundbanks' => $fundbanks,
+            'banktasks' => $banktasks,
+        ));
+    }
 
     /**
      * Creates a form to edit a FundBanks entity.
@@ -81,4 +100,36 @@ class FundBanksController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Creates a new FundBankTasks entity.
+     *
+     * @Route("/{id}/tasks/new", name="manage_fundbanks_tasks_new")
+     * @Method({"GET", "POST"})
+     */
+    public function tasksnewAction(Request $request,FundBanks $fundbank)
+    {
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $banktasks = new FundBankTasks($fundbank);
+        $createForm = $this->createForm('AppBundle\Form\FundBankTasksType', $banktasks);
+        $createForm->handleRequest($request);
+
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($banktasks);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_banks_show', array('id' => $banktasks->getBankid()));
+        }
+
+        return $this->render('funds/tasks.html.twig', array(
+            'banktasks' => $banktasks,
+            'action' => 'Crear tarea',
+            'create_form' => $createForm->createView(),
+        ));
+    }
+
+
+
+
 }

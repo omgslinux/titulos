@@ -62,11 +62,6 @@ class FundManagers
         return $this->id;
     }
 
-    public function getCNMVUrl()
-    {
-        return 'http://www.cnmv.es/Portal/Consultas/FTA/SGFT.aspx?nif=' . $this->getNif();
-    }
-
     public function setShortname($shortname)
     {
         $this->shortname = $shortname;
@@ -150,6 +145,11 @@ class FundManagers
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getCNMVUrl()
+    {
+        return 'http://www.cnmv.es/Portal/Consultas/FTA/SGFT.aspx?nif=' . $this->getNif();
     }
 
     public function getSlugger()

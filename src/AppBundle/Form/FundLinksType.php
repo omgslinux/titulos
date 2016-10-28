@@ -17,6 +17,7 @@ class FundLinksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('linktype')
             ->add('description')
             ->add('URL')
         ;

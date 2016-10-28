@@ -1,0 +1,36 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+
+<h1>Tareas en el fondo {{ banktasks.getFundname }}</h1>
+<h2>Entidad {{ banktasks.fundname }}</h2>
+
+    {% if edit_form is defined or create_form is defined %}
+    <h2>{{ action }} para la entidad {{ banktasks.getBankname }}</h2>
+
+    {{ block('crudform') }}
+    {% else %}
+    <table>
+        <tbody>
+           <tr>
+               <th>Fecha</th>
+               <th>Descripción</th>
+               <th>Terminada</th>
+           </tr>
+           {% for fundbank in fundbanks %}
+           <tr>
+               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
+               <td>{{ fundbank.loantype }}</td>
+               <td>{{ fundbank.count }}</td>
+           </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="{{ path('manage_fundbanks_tasks_new', { 'id': fundbank.getBankid }) }}">Añadir tarea</a></p>
+    {% endif %}
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_show', { 'id': banktasks.getFundid } ) }}">Volver al fondo</a>
+        </li>
+    </ul>
+{% endblock %}

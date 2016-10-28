@@ -2,10 +2,12 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\FundBanks;
 
 class FundBanksType extends AbstractType
@@ -17,7 +19,15 @@ class FundBanksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('bank')
+            ->add('bank', EntityType::class, array(
+                'class' => 'AppBundle:Banks',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.shortname', 'ASC');
+                },
+                'choice_label' => 'shortname',
+                )
+            )
             ->add('loantype')
             ->add('count')
         ;

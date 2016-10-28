@@ -1,10 +1,51 @@
 {% extends 'custom.html.twig' %}
 
 {% block body %}
-    <h1>Añadir entidad para el fondo {{ fundbanks.fund }}</h1>
+
+<h1>Fondo {{ fundbanks.fund }}</h1>
+
+    {% if edit_form is defined or create_form is defined %}
 
     {{ block('crudform') }}
+    {% else %}
+    <h2>Datos de la entidad {{ fundbanks.getBank }}</h2>
+    <table>
+        <tbody>
+           <tr>
+               <th>Tipo préstamo</th>
+               <th>Número préstamos</th>
+           </tr>
+           <tr>
+               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbanks.id } ) }}">{{ fundbanks.bank }}</a></td>
+               <td>{{ fundbanks.loantype }}</td>
+               <td>{{ fundbanks.count }}</td>
+           </tr>
+        </tbody>
+    </table>
+    {% if banktasks %}
+    <h3>Tareas</h3>
+    <table>
+        <tbody>
+            <tr>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Finalizada</th>
+            </tr>
+            {% for banktask in banktasks %}
+            <tr>
+                <td><a href="{{ path('manage_fundbanks__tasks_edit', { 'id': banktask.id }) }}">{{ banktask.taskdate|date('d/m/Y') }}</a></td>
+                <td>{{ banktask.shortdescription }}</td>
+                <td>{% if banktask.finished %}X{% else %}No{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay tareas</p>
+    {% endif %}
+    <p><a href="{{ path('manage_fundbanks_tasks_new', { 'id': fundbanks.id }) }}">Añadir tarea</a></p>
 
+    {% endif %}
     <ul>
         <li>
             <a href="{{ path('manage_funds_show', { 'id': fundbanks.getFundid } ) }}">Volver al fondo</a>

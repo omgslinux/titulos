@@ -28,9 +28,16 @@ class Funds
     /**
      * @var string
      *
-     * @ORM\Column(name="fundname", type="string", length=100, nullable=false)
+     * @ORM\Column(type="string", length=100, nullable=false)
      */
     private $fundname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=false)
+     */
+    private $fundlongname;
 
     /**
      * @var \FundManagers
@@ -40,7 +47,7 @@ class Funds
     private $fundmanager;
 
     /**
-     * @var \FundTypes
+     * @var FundTypes
      *
      * @ORM\ManyToOne(targetEntity="FundTypes")
      */
@@ -74,6 +81,12 @@ class Funds
      */
     private $notes;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=64,nullable=true)
+     */
+     private $cnmvpdf;
 
 
     /**
@@ -108,6 +121,30 @@ class Funds
     public function getFundname()
     {
         return $this->fundname;
+    }
+
+    /**
+     * Set fundlongname
+     *
+     * @param string $fundlongname
+     *
+     * @return Funds
+     */
+    public function setFundlongname($fundlongname)
+    {
+        $this->fundlongname = $fundlongname;
+
+        return $this;
+    }
+
+    /**
+     * Get fundlongname
+     *
+     * @return string
+     */
+    public function getFundlongname()
+    {
+        return $this->fundlongname;
     }
 
     /**
@@ -240,86 +277,6 @@ class Funds
         return $this->amount;
     }
 
-    /**
-     * Get numrecords
-     *
-     * @return MortgageFunds
-     */
-    public function getNumrecords()
-    {
-        return MortgageFunds::numrecords();
-    }
-
-
-    /**
-     * Get paginicio
-     *
-     * @return MortgageFunds
-     */
-    public function getPaginicio()
-    {
-        return $this->paginicio;
-    }
-
-    /**
-     * Get pagfin
-     *
-     * @return MortgageFunds
-     */
-    public function getPagfin()
-    {
-        return $this->pagfin;
-    }
-
-    /**
-     * Get legible
-     *
-     * @return MortgageFunds
-     */
-    public function getLegible()
-    {
-        return $this->legible;
-    }
-
-    /**
-     * Get folleto
-     *
-     * @return MortgageFunds
-     */
-    public function getFolleto()
-    {
-        return $this->folleto;
-    }
-
-    /**
-     * Get liqdate
-     *
-     * @return MortgageFunds
-     */
-    public function getLiqdate()
-    {
-        return $this->liqdate;
-    }
-
-    /**
-     * Get extdate
-     *
-     * @return MortgageFunds
-     */
-    public function getExtdate()
-    {
-        return $this->extdate;
-    }
-
-    /**
-     * Get digitalizable
-     *
-     * @return MortgageFunds
-     */
-    public function getDigitalizable()
-    {
-        return $this->digitalizable;
-    }
 
     /**
      * Set notes
@@ -345,6 +302,44 @@ class Funds
         return $this->notes;
     }
 
+    /**
+     * Set cnmvpdf
+     *
+     * @param string $cnmvpdf
+     *
+     * @return Funds
+     */
+    public function setCNMVPDF($cnmvpdf)
+    {
+        $this->cnmvpdf = $cnmvpdf;
+
+        return $this;
+    }
+
+    /**
+     * Get cnmvpdf
+     *
+     * @return string
+     */
+    public function getCNMVPDF()
+    {
+        return $this->cnmvpdf;
+    }
+
+    public function getCNMVLink()
+    {
+        return 'http://www.cnmv.es/Portal/Consultas/DatosEntidad.aspx?nif=' . $this->getNif();
+    }
+
+    public function getCNMVPDFLink()
+    {
+        if (!empty($this->getCNMVPDF())) {
+            return 'http://www.cnmv.es/Portal/verDoc.axd?t={' . $this->getCNMVPDF() . '}';
+        } else {
+            return 'http://www.cnmv.es/Portal/Consultas/Folletos/AnotacionesCuenta.aspx?id=0&nif=' . $this->getNif();
+        }
+    }
+
     public function getSlugger()
     {
         return Slugger::getSlug($this->getFundname(),'_');
@@ -355,6 +350,19 @@ class Funds
         // return Slugger::getSlug($this->getFundmanager(),'-'). '/'. Slugger::getSlug($this->getFundname(),'-');
         return $this->getFundmanager()->getSlugger(). '/'. $this->getSlugger();
     }
+
+    public function getDocpath()
+    {
+        return $this->getFullSlugger() . '/1';
+    }
+
+    public function getFulldocpath()
+    {
+        return $this->getDocpath() . '/' . $this->getSlugger() . '.pdf';
+    }
+
+
+
 
 
     public function __toString()

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\LoanTypes;
@@ -10,7 +11,7 @@ use AppBundle\Entity\LoanTypes;
 /**
  * FundBanks
  *
- * @ORM\Table(name="fundbanks")
+ * @ORM\Table(name="fundbanks",uniqueConstraints={@UniqueConstraint(name="fundbankloan_unique", columns={"fund_id", "bank_id", "loantype_id"})})
  * @ORM\Entity
  */
 class FundBanks
@@ -25,21 +26,22 @@ class FundBanks
     private $id;
 
     /**
-     * @var \Funds
+     * @var Funds
      *
      * @ORM\ManyToOne(targetEntity="Funds")
      */
     private $fund;
 
     /**
-     * @var \Banks
+     * @var Banks
      *
      * @ORM\ManyToOne(targetEntity="Banks")
+     * @ORM\OrderBy({"shortname" = "ASC"})
      */
     private $bank;
 
     /**
-     * @var \LoanTypes
+     * @var LoanTypes
      *
      * @ORM\ManyToOne(targetEntity="LoanTypes")
      */
@@ -70,7 +72,7 @@ class FundBanks
     /**
      * Set fund
      *
-     * @param \Funds $fund
+     * @param Funds $fund
      *
      * @return FundBanks
      */
@@ -84,7 +86,7 @@ class FundBanks
     /**
      * Get fund
      *
-     * @return \Funds
+     * @return Funds
      */
     public function getFund()
     {
@@ -96,10 +98,20 @@ class FundBanks
         return $this->getFund()->getId();
     }
 
+    public function getFundname()
+    {
+        return $this->getFund()->getFundname();
+    }
+
+    public function getBankname()
+    {
+        return $this->getBank()->getShortname();
+    }
+
     /**
      * Set bank
      *
-     * @param \Banks $bank
+     * @param Banks $bank
      *
      * @return FundBanks
      */
@@ -113,7 +125,7 @@ class FundBanks
     /**
      * Get bank
      *
-     * @return \Banks
+     * @return Banks
      */
     public function getBank()
     {
@@ -123,7 +135,7 @@ class FundBanks
     /**
      * Set loantype
      *
-     * @param \LoanTypes $loantype
+     * @param LoanTypes $loantype
      *
      * @return FundLinks
      */
@@ -137,7 +149,7 @@ class FundBanks
     /**
      * Get loantype
      *
-     * @return \LoanTypes
+     * @return LoanTypes
      */
     public function getLoantype()
     {

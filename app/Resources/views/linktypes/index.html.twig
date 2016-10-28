@@ -6,7 +6,7 @@
     <table>
         <thead>
             <tr>
-                <th>Número</th>
+                <th>internal</th>
                 <th>Tipo de enlace</th>
                 <th>Slug</th>
             </tr>
@@ -14,7 +14,7 @@
         <tbody>
         {% for flt in fltype %}
             <tr>
-                <td>{{ flt.id }}</td>
+                <td>{{ flt.internal }}</td>
                 <td><a href="{{ path('manage_linktypes_show', { 'id': flt.id }) }}">{{ flt }}</a></td>
                 <td>{{ flt.getSlugger }}</td>
             </tr>

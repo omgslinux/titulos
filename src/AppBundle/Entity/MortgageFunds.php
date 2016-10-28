@@ -22,60 +22,77 @@ class MortgageFunds
     private $fund;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $openfund;
+
+    /**
      * @var int
      *
-     * @ORM\Column(name="numrecords", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $numrecords;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="paginicio", type="integer")
+     * @ORM\Column(type="integer")
      */
-    private $paginicio;
+    private $loansfirstpage;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pagfin", type="integer")
+     * @ORM\Column(type="integer")
      */
-    private $pagfin;
+    private $loanslastpage;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $fundpages;
 
     /**
      * @var binary
      *
-     * @ORM\Column(name="legible", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $legible;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="folleto", type="boolean")
+     * @ORM\Column(type="boolean")
      */
-    private $folleto;
+    private $brochure;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="liqdate", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $liqdate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="extdate", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $extdate;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="digitalizable", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $digitalizable;
+
+
+
 
 
     public function __construct(Funds $fund)
@@ -83,10 +100,20 @@ class MortgageFunds
         $this->fund = $fund;
     }
 
+    public function getDocpath()
+    {
+        return $this->getId()->getDocpath();
+    }
+
+    public function getFulldocpath()
+    {
+        return $this->getId()->getFulldocpath();
+    }
+
     /**
      * Get id
      *
-     * @return \Funds
+     * @return Funds
      */
     public function getId()
     {
@@ -96,6 +123,30 @@ class MortgageFunds
     public function getFundname()
     {
         return $this->fund->getFundname();
+    }
+
+    /**
+     * Set openfund
+     *
+     * @param boolean $openfund
+     *
+     * @return FundsExtra
+     */
+    public function setOpenfund($openfund)
+    {
+        $this->openfund = $openfund;
+
+        return $this;
+    }
+
+    /**
+     * Get openfund
+     *
+     * @return boolean
+     */
+    public function getOpenfund()
+    {
+        return $this->openfund;
     }
 
     /**
@@ -123,51 +174,75 @@ class MortgageFunds
     }
 
     /**
-     * Set paginicio
+     * Set loansfirstpage
      *
-     * @param integer $paginicio
+     * @param integer $loansfirstpage
      *
      * @return Funds
      */
-    public function setPaginicio($paginicio)
+    public function setLoansfirstpage($loansfirstpage)
     {
-        $this->paginicio = $paginicio;
+        $this->loansfirstpage = $loansfirstpage;
 
         return $this;
     }
 
     /**
-     * Get paginicio
+     * Get loansfirstpage
      *
      * @return int
      */
-    public function getPaginicio()
+    public function getLoansfirstpage()
     {
-        return $this->paginicio;
+        return $this->loansfirstpage;
     }
 
     /**
-     * Set pagfin
+     * Set loanslastpage
      *
-     * @param integer $pagfin
+     * @param integer $loanslastpage
      *
      * @return Funds
      */
-    public function setPagfin($pagfin)
+    public function setLoanslastpage($loanslastpage)
     {
-        $this->pagfin = $pagfin;
+        $this->loanslastpage = $loanslastpage;
 
         return $this;
     }
 
     /**
-     * Get pagfin
+     * Get loanslastpage
      *
      * @return int
      */
-    public function getPagfin()
+    public function getLoanslastpage()
     {
-        return $this->pagfin;
+        return $this->loanslastpage;
+    }
+
+    /**
+     * Set fundpages
+     *
+     * @param integer $fundpages
+     *
+     * @return Funds
+     */
+    public function setFundpages($fundpages)
+    {
+        $this->fundpages = $fundpages;
+
+        return $this;
+    }
+
+    /**
+     * Get fundpages
+     *
+     * @return int
+     */
+    public function getFundpages()
+    {
+        return $this->fundpages;
     }
 
     /**
@@ -195,27 +270,27 @@ class MortgageFunds
     }
 
     /**
-     * Set folleto
+     * Set brochure
      *
-     * @param boolval $folleto
+     * @param boolval $brochure
      *
      * @return Funds
      */
-    public function setFolleto($folleto)
+    public function setBrochure($brochure)
     {
-        $this->folleto = $folleto;
+        $this->brochure = $brochure;
 
         return $this;
     }
 
     /**
-     * Get folleto
+     * Get brochure
      *
      * @return boolval
      */
-    public function getFolleto()
+    public function getBrochure()
     {
-        return $this->folleto;
+        return $this->brochure;
     }
 
     /**

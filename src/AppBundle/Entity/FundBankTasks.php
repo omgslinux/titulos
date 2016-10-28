@@ -28,7 +28,7 @@ class FundBankTasks
      *
      * @ORM\ManyToOne(targetEntity="FundBanks")
      */
-    private $fund;
+    private $fundbank;
 
     /**
      * @var Users
@@ -66,6 +66,10 @@ class FundBankTasks
     private $finished;
 
 
+    public function __construct(FundBanks $fundbank)
+    {
+        $this->fundbank = $fundbank;
+    }
 
 
     /**
@@ -78,6 +82,26 @@ class FundBankTasks
         return $this->id;
     }
 
+    public function getFundid()
+    {
+        return $this->getFundbank()->getFundid();
+    }
+
+    public function getFundname()
+    {
+        $this->getFundbank()->getFundname();
+    }
+
+    public function getBankid()
+    {
+        return $this->getFundbank()->getId();
+    }
+
+    public function getBankname()
+    {
+        return $this->getFundbank()->getBankname();
+    }
+
     /**
      * Set fundbank
      *
@@ -85,7 +109,7 @@ class FundBankTasks
      *
      * @return FundBankTasks
      */
-    public function setFundbank($fundbank)
+    public function setFundbank(FundBanks $fundbank = null)
     {
         $this->fundbank = $fundbank;
 

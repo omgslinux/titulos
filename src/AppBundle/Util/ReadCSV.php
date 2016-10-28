@@ -31,4 +31,24 @@ class ReadCSV
         }
         return $data;
     }
+
+    public function emdump(ObjectManager $manager)
+    {
+        $this->records = $this->readcsv($this->csvfile);
+        foreach ($this->records as $value) {
+            // echo "Insertando " . $value['city'] . " @@ " . $value['province'] ."\n";
+            $entity = new Cities();
+            $entity->setCity(addslashes($value['city']));
+            //$eprovince = $manager->getRepository('AppBundle:Provinces')->findOneByName($value['province']);
+            $eprovince = new Provinces();
+            $eprovince->setName($value['province']);
+            // echo "Provincia: " . $eprovince . "\n";
+            $entity->setProvince($eprovince);
+
+            $manager->persist($entity);
+        }
+        $manager->flush();
+    }
+
+
 }

@@ -11,6 +11,8 @@ use AppBundle\Entity\FundLinks;
 use AppBundle\Entity\FundBanks;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Form\FundsType;
+use AppBundle\Util\Slugger;
+use AppBundle\Util\FileDownload;
 
 /**
  * Funds controller.
@@ -83,6 +85,11 @@ class FundsController extends Controller
         $fundbanks = $em->getRepository('AppBundle:FundBanks')->findBy(array('fund' => $fund->getId()));
 
         $deleteForm = $this->createDeleteForm($fund);
+        $downloadForm = $this->createDownloadForm($fund);
+
+        $filepath = $this->get('app.filedownload');
+        $filepath->setUrl($fund->getCNMVPDFLink());
+        $downloaded = $filepath->isDocdownloaded($fund->getFulldocpath());
 
 
         return $this->render('funds/show.html.twig', array(
@@ -90,7 +97,9 @@ class FundsController extends Controller
             'mfund' => $mfund,
             'fundlinks' => $fundlinks,
             'fundbanks' => $fundbanks,
+            'downloaded' => $downloaded,
             'delete_form' => $deleteForm->createView(),
+            'download_form' => $downloadForm->createView()
         ));
     }
 
@@ -160,6 +169,46 @@ class FundsController extends Controller
         ;
     }
 
+
+    /**
+     * Displays a form to download a file.
+     *
+     * @Route("/{id}/download", name="manage_funds_download")
+     * @Method({"GET", "POST"})
+     */
+    public function downloadAction(Request $request, Funds $fund)
+    {
+        $downloadForm = $this->createDownloadForm($fund);
+        $downloadForm->handleRequest($request);
+
+        if ($downloadForm->isSubmitted() && $downloadForm->isValid()) {
+            // 1 is internal hardcoded for "CNMV registration doc"
+            $filepath = $this->get('app.filedownload');
+            $filepath->setUrl($fund->getCNMVPDFLink());
+            if (!$filepath->isDocdownloaded($fund->getFulldocpath())) {
+                $filepath->getFile();
+            }
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
+        }
+
+    }
+
+    /**
+     * Creates a form to download a file from CNMV entity.
+     *
+     * @param Funds $fund The Funds entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDownloadForm(Funds $fund)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('manage_funds_download', array('id' => $fund->getId())))
+            ->setMethod('POST')
+            ->getForm()
+        ;
+    }
 
 
 

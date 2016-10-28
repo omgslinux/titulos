@@ -3,11 +3,12 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\FundLinkTypes;
 
-class FundManagersType extends AbstractType
+class FundLinkTypesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,14 +17,8 @@ class FundManagersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('shortname')
-            ->add('longname')
-            ->add('nif')
-            ->add('address')
-            ->add('capitalsocial')
-            ->add('regdate',DateType::class, array(
-                'years' => range(1980, date('Y'))))
-            ->add('description')
+            ->add('linktype')
+            ->add('internal')
         ;
     }
 
@@ -33,7 +28,7 @@ class FundManagersType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\FundManagers'
+            'data_class' => 'AppBundle\Entity\FundLinkTypes'
         ));
     }
 }

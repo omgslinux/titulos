@@ -19,15 +19,3 @@ monolog:
             level: debug
         console:
             type:  console
-
-parameters:
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: titulosprod
-    database_user: titulos
-    database_password: titulos
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
-    secret: 3790714390cd5c3a0578681b8575ec4750570fe3

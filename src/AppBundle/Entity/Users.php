@@ -4,14 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Roles;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Cities
+ * Users
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @var int
@@ -25,9 +26,9 @@ class Users
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", length=25, unique=true)
      */
-    private $login;
+    private $username;
 
     /**
      * @var fullname
@@ -51,7 +52,14 @@ class Users
     private $email;
 
     /**
-    * @var \Roles
+     * @var isactive
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isactive;
+
+    /**
+    * @var Roles
     *
     * @ORM\ManyToOne(targetEntity="Roles")
     */
@@ -68,27 +76,27 @@ class Users
     }
 
     /**
-     * Set login
+     * Set username
      *
-     * @param string $login
+     * @param string $username
      *
      * @return Users
      */
-    public function setLogin($login)
+    public function setUsername($username)
     {
-        $this->login = $login;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get login
+     * Get username
      *
      * @return string
      */
-    public function getLogin()
+    public function getUsername()
     {
-        return $this->login;
+        return $this->username;
     }
 
     /**
@@ -115,18 +123,11 @@ class Users
         return $this->fullname;
     }
 
-    /**
-     * Set password
-     *
-     * @param password $password
-     *
-     * @return Users
-     */
-    public function setPassword($password)
+    public function getSalt()
     {
-        $this->password = $password;
-
-        return $this;
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
     }
 
     /**
@@ -137,6 +138,39 @@ class Users
     public function getPassword()
     {
         return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 
     /**
@@ -164,13 +198,37 @@ class Users
     }
 
     /**
+     * Set isactive
+     *
+     * @param boolean $isactive
+     *
+     * @return Users
+     */
+    public function setIsactive($isactive)
+    {
+        $this->isactive = $isactive;
+
+        return $this;
+    }
+
+    /**
+     * Get isactive
+     *
+     * @return boolean
+     */
+    public function getIsactive()
+    {
+        return $this->isactive;
+    }
+
+    /**
      * Set rol
      *
      * @param \Roles $rol
      *
      * @return Cities
      */
-    public function setRol(\Roles $rol = null)
+    public function setRol(Roles $rol = null)
     {
         $this->rol = $rol;
 

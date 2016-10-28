@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de usuarios</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre completo</th>
+                <th>Correo</th>
+                <th>Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('manage_users_edit', { 'id': user.id } ) }}">{{ user.username }}</a></td>
+                <td>{{ user.fullname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.isactive ? 'X' : 'No' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_users_new') }}">Crear un usuario</a>
+        </li>
+    </ul>
+    <p><a href="{{ path('manage') }}">Volver al menú de gestión</a></p>
+{% endblock %}

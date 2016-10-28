@@ -23,6 +23,13 @@ class FundLinkTypes
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $internal;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=100, nullable=false)
@@ -38,6 +45,30 @@ class FundLinkTypes
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set internal
+     *
+     * @param integer $internal
+     *
+     * @return FundLinkTypes
+     */
+    public function setInternal($internal)
+    {
+        $this->internal = $internal;
+
+        return $this;
+    }
+
+    /**
+     * Get internal
+     *
+     * @return FundLinkTypes
+     */
+    public function getInternal()
+    {
+        return $this->internal;
     }
 
     /**

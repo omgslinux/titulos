@@ -17,12 +17,14 @@ class FundsType extends AbstractType
     {
         $builder
             ->add('fundname')
+            ->add('fundlongname')
             ->add('fundmanager')
             ->add('fundtype')
             ->add('nif')
             ->add('constdate', DateType::class, array(
     'years' => range(1980, date('Y'))))
             ->add('amount')
+            ->add('cnmvpdf')
             ->add('notes')
         ;
     }
