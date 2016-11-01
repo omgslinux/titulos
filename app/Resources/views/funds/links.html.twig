@@ -1,13 +1,35 @@
 {% extends 'custom.html.twig' %}
 
 {% block body %}
-    <h1>Añadir enlace para el fondo {{ fundlinks.getFundname }}</h1>
+    <h1>{{ h1 }} {{ fundlink.fund.fundname }}</h1>
 
-    {{ block('crudform') }}
+        {% if edit_form is defined or create_form is defined %}
+
+        {{ block('crudform') }}
+        {% else %}
+        <h2>Datos dela ley {{ fundlink }}</h2>
+        <table>
+            <tbody>
+               <tr>
+                   <th>Tipo</th>
+                   <th>Descripción</th>
+                   <th>Accion</th>
+               </tr>
+               <tr>
+                   <td>{{ fundlink.linktype }}</td>
+                   <td><a href="{{ path('manage_funds_links_edit', { 'id': fundlink.id } ) }}">{{ fundlink.description }}</a></td>
+                   <td>{% if filepath.isDocdownloaded(fundlink.fund.getFulldocpath) == false %}{{ form_start(download_form) }}
+                                   <input type="submit" value="Descargar">
+                               {{ form_end(download_form) }}{% else %}<a href="{{ fundlink.fund.getDocpath }}" target="_blank">Descarga directa</a>
+                   {% endif %}</td>
+               </tr>
+            </tbody>
+        </table>
+        {% endif %}
 
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': fundlinks.getFundid } ) }}">Volver al fondo</a>
+            <a href="{{ path('manage_funds_show', { 'id': fundlink.getFundid } ) }}">Volver al fondo</a>
         </li>
     </ul>
 {% endblock %}

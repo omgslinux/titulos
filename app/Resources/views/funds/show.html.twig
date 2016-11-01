@@ -6,37 +6,32 @@
         <table>
             <tbody>
                 <tr>
+                    <th></th>
                     <th>Gestora</th>
                     <th>Tipo fondo</th>
                     <th>Fecha de constitución</th>
                     <th>NIF</th>
                     <th>Cantidad</th>
-                    <th colspan="2">Enlaces CNMV</th>
-                    <th>Escritura constitución</th>
+                    <th colspan="1">Enlaces CNMV</th>
                 </tr>
                 <tr>
+                    <td><a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a></td>
                     <td>{{ fund.fundmanager }}</td>
                     <td>{{ fund.fundtype }}</td>
                     <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
                     <td>{{ fund.nif }}</td>
                     <td>{{ fund.amount|number_format(2,',','.') }} €</td>
                     <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página principal</a></td>
-                    <td><a href="{{ fund.getCNMVPDFLink }}" target="_blank">{{ fund.getCNMVPDF ? 'Escritura constitución' : 'Anotaciones en cuenta' }}</a></td>
-                    <td>{% if downloaded == false %}{{ form_start(download_form) }}
-                                    <input type="submit" value="Descargar">
-                                {{ form_end(download_form) }}{% else %}<a href="{{ fund.getDocpath }}" target="_blank">Descarga directa</a>
-                    {% endif %}</td>
                 </tr>
                 </tbody>
             </table>
-        <p>
-            <a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a>
-        </p>
+        <hr>
     {% if fund.fundtype == 'Hipotecario' %}
         {% if mfund %}
         <table>
             <tbody>
                 <tr>
+                    <th></th>
                     <th>Fecha de liquidación</th>
                     <th>Fecha de extinción</th>
                     <th>Num registros</th>
@@ -49,6 +44,7 @@
                     <th>Digitalizable</th>
                 </tr>
                 <tr>
+                    <td><a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos</a></td>
                     <td>{% if mfund.liqdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.liqdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
                     <td>{% if mfund.extdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.extdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
                     <td>{{ mfund.numrecords }}</td>
@@ -62,10 +58,10 @@
                 </tr>
             </tbody>
         </table>
-        <p><a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos adicionales</a></p>
         {% else %}
         <p><a href="{{ path('manage_funds_extra_new', { 'id': fund.id }) }}">Añadir datos adicionales</a></p>
         {% endif %}
+        <hr>
         {% if fundbanks %}
         <table>
             <tbody>
@@ -85,39 +81,51 @@
         </table>
         {% endif %}
         <p><a href="{{ path('manage_funds_banks_new', { 'id': fund.id }) }}">Añadir entidades cedentes</a></p>
+        <hr>
         {% if fundlinks %}
         <table>
             <tbody>
                <tr>
-                   <th>Descripción</th>
-                   <th>Enlace</th>
-                   <th>Acción</th>
+                   <th>Tipo</th>
+                   <th colspan="2">Descripción</th>
                </tr>
                {% for fundlink in fundlinks %}
                <tr>
-                   <td>{{ fundlink.description }}</td>
-                   <td>{{ fundlink.URL }}</td>
-                   <td>
-                        <ul>
-                            <li><a href="{{ path('manage_funds_links_edit', { 'id': fundlink.fund } ) }}">Editar</a></li>
-                            <li><a href="{{ path('manage_funds_links_delete', { 'id': fundlink.fund } ) }}">Borrar</a></li>
-                        </ul>
-                    </td>
+                   <td>{{ fundlink.linktype }}</td>
+                   <td><a href="{{ path('manage_funds_links_show', { 'id': fundlink.id } ) }}">{{ fundlink.description }}</a></td>
+                   <td><a href="{{ fundlink.URL }}" target="_blank">Descarga externa</a></td>
                </tr>
                {% endfor %}
             </tbody>
         </table>
-        <p><a href="{{ path('manage_funds_links_edit', { 'id': fund.id }) }}">Editar enlaces</a></p>
-        {% else %}
-        <p><a href="{{ path('manage_funds_links_new', { 'id': fund.id }) }}">Añadir enlaces</a></p>
         {% endif %}
+        <p><a href="{{ path('manage_funds_links_new', { 'id': fund.id }) }}">Añadir enlaces</a></p>
+        <hr>
+        {% if fundlaws %}
+        <table>
+            <tbody>
+               <tr>
+                   <th>Ley</th>
+                   <th>Notas</th>
+               </tr>
+               {% for fundlaw in fundlaws %}
+               <tr>
+                   <td><a href="{{ path('manage_funds_laws_show', { 'id': fundlaw.id } ) }}">{{ fundlaw.law }}</td>
+                   <td>{{ fundlaw.notes }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <p><a href="{{ path('manage_funds_laws_new', { 'id': fund.id }) }}">Añadir leyes</a></p>
+        <hr>
+    {% else %}
+        <p>El fondo no es hipotecario</p>
     {% endif %}
-    <p>Base: {{ fund.FullSlugger }}</p>
     <p>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Borrar todo">
             {{ form_end(delete_form) }}
     </p>
-    <p>&nbsp;</p>
-    <p><a href="{{ path('manage_funds_index') }}">Volver a la lista</a></p>
+    <p><a href="{{ path('manage_funds_index') }}">Volver a la lista de fondos</a></p>
 {% endblock %}
