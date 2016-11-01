@@ -5,13 +5,13 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use AppBundle\Entity\FundLinks;
+use AppBundle\Entity\FundLaws;
+use AppBundle\Entity\Laws;
 
-class FundLinksType extends AbstractType
+class FundLawsType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -20,19 +20,17 @@ class FundLinksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('linktype', EntityType::class, array(
-                'class' => 'AppBundle:FundLinkTypes',
-                'label' => 'Tipo de enlace'
+            ->add('law', EntityType::class, array(
+                'class' => 'AppBundle:Laws',
+                'label' => 'Ley'
                 )
             )
-            ->add('description', TextareaType::class, array(
-                'label' => 'Descripción',
+            ->add('notes', TextareaType::class, array(
+                'label' => 'Observaciones',
                 'attr' => array(
-                    'cols' => 80
-                )
-            ))
-            ->add('URL', UrlType::class, array(
-                'label' => 'URL'
+                    'cols' => 100,
+                    'rows' => 10
+                    )
                 )
             )
         ;
@@ -44,7 +42,7 @@ class FundLinksType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\FundLinks'
+            'data_class' => 'AppBundle\Entity\FundLaws'
         ));
     }
 }

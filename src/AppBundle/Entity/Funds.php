@@ -351,14 +351,14 @@ class Funds
         return $this->getFundmanager()->getSlugger(). '/'. $this->getSlugger();
     }
 
-    public function getDocpath()
+    public function getDocpath($linktype=1)
     {
-        return $this->getFullSlugger() . '/1';
+        return $this->getFullSlugger() . '/' . $linktype;
     }
 
-    public function getFulldocpath()
+    public function getFulldocpath($linktype=1)
     {
-        return $this->getDocpath() . '/' . $this->getSlugger() . '.pdf';
+        return $this->getDocpath($linktype) . '/' . $this->getSlugger() . '.pdf';
     }
 
 

@@ -35,13 +35,37 @@ class FundLinksController extends Controller
             $em->persist($fundlinks);
             $em->flush();
 
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getId()));
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFund()->getId()));
         }
 
         return $this->render('funds/links.html.twig', array(
-            'fundlinks' => $fundlinks,
+            'fundlink' => $fundlinks,
+            'h1' => 'Editar enlace ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFund()->getId())),
+            'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView()
+        ));
+
+    }
+
+    /**
+     * Finds and displays a FundLinks entity.
+     *
+     * @Route("/{id}", name="manage_funds_links_show")
+     * @Method("GET")
+     */
+    public function showAction(FundLinks $fundlinks)
+    {
+        $filepath = $this->get('app.filedownload');
+        $filepath->setUrl($fundlinks->getUrl());
+        $downloadForm = $this->createDownloadForm($fundlinks);
+
+        return $this->render('funds/links.html.twig', array(
+            'fundlink' => $fundlinks,
+            'filepath' => $filepath,
+            'h1' => 'Enlace en el fondo ',
+            'download_form' => $downloadForm->createView()
         ));
     }
 
@@ -51,10 +75,11 @@ class FundLinksController extends Controller
      * @Route("/{id}", name="manage_funds_links_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, FundLinks $fundbanks)
+    public function deleteAction(Request $request, FundLinks $fundlinks)
     {
         $form = $this->createDeleteForm($fundlinks);
         $form->handleRequest($request);
+        $id=$fundlinks->getFund()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -62,7 +87,7 @@ class FundLinksController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getId()));
+        return $this->redirectToRoute('manage_funds_show', array('id' => $id));
     }
 
     /**
@@ -80,4 +105,49 @@ class FundLinksController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Creates a form to download a file from CNMV entity.
+     *
+     * @param FundLinks $fundlink The FundLinks entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDownloadForm(FundLinks $fundlink)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('manage_funds_links_download', array('id' => $fundlink->getId())))
+            ->setMethod('POST')
+            ->getForm()
+        ;
+    }
+
+
+    /**
+     * Displays a form to download a file.
+     *
+     * @Route("/{id}/download", name="manage_funds_links_download")
+     * @Method({"GET", "POST"})
+     */
+    public function downloadAction(Request $request, FundLinks $fundlink)
+    {
+        $downloadForm = $this->createDownloadForm($fundlink);
+        $downloadForm->handleRequest($request);
+
+        if ($downloadForm->isSubmitted() && $downloadForm->isValid()) {
+            // 1 is internal hardcoded for "CNMV registration doc"
+            $filepath = $this->get('app.filedownload');
+            $filepath->setUrl($fundlink->getUrl());
+            if (!$filepath->isDocdownloaded($fundlink->getFulldocpath())) {
+                $filepath->getFile();
+            }
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlink->getFund()->getId()));
+        }
+
+    }
+
+
+
+
 }

@@ -24,7 +24,7 @@ class MortgageFunds
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=true)
      */
     private $openfund;
 
@@ -66,7 +66,7 @@ class MortgageFunds
     /**
      * @var int
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=true)
      */
     private $brochure;
 

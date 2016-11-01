@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\FundBanks;
@@ -28,8 +30,11 @@ class FundBanksType extends AbstractType
                 'choice_label' => 'shortname',
                 )
             )
-            ->add('loantype')
-            ->add('count')
+            ->add('loantype', EntityType::class, array(
+                'class' => 'AppBundle:LoanTypes',
+                'label' => 'Tipo de préstamo'
+            ))
+            ->add('count', IntegerType::class, array ('label' => 'Número de préstamos'))
         ;
     }
 

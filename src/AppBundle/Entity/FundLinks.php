@@ -24,7 +24,7 @@ class FundLinks
     private $id;
 
     /**
-     * @var \Funds
+     * @var Funds
      *
      * @ORM\ManyToOne(targetEntity="Funds")
      */
@@ -60,21 +60,11 @@ class FundLinks
     /**
      * Get id
      *
-     * @return \FundLinks
+     * @return FundLinks
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getFundid()
-    {
-        return $this->fund->getId();
-    }
-
-    public function getFundname()
-    {
-        return $this->getFund()->getFundname();
     }
 
     /**
@@ -173,9 +163,27 @@ class FundLinks
         return $this->url;
     }
 
+
+
+
     public function __toString()
     {
         return $this->getDescription();
+    }
+
+    public function getFundid()
+    {
+        return $this->fund->getId();
+    }
+
+    public function getLinktypeid()
+    {
+        return $this->getLinktype()->getId();
+    }
+
+    public function getFundname()
+    {
+        return $this->getFund()->getFundname();
     }
 
     public function getSlugger()
@@ -187,5 +195,109 @@ class FundLinks
     {
         return $this->getFund()->getFullSlugger() . '/' . $this->getSlugger();
     }
+
+
+    public function getDocpath($linktype=1)
+    {
+        return $this->getFund()->getFullSlugger() . '/' . $linktype;
+    }
+
+    public function getFulldocpath($linktype=false)
+    {
+        if ($linktype===false) {
+            $linktype=$this->getLinktypeid();
+        }
+        switch ($linktype) {
+            case '6':
+                // unclean csv
+                $extension='.pdf.csv';
+                break;
+            case '7':
+                # clean csv
+                $extension='.csv';
+                break;
+            default:
+                # code...
+                $extension='.pdf';
+                break;
+        }
+        return $this->getFund()->getDocpath($linktype) . '/' . $this->getSlugger() . $extension;
+    }
+
+    /*
+    * Funciones específicas para linktypes
+    */
+    public function getBrochurepath()
+    {
+        return $this->getDocpath(2);
+    }
+
+    public function getFullbrochurepath()
+    {
+        return $this->getFulldocpath(2);
+    }
+
+    public function getAnnexlistpath()
+    {
+        return $this->getDocpath(3);
+    }
+
+    public function getFullannexlistpath()
+    {
+        return $this->getFulldocpath(3);
+    }
+
+    public function getLiqregpath()
+    {
+        return $this->getDocpath(4);
+    }
+
+    public function getFullliqregpath()
+    {
+        return $this->getFulldocpath(4);
+    }
+
+    public function getExtregpath()
+    {
+        return $this->getDocpath(5);
+    }
+
+    public function getFullextegpath()
+    {
+        return $this->getFulldocpath(5);
+    }
+
+    public function getUncleancsvpath()
+    {
+        return $this->getDocpath(6);
+    }
+
+    public function getFulluncleancsvpath()
+    {
+        return $this->getFulldocpath(6);
+    }
+
+    public function getCleancsvpath()
+    {
+        return $this->getDocpath(7);
+    }
+
+    public function getFullcleancsvpath()
+    {
+        return $this->getFulldocpath(7);
+    }
+
+    public function getFactspath()
+    {
+        return $this->getDocpath(8);
+    }
+
+    public function getFullfactspath()
+    {
+        return $this->getFulldocpath(8);
+    }
+
+
+
 
 }

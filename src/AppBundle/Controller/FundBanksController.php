@@ -28,7 +28,7 @@ class FundBanksController extends Controller
     public function showAction(Request $request,FundBanks $fundbanks)
     {
         $em = $this->getDoctrine()->getManager();
-        $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findAll(array('fundbank' => $fundbanks->getId()));
+        $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findBy(array('fundbank' => $fundbanks->getId()));
 
 
         return $this->render('funds/banks.html.twig', array(

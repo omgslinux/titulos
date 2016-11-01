@@ -8,11 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLinks;
+use AppBundle\Entity\FundLaws;
 use AppBundle\Entity\FundBanks;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Form\FundsType;
 use AppBundle\Util\Slugger;
-use AppBundle\Util\FileDownload;
+// use AppBundle\Util\FileDownload;
 
 /**
  * Funds controller.
@@ -55,7 +56,6 @@ class FundsController extends Controller
             $em->persist($fund);
             $em->flush();
 
-//            return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
             return $this->redirectToRoute('manage_funds_index');
         }
 
@@ -81,15 +81,15 @@ class FundsController extends Controller
 
         $mfund = $em->getRepository('AppBundle:MortgageFunds')->find($fund);
 
-        $fundlinks = $em->getRepository('AppBundle:FundLinks')->findAll($fund);
+        $fundlinks = $em->getRepository('AppBundle:FundLinks')->findBy(array('fund' => $fund->getId()));
         $fundbanks = $em->getRepository('AppBundle:FundBanks')->findBy(array('fund' => $fund->getId()));
+        $fundlaws = $em->getRepository('AppBundle:FundLaws')->findBy(array('fund' => $fund->getId()));
 
         $deleteForm = $this->createDeleteForm($fund);
         $downloadForm = $this->createDownloadForm($fund);
 
         $filepath = $this->get('app.filedownload');
         $filepath->setUrl($fund->getCNMVPDFLink());
-        $downloaded = $filepath->isDocdownloaded($fund->getFulldocpath());
 
 
         return $this->render('funds/show.html.twig', array(
@@ -97,9 +97,10 @@ class FundsController extends Controller
             'mfund' => $mfund,
             'fundlinks' => $fundlinks,
             'fundbanks' => $fundbanks,
-            'downloaded' => $downloaded,
+            'fundlaws' => $fundlaws,
+            'filepath' => $filepath,
             'delete_form' => $deleteForm->createView(),
-            'download_form' => $downloadForm->createView()
+            'download_form' => $downloadForm->createView(),
         ));
     }
 
@@ -212,6 +213,7 @@ class FundsController extends Controller
 
 
 
+
     /**
      * Creates a new MortgageFunds entity.
      *
@@ -232,11 +234,14 @@ class FundsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $mfund->getId()));
         }
 
-        return $this->render('funds/extra.html.twig', array(
-//            'fund' => $fund,
-            'mfund' => $mfund,
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'h1' => 'Añadir datos adicionales para el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
+
     }
 
 
@@ -262,10 +267,45 @@ class FundsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundbanks->getFundid()));
         }
 
-        return $this->render('funds/banks.html.twig', array(
-            'fundbanks' => $fundbanks,
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'h1' => 'Crear entidad cedente para el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
+
+    }
+
+    /**
+     * Creates a new FundLaws entity.
+     *
+     * @Route("/{id}/laws/new", name="manage_funds_laws_new")
+     * @Method({"GET", "POST"})
+     */
+    public function lawsnewAction(Request $request,Funds $fund)
+    {
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $fundlaws = new FundLaws($fund);
+        $form = $this->createForm('AppBundle\Form\FundLawsType', $fundlaws);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fundlaws);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlaws->getFund()->getId()));
+        }
+
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'h1' => 'Crear enlace a ley ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
+        ));
+
     }
 
 
@@ -290,10 +330,14 @@ class FundsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFundid()));
         }
 
-        return $this->render('funds/links.html.twig', array(
-            'fundlinks' => $fundlinks,
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'h1' => 'Crear enlace ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
+
     }
 
 
