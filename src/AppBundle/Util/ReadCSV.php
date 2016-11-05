@@ -4,10 +4,47 @@ namespace AppBundle\Util;
 
 class ReadCSV
 {
+    private $rootdir;
+    private $url=array();
+    private $basedir='../web/app/Resources/pdf/';
+    private $path;
+
+    public function setRootdir($rootdir)
+    {
+        $this->rootdir = $rootdir;
+    }
+
+    public function setBasedir($basedir)
+    {
+        $this->basedir = $basedir;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+    public function getFullbase()
+    {
+        return $this->rootdir . '/' . $this->basedir;
+    }
+
+    public function getFulldir()
+    {
+        return $this->getFullbase() . dirname($this->path) . '/';
+    }
+
     public function readcsv($csvfile)
     {
         // print getcwd();
-        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== FALSE) {
+        print $this->getFulldir()."\n$csvfile\n";
+
+        if (($handle = fopen($this->getFulldir()."$csvfile", "r")) !== FALSE) {
             $headers = array();
             $data = array();
             $row = 0;
@@ -16,7 +53,7 @@ class ReadCSV
                 $column = 0;
                 if ( $row === 1 ) {
                     $num = count($line);
-                    // echo "<p> $num fields in line $row: <br /></p>\n";
+                    echo "<p> $num fields in line $row: <br /></p>\n";
                     foreach ($line as $key) {
                         $headers[$column] = $key;
                         $column++;
@@ -28,7 +65,10 @@ class ReadCSV
                     }
                 }
             }
+        } else {
+            die(print_r($data));
         }
+        print_r($data);
         return $data;
     }
 

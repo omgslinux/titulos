@@ -86,7 +86,7 @@ class FileDownload
             mkdir($this->getFulldir(), 0755, true);
         }
 
-        if ($this->url['args']) {
+        if (!empty($this->url['args'])) {
             $url=$this->url['server'] . '?';
             $params=explode('&',$this->url['args']);
             foreach ($params as $param) {
@@ -97,8 +97,8 @@ class FileDownload
         } else {
             $url = $this->url['server'];
         }
-        echo "curl -v --url $url -o ". $this->getFullbase() . '/' . $path . "\n";
-        system("curl -v --url $url -o ". $this->getFullbase() . '/' . $path);
+        echo "curl -v -k --url $url -o ". $this->getFullbase() . '/' . $path . "\n";
+        system("curl -v -k --url $url -o ". $this->getFullbase() . '/' . $path);
     }
 
     public function getoldFile($path=false)
