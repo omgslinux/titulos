@@ -8,11 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Securities;
 use AppBundle\Form\SecuritiesType;
+use AppBundle\Entity\FundBanks;
 
 /**
  * Securities controller.
  *
- * @Route("/manage/securities/")
+ * @Route("/manage/securities")
  */
 class SecuritiesController extends Controller
 {
@@ -152,4 +153,78 @@ class SecuritiesController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Creates a form to load a Securities entity.
+     *
+     * @param Securities $security The Securities entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createLoadForm(Securities $security)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('manage_securities_delete', array('id' => $security->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+
+    /**
+     * Loads the contents of a csv file into Securities from a FundBanks entity
+     *
+     * @Route("/{id}/load", name="manage_securities_load")
+     * @Method({"GET", "POST"})
+     */
+    public function loadAction(Request $request, FundBanks $fundbank)
+    {
+        $filename = $request->get('filename');
+        $rootdir = $this->getParameter('pdf_rootdir');
+        $full = $rootdir . '/' . $filename;
+        $records = $this->get('app.readcsv')->readcsv($filename);
+        $fields = array(
+            'creditnumber',
+            'startdate',
+            'duration',
+            'amount',
+            'city' =>  array(
+                'entity' => 'Cities'
+            ),
+            'volume',
+            'book',
+            'folio',
+            'building',
+            'page'
+        );
+        print_r($_POST);
+        die(print_r($records));
+
+        sleep(5);
+        $em = $this->getDoctrine()->getManager();
+        foreach ($records as $recordkey => $record) {
+            $security = new Securities($fundbank);
+            foreach ($fields as $fieldkey => $value) {
+            //    echo "field: ($field), v: ($value), record[value]:" . $record[$value] . "\n";
+                if (in_array($value, $fields ))
+                {
+                    if (is_array($value)) {
+                        $object = $em->getRepository('AppBundle:' . $fieldkey['entity'])->findBy(array($value => $record[$value]));
+                        $contents = $object;
+                    } else {
+                        $contents = $record[$value];
+                    }
+                    $function= '$security->set' . ucfirst() . '('.$contents.');';
+                    eval($function);
+                    //$values .= "'" . $record["$value"] . "'";
+                }
+            }
+            $em->persist($security);
+        }
+        $em->flush();
+
+        return $this->redirectToRoute('manage_funds_banks_show', array('id' => $fundbank->getId()));
+
+    }
+
+
 }

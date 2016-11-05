@@ -13,7 +13,7 @@ use AppBundle\Form\FundManagersType;
 /**
  * Laws controller.
  *
- * @Route("/manage/laws/")
+ * @Route("/manage/laws")
  */
 class LawsController extends Controller
 {
@@ -96,10 +96,9 @@ class LawsController extends Controller
             return $this->redirectToRoute('manage_laws_show', array('id' => $law->getId()));
         }
 
-        return $this->render('funds/edit.html.twig', array(
-            'fund' => $fundlinks->getFund(),
+        return $this->render('laws/edit.html.twig', array(
             'h1' => 'Editar enlace a ley',
-            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFund()->getId())),
+            'backlink' => $this->generateUrl('manage_laws_show', array('id' => $law->getId())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()

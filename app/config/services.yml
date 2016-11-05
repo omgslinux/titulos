@@ -13,4 +13,7 @@ services:
             - [setRootdir , ["%kernel.root_dir%"]]
     app.Slugger:
         class: AppBundle\Util\Slugger
-        
+    app.readcsv:
+        class: AppBundle\Util\ReadCSV
+        calls:
+            - [setRootdir , ["%kernel.root_dir%"]]

@@ -47,7 +47,7 @@ class FundLinks
     /**
      * @var url
      *
-     * @ORM\Column(name="URL", type="string", length=100, nullable=false)
+     * @ORM\Column(name="URL", type="string", length=256, nullable=false)
      */
     private $url;
 
@@ -186,9 +186,12 @@ class FundLinks
         return $this->getFund()->getFundname();
     }
 
-    public function getSlugger()
+    public function getSlugger($slugger=false)
     {
-        return Slugger::getSlug($this->getDescription() ,'_');
+        if ($slugger===false) {
+            $slugger = $this->getFundname();
+        }
+        return Slugger::getSlug($slugger ,'_');
     }
 
     public function getFullSlugger()
@@ -202,11 +205,12 @@ class FundLinks
         return $this->getFund()->getFullSlugger() . '/' . $linktype;
     }
 
-    public function getFulldocpath($linktype=false)
+    public function getFulldocpath($linktype=false,$filename=false)
     {
         if ($linktype===false) {
             $linktype=$this->getLinktypeid();
         }
+        // $suffix='_' . strtolower($this->getFundbank()->getLoanTypeAbbreviation());
         switch ($linktype) {
             case '6':
                 // unclean csv
@@ -219,9 +223,11 @@ class FundLinks
             default:
                 # code...
                 $extension='.pdf';
+                $suffix='';
                 break;
         }
-        return $this->getFund()->getDocpath($linktype) . '/' . $this->getSlugger() . $extension;
+        $filename = $this->getSlugger($filename);// . $suffix;
+        return $this->getDocpath($linktype) . '/' . $filename . $extension;
     }
 
     /*
@@ -274,7 +280,7 @@ class FundLinks
 
     public function getFulluncleancsvpath()
     {
-        return $this->getFulldocpath(6);
+        return $this->getFulldocpath(6,$this->getLoadFilename());
     }
 
     public function getCleancsvpath()
@@ -282,9 +288,9 @@ class FundLinks
         return $this->getDocpath(7);
     }
 
-    public function getFullcleancsvpath()
+    public function getFullcleancsvpath($filename)
     {
-        return $this->getFulldocpath(7);
+        return $this->getFulldocpath(7,$filename);
     }
 
     public function getFactspath()

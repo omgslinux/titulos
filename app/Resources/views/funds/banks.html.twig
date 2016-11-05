@@ -12,13 +12,26 @@
     <table>
         <tbody>
            <tr>
-               <th>Tipo préstamo</th>
-               <th>Número préstamos</th>
+                <th>Entidad</th>
+                <th>Tipo préstamo</th>
+                <th>Número préstamos</th>
+                <th>Estado</th>
+                <th>Acción</th>
            </tr>
            <tr>
                <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbanks.id } ) }}">{{ fundbanks.bank }}</a></td>
                <td>{{ fundbanks.loantype }}</td>
                <td>{{ fundbanks.count }}</td>
+               <td>{% if filename %}X</td><td>
+                        {% if securitiescount %}{{ securitiescount }}
+                        {% else %}{{ form_start(download_form) }}
+                               <input type="submit" value="Cargar">
+                               <input type="hidden" value="{{ filename }}">
+                           {{ form_end(download_form) }}
+                       {% endif %}
+                   {% else %}No hay fichero</td>
+                    <td><a href="{{ path('manage_funds_links_new', { 'id': fundbanks.getId }) }}">Crear enlace a CSV</a>
+                   {% endif %}({{ filename }})</td>
            </tr>
         </tbody>
     </table>

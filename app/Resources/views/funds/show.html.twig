@@ -18,7 +18,7 @@
                     <td><a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a></td>
                     <td>{{ fund.fundmanager }}</td>
                     <td>{{ fund.fundtype }}</td>
-                    <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
+                    <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
                     <td>{{ fund.nif }}</td>
                     <td>{{ fund.amount|number_format(2,',','.') }} €</td>
                     <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página principal</a></td>
@@ -45,16 +45,16 @@
                 </tr>
                 <tr>
                     <td><a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos</a></td>
-                    <td>{% if mfund.liqdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.liqdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
-                    <td>{% if mfund.extdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.extdate|date('d/m/Y') }}{% else %}--{% endif %}</td>
+                    <td>{% if mfund.liqdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.liqdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
+                    <td>{% if mfund.extdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.extdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
                     <td>{{ mfund.numrecords }}</td>
                     <td>{% if mfund.openfund == 0 %}Cerrado{% else %}Abierto{% endif %}</td>
                     <td>{{ mfund.loansfirstpage }}</td>
                     <td>{{ mfund.loanslastpage }}</td>
                     <td>{{ mfund.fundpages }}</td>
-                    <td>{% if mfund.legible %}X{% else %}--{% endif %}</td>
-                    <td>{% if mfund.brochure %}X{% else %}--{% endif %}</td>
-                    <td>{% if mfund.digitalizable %}X{% else %}--{% endif %}</td>
+                    <td>{% if mfund.legible %}✔{% else %}✘{% endif %}</td>
+                    <td>{% if mfund.brochure %}✔{% else %}✘{% endif %}</td>
+                    <td>{% if mfund.digitalizable %}✔{% else %}✘{% endif %}</td>
                 </tr>
             </tbody>
         </table>

@@ -7,11 +7,11 @@
         <tbody>
             <tr>
                 <th>Ley</th>
-                <th>Descripción corta</th>
+                <th>Observaciones</th>
             </tr>
             <tr>
-                <td><a href="{{ path('manage_laws_edit', { 'id': laws.id }) }}">{{ laws.shortname }}</a></td>
-                <td>{{ laws.shortname}}</td>
+                <td><a href="{{ path('manage_laws_edit', { 'id': laws.id }) }}">Ley {{ laws.number }}/{{ laws.lawdate|date('Y') }} de {{ laws.lawdate|date('d') }} de {{ laws.lawdate|date('F') }}, {{ laws.shortname }}</a></td>
+                <td>{{ laws.notes }}</td>
             </tr>
         </tbody>
     </table>

@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundBanks;
+use AppBundle\Entity\FundLinks;
+use AppBundle\Entity\Securities;
 use AppBundle\Entity\FundBankTasks;
 use AppBundle\Form\FundBanksType;
 
@@ -30,10 +32,33 @@ class FundBanksController extends Controller
         $em = $this->getDoctrine()->getManager();
         $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findBy(array('fundbank' => $fundbanks->getId()));
 
+        $filename = false;
+        $form = false;
+        $securitiescount=false;
+        if ($fundlinks = $em->getRepository('AppBundle:FundLinks')->findOneBy(array(
+            'fund' => $fundbanks->getFund()->getId(),
+            'linktype' => 7
+            ))) {
+            $filepath = $this->get('app.filedownload');
+            // $filename = $fundlinks->getFulldocpath(7,$fundbanks->getLoadFilename());
+            $filename = $fundlinks->getFullcleancsvpath($fundbanks->getLoadFilename());
+            if (!$filepath->isDocdownloaded($filename)) {
+                $filename = false;
+            }
+            $loadSecurityForm = $this->createLoadSecurityForm($fundbanks);
+            $form = $loadSecurityForm->createView();
+
+            if ($securities= $em->getRepository('AppBundle:Securities')->findBy(array('fundbank' => $fundbanks->getId()))) {
+                $securitiescount = count($securities);
+            }
+        }
 
         return $this->render('funds/banks.html.twig', array(
             'fundbanks' => $fundbanks,
             'banktasks' => $banktasks,
+            'filename' => $filename,
+            'securitiescount' => $securitiescount,
+            'download_form' => $form
         ));
     }
 
@@ -102,6 +127,23 @@ class FundBanksController extends Controller
     }
 
     /**
+     * Creates a form to download a file from CNMV entity.
+     *
+     * @param FundLinks $fundlink The FundLinks entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDownloadForm(\AppBundle\Entity\FundLinks $fundlink)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('manage_funds_links_download', array('id' => $fundlink->getId())))
+            ->setMethod('POST')
+            ->getForm()
+        ;
+    }
+
+
+    /**
      * Creates a new FundBankTasks entity.
      *
      * @Route("/{id}/tasks/new", name="manage_fundbanks_tasks_new")
@@ -127,6 +169,22 @@ class FundBanksController extends Controller
             'action' => 'Crear tarea',
             'create_form' => $createForm->createView(),
         ));
+    }
+
+    /**
+     * Creates a form to load a file into Securities entity
+     *
+     * @param FundBanks $fundbank The FundBanks entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createLoadSecurityForm(FundBanks $fundbank)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('manage_securities_load', array('id' => $fundbank->getId())))
+            ->setMethod('POST')
+            ->getForm()
+        ;
     }
 
 

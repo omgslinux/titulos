@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\LoanTypes;
+use AppBundle\Util\Slugger;
 
 /**
  * FundBanks
@@ -107,6 +108,26 @@ class FundBanks
     {
         return $this->getBank()->getShortname();
     }
+
+    public function getBankfilename()
+    {
+        if ($this->getBank()->getAcronym() != 'X') {
+            return $this->getBank()->getAcronym();
+        } else {
+            return $this->getBank()->getShortname();
+        }
+    }
+
+    public function getLoadFilename()
+    {
+        return Slugger::getSlug($this->getBankfilename().'_'.$this->getLoanTypeAbbreviation());
+    }
+
+    public function getLoanTypeAbbreviation()
+    {
+        return $this->getLoantype()->getAbbreviation();
+    }
+
 
     /**
      * Set bank

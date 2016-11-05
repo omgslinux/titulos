@@ -31,6 +31,13 @@ class Securities
     private $fundbank;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string",length=32,nullable=true)
+     */
+    private $creditnumber;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="date")
@@ -93,6 +100,13 @@ class Securities
      */
     private $page;
 
+
+
+
+    public function __construct(FundBanks $fundbank = null)
+    {
+        $this->setFundbank($fundbank);
+    }
 
     /**
      * Get id

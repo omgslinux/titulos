@@ -200,11 +200,6 @@ class Funds
         return $this->fundtype;
     }
 
-    public function setFundTypeId($fundtypeid)
-    {
-        $this->fundtype = $fundtypeid;
-    }
-
     /**
      * Set nif
      *

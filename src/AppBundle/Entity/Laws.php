@@ -40,14 +40,14 @@ class Laws
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=128)
      */
     private $shortname;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=255)
      */
     private $longname;
 
@@ -56,7 +56,21 @@ class Laws
      *
      * @ORM\Column(type="text")
      */
+    private $notes;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     */
     private $contents;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text")
+     */
+    private $analysis;
 
 
 
@@ -168,6 +182,30 @@ class Laws
     }
 
     /**
+     * Set notes
+     *
+     * @param text $notes
+     *
+     * @return Laws
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes
+     *
+     * @return text
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
      * Set contents
      *
      * @param text $contents
@@ -189,6 +227,30 @@ class Laws
     public function getContents()
     {
         return $this->contents;
+    }
+
+    /**
+     * Set analysis
+     *
+     * @param text $analysis
+     *
+     * @return Laws
+     */
+    public function setAnalysis($analysis)
+    {
+        $this->analysis = $analysis;
+
+        return $this;
+    }
+
+    /**
+     * Get analysis
+     *
+     * @return text
+     */
+    public function getAnalysis()
+    {
+        return $this->analysis;
     }
 
 
