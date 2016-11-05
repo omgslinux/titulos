@@ -40,14 +40,14 @@ class UsersController extends Controller
      * @Route("/{id}", name="manage_users_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request,Users $users)
+    public function showAction(Request $request,Users $user)
     {
         $em = $this->getDoctrine()->getManager();
     //    $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findAll(array('fundbank' => $fundbanks->getId()));
 
 
         return $this->render('users/show.html.twig', array(
-            'users' => $users,
+            'user' => $user,
         ));
     }
 
@@ -57,23 +57,28 @@ class UsersController extends Controller
      * @Route("/{id}/edit", name="manage_users_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,Users $users)
+    public function editAction(Request $request,Users $user)
     {
 //        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
-        $deleteForm = $this->createDeleteForm($users);
-        $editform = $this->createForm('AppBundle\Form\UsersType', $users);
+        $deleteForm = $this->createDeleteForm($user);
+        $editform = $this->createForm('AppBundle\Form\UsersType', $user, array('require_password' => false));
         $editform->handleRequest($request);
 
         if ($editform->isSubmitted() && $editform->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($users);
+            if (null != $user->getPlainpassword()) {
+                $encoder = $this->get('security.password_encoder');
+                $encodedPassword = $encoder->encodePassword($user,$user->getPlainpassword());
+                $user->setPassword($encodedPassword);
+            }
+            $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('manage_users_show', array('id' => $users->getId()));
+            return $this->redirectToRoute('manage_users_show', array('id' => $user->getId()));
         }
 
         return $this->render('users/edit.html.twig', array(
-            'users' => $users,
+            'users' => $user,
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -124,20 +129,23 @@ class UsersController extends Controller
     public function newAction(Request $request)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $users = new Users;
-        $createForm = $this->createForm('AppBundle\Form\RolesType', $users);
+        $user = new Users;
+        $createForm = $this->createForm('AppBundle\Form\RolesType', $user);
         $createForm->handleRequest($request);
 
         if ($createForm->isSubmitted() && $createForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($users);
+            $encoder = $this->get('security.password_encoder');
+            $encodedPassword = $encoder->encodePassword($user,$user->getPlainpassword());
+            $user->setPassword($encodedPassword);
+            $em->persist($user);
             $em->flush();
 
             return $this->redirectToRoute('manage_users_index');
         }
 
         return $this->render('users/edit.html.twig', array(
-            'users' => $users,
+            'users' => $user,
             'roles' => array('EDITOR', 'MANAGER','ADMIN'),
             'action' => 'Crear usuario',
             'create_form' => $createForm->createView(),

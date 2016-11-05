@@ -7,15 +7,13 @@
         <thead>
             <tr>
                 <th>Número</th>
-                <th>Fecha</th>
                 <th>Descripción</th>
             </tr>
         </thead>
         <tbody>
         {% for law in laws %}
             <tr>
-                <td>{{ law.number }}</td>
-                <td>{{ law.lawdate|date('d/m/Y') }}</td>
+                <td>{{ law }}</td>
                 <td><a href="{{ path('manage_laws_show', { 'id': law.id }) }}">{{ law.shortname }}</a></td>
             </tr>
         {% endfor %}

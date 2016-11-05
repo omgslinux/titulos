@@ -256,9 +256,9 @@ class Laws
 
     public function __toString()
     {
-        return $this->getShortname();
+        //return $this->getShortname();
         //return $this->getNumber() . '/'. $d->format("d");
-        //return $this->getNumber() . '/'. strftime('%Y',mktime($this->getLawdate())) . ' de ' . strftime('%d %B', $this->getLawdate()->getTimestamp());
+        return $this->getNumber() . '/'. $this->getLawdate()->format('Y') . ' de ' . $this->getLawdate()->format('d'). ' de ' . $this->getLawdate()->format('F');
     }
 
 }

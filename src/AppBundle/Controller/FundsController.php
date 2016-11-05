@@ -309,37 +309,6 @@ class FundsController extends Controller
     }
 
 
-    /**
-     * Creates a new FundLinks entity.
-     *
-     * @Route("/{id}/links/new", name="manage_funds_links_new")
-     * @Method({"GET", "POST"})
-     */
-    public function linksnewAction(Request $request,Funds $fund)
-    {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $fundlinks = new FundLinks($fund);
-        $form = $this->createForm('AppBundle\Form\FundLinksType', $fundlinks);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fundlinks);
-            $em->flush();
-
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFundid()));
-        }
-
-        return $this->render('funds/edit.html.twig', array(
-            'fund' => $fund,
-            'h1' => 'Crear enlace ',
-            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
-            'backmessage' => 'Volver al listado',
-            'create_form' => $form->createView(),
-        ));
-
-    }
-
 
 
 

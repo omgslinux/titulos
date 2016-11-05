@@ -40,23 +40,29 @@ class Users implements UserInterface
     /**
      * @var password
      *
-     * @ORM\Column(type="string",length=64)
+     * @ORM\Column(type="string",length=255)
      */
     private $password;
 
     /**
+     * @var string
+     *
+     */
+    private $plainpassword;
+
+    /**
      * @var email
      *
-     * @ORM\Column(type="string",length=64)
+     * @ORM\Column(type="string",length=128)
      */
     private $email;
 
     /**
-     * @var isactive
+     * @var boolean
      *
      * @ORM\Column(type="boolean")
      */
-    private $isactive;
+    private $active;
 
     /**
     * @var Roles
@@ -131,6 +137,18 @@ class Users implements UserInterface
     }
 
     /**
+     * Set password
+     *
+     * @return Users
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
      * Get password
      *
      * @return password
@@ -140,9 +158,31 @@ class Users implements UserInterface
         return $this->password;
     }
 
+    /**
+     * Get plainpassword
+     *
+     * @return string
+     */
+    public function getPlainpassword()
+    {
+        return $this->plainpassword;
+    }
+
+    /**
+     * Set plainpassword
+     *
+     * @return Users
+     */
+    public function setPlainpassword($plainpassword)
+    {
+        $this->plainpassword = $plainpassword;
+
+        return $this;
+    }
+
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return array('ROLE_ADMIN');
     }
 
     public function eraseCredentials()
@@ -200,25 +240,25 @@ class Users implements UserInterface
     /**
      * Set isactive
      *
-     * @param boolean $isactive
+     * @param boolean $active
      *
      * @return Users
      */
-    public function setIsactive($isactive)
+    public function setActive($active)
     {
-        $this->isactive = $isactive;
+        $this->active = $active;
 
         return $this;
     }
 
     /**
-     * Get isactive
+     * Get active
      *
      * @return boolean
      */
-    public function getIsactive()
+    public function isActive()
     {
-        return $this->isactive;
+        return $this->active;
     }
 
     /**

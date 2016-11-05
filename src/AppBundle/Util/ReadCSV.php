@@ -68,7 +68,6 @@ class ReadCSV
         } else {
             die(print_r($data));
         }
-        print_r($data);
         return $data;
     }
 

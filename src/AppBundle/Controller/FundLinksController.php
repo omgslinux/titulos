@@ -13,7 +13,7 @@ use AppBundle\Form\FundLinksType;
 /**
  * FundLinks controller.
  *
- * @Route("/manage/funds/links")
+ * @Route("/manage/funds")
  */
 class FundLinksController extends Controller
 {
@@ -21,7 +21,7 @@ class FundLinksController extends Controller
     /**
      * Creates a form to edit a FundLinks entity.
      *
-     * @Route("/{id}/edit", name="manage_funds_links_edit")
+     * @Route("/links/{id}/edit", name="manage_funds_links_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request,FundLinks $fundlinks)
@@ -52,7 +52,7 @@ class FundLinksController extends Controller
     /**
      * Finds and displays a FundLinks entity.
      *
-     * @Route("/{id}", name="manage_funds_links_show")
+     * @Route("/links/{id}", name="manage_funds_links_show")
      * @Method("GET")
      */
     public function showAction(FundLinks $fundlinks)
@@ -72,7 +72,7 @@ class FundLinksController extends Controller
     /**
      * Deletes a FundLinks entity.
      *
-     * @Route("/{id}", name="manage_funds_links_delete")
+     * @Route("/links/{id}", name="manage_funds_links_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, FundLinks $fundlinks)
@@ -126,7 +126,7 @@ class FundLinksController extends Controller
     /**
      * Displays a form to download a file.
      *
-     * @Route("/{id}/download", name="manage_funds_links_download")
+     * @Route("/links/{id}/download", name="manage_funds_links_download")
      * @Method({"GET", "POST"})
      */
     public function downloadAction(Request $request, FundLinks $fundlink)
@@ -144,6 +144,38 @@ class FundLinksController extends Controller
 
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlink->getFund()->getId()));
         }
+
+    }
+
+    /**
+     * Creates a new FundLinks entity.
+     *
+     * @Route("/{id}/links/new", name="manage_funds_links_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request,Funds $fund)
+    {
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $fundlinks = new FundLinks();
+        $fund->addLink($fundlinks);
+        $form = $this->createForm('AppBundle\Form\FundLinksType', $fundlinks);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fundlinks);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFundid()));
+        }
+
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'h1' => 'Crear enlace ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
+        ));
 
     }
 

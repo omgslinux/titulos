@@ -9,7 +9,7 @@ security:
         our_db_provider:
             entity:
                 class: AppBundle:Users
-                # property: username
+                property: username
                 # if you're using multiple entity managers
                 # manager_name: customer
 
@@ -32,7 +32,7 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
     access_control:
         # require ROLE_ADMIN for /admin*
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manage, roles: ROLE_ADMIN }
 
     encoders:
         AppBundle\Entity\Users:

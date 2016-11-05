@@ -5,11 +5,13 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class UsersType extends AbstractType implements UserInterface
+class UsersType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,17 +21,22 @@ class UsersType extends AbstractType implements UserInterface
     {
         $builder
             ->add('username')
-            ->add('oldPlainPassword', PasswordType::class, array(
-    'constraints' => array(
-        new \Symfony\Component\Security\Core\Validator\Constraints\UserPassword(),
-    ),
-    'mapped' => false,
-    'required' => true,
-    'label' => 'Current Password',
-))
+            ->add('plainpassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'required' => $options['require_password'],
+                'first_options' => array(
+                    'label' => 'users.password',
+                ),
+                'second_options' => array(
+                    'label' => 'users.confirmpassword',
+                )
+            ))
+            ->add('rol', EntityType::class, array (
+                'class' => 'AppBundle:Roles',
+                'label' => 'Rol'))
             ->add('fullname')
             ->add('email')
-            ->add('isactive')
+            ->add('active')
         ;
     }
 
@@ -39,7 +46,8 @@ class UsersType extends AbstractType implements UserInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Users'
+            'data_class' => 'AppBundle\Entity\Users',
+            'require_password' => true,
         ));
     }
 }

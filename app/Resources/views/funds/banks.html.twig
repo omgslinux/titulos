@@ -26,8 +26,8 @@
                         {% if securitiescount %}{{ securitiescount }}
                         {% else %}{{ form_start(download_form) }}
                                <input type="submit" value="Cargar">
-                               <input type="hidden" value="{{ filename }}">
-                           {{ form_end(download_form) }}
+                               <input name="filename" type="hidden" value="{{ filename|url_encode }}">
+                           {{ form_end(download_form) }}<a href="{{ path('manage_securities_load', { 'id': fundbanks.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
                        {% endif %}
                    {% else %}No hay fichero</td>
                     <td><a href="{{ path('manage_funds_links_new', { 'id': fundbanks.getId }) }}">Crear enlace a CSV</a>

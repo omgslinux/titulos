@@ -33,8 +33,9 @@ class FundsType extends AbstractType
                 'label' => 'Tipo de fondo'))
             ->add('nif')
             ->add('constdate', DateType::class, array(
+                'widget' => 'single_text',
                 'years' => range(1980, date('Y')),
-                'label' => 'Fecha de constitución'
+                'label' => 'Fecha de constitución',
                 ))
             ->add('amount', MoneyType::class, array('label' => 'Importe del fondo'))
             ->add('cnmvpdf', TextType::class, array('label' => 'Cadena URL a PDF (entre {})'))

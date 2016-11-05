@@ -26,7 +26,7 @@ class FundLinks
     /**
      * @var Funds
      *
-     * @ORM\ManyToOne(targetEntity="Funds")
+     * @ORM\ManyToOne(targetEntity="Funds", inversedBy="links")
      */
     private $fund;
 
@@ -51,11 +51,6 @@ class FundLinks
      */
     private $url;
 
-
-    public function __construct(Funds $fund)
-    {
-        return $this->setFund($fund);
-    }
 
     /**
      * Get id

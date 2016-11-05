@@ -178,7 +178,7 @@ class SecuritiesController extends Controller
      */
     public function loadAction(Request $request, FundBanks $fundbank)
     {
-        $filename = $request->get('filename');
+        $filename = urldecode($request->get('filename'));
         $rootdir = $this->getParameter('pdf_rootdir');
         $full = $rootdir . '/' . $filename;
         $records = $this->get('app.readcsv')->readcsv($filename);

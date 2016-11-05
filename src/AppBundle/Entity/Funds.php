@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\FundManagers;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Entity\FundTypes;
+use AppBundle\Entity\FundLinks;
 use AppBundle\Util\Slugger;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Funds
@@ -87,6 +89,18 @@ class Funds
      * @ORM\Column(type="string",length=64,nullable=true)
      */
      private $cnmvpdf;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundLinks", mappedBy="fund")
+     */
+     private $links;
+
+     public function __construct()
+     {
+         $this->links = new ArrayCollection();
+     }
 
 
     /**
@@ -319,6 +333,45 @@ class Funds
     public function getCNMVPDF()
     {
         return $this->cnmvpdf;
+    }
+
+    /**
+     * Get links
+     *
+     * @return ArrayCollection
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
+
+    /**
+     * Add links
+     *
+     * @param FundLinks $fundlink
+     *
+     * @return Funds
+     */
+    public function addLink(FundLinks $fundlink)
+    {
+        $this->links->add($fundlink);
+        $fundlink->setFund($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove links
+     *
+     * @param FundLinks $fundlink
+     *
+     * @return Funds
+     */
+    public function removeLink(FundLinks $fundlink)
+    {
+        $this->links->removeElement($fundlink);
+
+        return $this;
     }
 
     public function getCNMVLink()
