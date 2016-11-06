@@ -88,19 +88,33 @@ class Funds
      *
      * @ORM\Column(type="string",length=64,nullable=true)
      */
-     private $cnmvpdf;
+    private $cnmvpdf;
 
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="FundLinks", mappedBy="fund")
      */
-     private $links;
+    private $links;
 
-     public function __construct()
-     {
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundBanks", mappedBy="fund")
+     */
+    private $banks;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundLaws", mappedBy="fund")
+     */
+    private $laws;
+
+    public function __construct()
+    {
          $this->links = new ArrayCollection();
-     }
+    }
 
 
     /**
@@ -374,6 +388,45 @@ class Funds
         return $this;
     }
 
+    /**
+     * Get banks
+     *
+     * @return ArrayCollection
+     */
+    public function getBanks()
+    {
+        return $this->banks;
+    }
+
+    /**
+     * Add banks
+     *
+     * @param FundBanks $bank
+     *
+     * @return Funds
+     */
+    public function addBank(FundBanks $fundbank)
+    {
+        $this->banks->add($fundbank);
+        $fundbank->setFund($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove banks
+     *
+     * @param FundBanks $fundbank
+     *
+     * @return Funds
+     */
+    public function removeBank(FundBanks $fundbank)
+    {
+        $this->banks->removeElement($fundbank);
+
+        return $this;
+    }
+
     public function getCNMVLink()
     {
         return 'http://www.cnmv.es/Portal/Consultas/DatosEntidad.aspx?nif=' . $this->getNif();
@@ -390,7 +443,7 @@ class Funds
 
     public function getSlugger()
     {
-        return Slugger::getSlug($this->getFundname(),'_');
+        return Slugger::getSlug($this->getFundname(), '_');
     }
 
     public function getFullSlugger()
@@ -399,16 +452,15 @@ class Funds
         return $this->getFundmanager()->getSlugger(). '/'. $this->getSlugger();
     }
 
-    public function getDocpath($linktype=1)
+    public function getDocpath($linktype = 1)
     {
         return $this->getFullSlugger() . '/' . $linktype;
     }
 
-    public function getFulldocpath($linktype=1)
+    public function getFulldocpath($linktype = 1)
     {
         return $this->getDocpath($linktype) . '/' . $this->getSlugger() . '.pdf';
     }
-
 
 
 

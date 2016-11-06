@@ -22,7 +22,7 @@ class FundLawsController extends Controller
      * @Route("/{id}/edit", name="manage_funds_laws_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,FundLaws $fundlaw)
+    public function editAction(Request $request, FundLaws $fundlaw)
     {
         $deleteForm = $this->createDeleteForm($fundlaw);
         $editForm = $this->createForm('AppBundle\Form\FundLawsType', $fundlaw);
@@ -44,7 +44,6 @@ class FundLawsController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         ));
-
     }
 
     /**

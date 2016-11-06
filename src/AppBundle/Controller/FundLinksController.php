@@ -24,7 +24,7 @@ class FundLinksController extends Controller
      * @Route("/links/{id}/edit", name="manage_funds_links_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,FundLinks $fundlinks)
+    public function editAction(Request $request, FundLinks $fundlinks)
     {
         $deleteForm = $this->createDeleteForm($fundlinks);
         $editForm = $this->createForm('AppBundle\Form\FundLinksType', $fundlinks);
@@ -46,7 +46,6 @@ class FundLinksController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         ));
-
     }
 
     /**
@@ -144,7 +143,6 @@ class FundLinksController extends Controller
 
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlink->getFund()->getId()));
         }
-
     }
 
     /**
@@ -153,7 +151,7 @@ class FundLinksController extends Controller
      * @Route("/{id}/links/new", name="manage_funds_links_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request,Funds $fund)
+    public function newAction(Request $request, Funds $fund)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $fundlinks = new FundLinks();
@@ -176,10 +174,5 @@ class FundLinksController extends Controller
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
-
     }
-
-
-
-
 }

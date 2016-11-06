@@ -4,7 +4,6 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-// use AppBundle\Entity\FundManagers;
 
 class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -23,16 +22,15 @@ class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
     {
         $fieldlist = 'shortname,longname';
         $table = 'banks';
-        $this->manage($fieldlist,$table);
+        $this->manage($fieldlist, $table);
         $this->dump2bd($manager);
     }
 
-    public function manage($fieldlist,$table,$csvfile = null)
+    public function manage($fieldlist, $table, $csvfile = null)
     {
         $this->fieldlist=$fieldlist;
         $this->table = $table;
-        if (is_null($csvfile))
-        {
+        if (is_null($csvfile)) {
             $csvfile = "$table";
         }
         $this->csvfile = "${csvfile}.csv";
@@ -40,7 +38,7 @@ class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
 
     public function dump2bd(ObjectManager $manager)
     {
-        $fields=explode(',',$this->fieldlist);
+        $fields=explode(',', $this->fieldlist);
         print_r($fields);
         $records = $this->readcsv($this->csvfile);
         $counter=0;
@@ -52,8 +50,7 @@ class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
             $fcounter=count($fields);
             foreach ($fields as $field => $value) {
                 echo "field: ($field), v: ($value), record[value]:" . $record[$value] . "\n";
-                if (in_array($value, $fields ))
-                {
+                if (in_array($value, $fields)) {
                     $values .= "'" . $record["$value"] . "'";
                 }
                 $fcounter--;
@@ -67,20 +64,19 @@ class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
             $stmt = $manager->getConnection()->prepare($sql);
             $result = $stmt->execute();
         }
-
     }
 
     public function readcsv($csvfile)
     {
         // print getcwd();
-        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== FALSE) {
+        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== false) {
             $headers = array();
             $data = array();
             $row = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
                 $row++;
                 $column = 0;
-                if ( $row === 1 ) {
+                if ($row === 1) {
                     $num = count($line);
                     // echo "<p> $num fields in line $row: <br /></p>\n";
                     foreach ($line as $key) {
@@ -94,7 +90,6 @@ class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
                     }
                 }
             }
-
         }
         return $data;
     }

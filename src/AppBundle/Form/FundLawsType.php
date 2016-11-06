@@ -23,16 +23,14 @@ class FundLawsType extends AbstractType
             ->add('law', EntityType::class, array(
                 'class' => 'AppBundle:Laws',
                 'label' => 'Ley'
-                )
-            )
+                ))
             ->add('notes', TextareaType::class, array(
                 'label' => 'Observaciones',
                 'attr' => array(
                     'cols' => 100,
                     'rows' => 10
                     )
-                )
-            )
+                ))
         ;
     }
 

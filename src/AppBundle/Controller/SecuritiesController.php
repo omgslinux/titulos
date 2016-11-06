@@ -205,8 +205,7 @@ class SecuritiesController extends Controller
             $security = new Securities($fundbank);
             foreach ($fields as $fieldkey => $value) {
             //    echo "field: ($field), v: ($value), record[value]:" . $record[$value] . "\n";
-                if (in_array($value, $fields ))
-                {
+                if (in_array($value, $fields)) {
                     if (is_array($value)) {
                         $object = $em->getRepository('AppBundle:' . $fieldkey['entity'])->findBy(array($value => $record[$value]));
                         $contents = $object;
@@ -223,8 +222,5 @@ class SecuritiesController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('manage_funds_banks_show', array('id' => $fundbank->getId()));
-
     }
-
-
 }

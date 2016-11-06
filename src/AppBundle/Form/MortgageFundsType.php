@@ -23,7 +23,7 @@ class MortgageFundsType extends AbstractType
             ->add('openfund', CheckboxType::class, array(
                 'required' => false,
                 'label' => 'Fondo abierto'))
-            ->add('loansfirstpage',IntegerType::class, array('label' => 'Primera página de préstamos'))
+            ->add('loansfirstpage', IntegerType::class, array('label' => 'Primera página de préstamos'))
             ->add('loanslastpage', IntegerType::class, array('label' => 'Última página de prestamos'))
             ->add('fundpages', IntegerType::class, array('label' => 'Número de páginas del fondo'))
             ->add('legible', CheckboxType::class, array(
@@ -37,8 +37,7 @@ class MortgageFundsType extends AbstractType
                 'label' => '¿Hay folleto?'))
             ->add('liqdate', DateType::class, array(
                 'label' => 'Fecha de liquidación',
-                'years' => range(1980, date('Y')))
-                )
+                'years' => range(1980, date('Y'))))
             ->add('extdate', DateType::class, array(
                 'label' => 'Fecha de extinción',
                 'years' => range(1980, date('Y'))))

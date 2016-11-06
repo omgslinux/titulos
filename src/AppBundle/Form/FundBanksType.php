@@ -28,8 +28,7 @@ class FundBanksType extends AbstractType
                         ->orderBy('u.shortname', 'ASC');
                 },
                 'choice_label' => 'shortname',
-                )
-            )
+                ))
             ->add('loantype', EntityType::class, array(
                 'class' => 'AppBundle:LoanTypes',
                 'label' => 'Tipo de préstamo'

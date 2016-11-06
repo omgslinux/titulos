@@ -161,5 +161,4 @@ class FundManagers
     {
         return $this->getShortName();
     }
-
 }

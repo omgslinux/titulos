@@ -24,7 +24,7 @@ class FundBankTasksController extends Controller
      * @Route("/{id}", name="manage_fundbanks_tasks_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request,FundBankTasks $banktasks)
+    public function showAction(Request $request, FundBankTasks $banktasks)
     {
         $em = $this->getDoctrine()->getManager();
         $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findOneBy(array('id' => $fundbanks->getBankid()));
@@ -42,7 +42,7 @@ class FundBankTasksController extends Controller
      * @Route("/{id}/edit", name="manage_fundbanks__tasks_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,FundBankTasks $banktasks)
+    public function editAction(Request $request, FundBankTasks $banktasks)
     {
 //        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
         $deleteForm = $this->createDeleteForm($banktasks);

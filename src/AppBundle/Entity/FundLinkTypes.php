@@ -97,7 +97,7 @@ class FundLinkTypes
 
     public function getSlugger()
     {
-        return Slugger::getSlug($this->getLinktype() , '_');
+        return Slugger::getSlug($this->getLinktype(), '_');
     }
 
     public function __toString()

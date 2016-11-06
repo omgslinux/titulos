@@ -29,7 +29,7 @@ class FundBanks
     /**
      * @var Funds
      *
-     * @ORM\ManyToOne(targetEntity="Funds")
+     * @ORM\ManyToOne(targetEntity="Funds", inversedBy="banks")
      */
     private $fund;
 
@@ -202,5 +202,4 @@ class FundBanks
     {
         return $this->count;
     }
-
 }

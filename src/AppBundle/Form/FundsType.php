@@ -23,7 +23,7 @@ class FundsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fundname',TextType::class, array('label' => 'Nombre corto del fondo') )
+            ->add('fundname', TextType::class, array('label' => 'Nombre corto del fondo'))
             ->add('fundlongname', TextType::class, array ('label' => 'Nombre completo del fondo'))
             ->add('fundmanager', EntityType::class, array (
                 'class' => 'AppBundle:FundManagers',

@@ -23,8 +23,7 @@ class FundLinksType extends AbstractType
             ->add('linktype', EntityType::class, array(
                 'class' => 'AppBundle:FundLinkTypes',
                 'label' => 'Tipo de enlace'
-                )
-            )
+                ))
             ->add('description', TextareaType::class, array(
                 'label' => 'Descripción',
                 'attr' => array(
@@ -33,8 +32,7 @@ class FundLinksType extends AbstractType
             ))
             ->add('URL', UrlType::class, array(
                 'label' => 'URL'
-                )
-            )
+            ))
         ;
     }
 

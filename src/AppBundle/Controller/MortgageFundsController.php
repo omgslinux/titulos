@@ -24,7 +24,7 @@ class MortgageFundsController extends Controller
      * @Route("/{id}/edit", name="manage_funds_extra_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,MortgageFunds $mfund)
+    public function editAction(Request $request, MortgageFunds $mfund)
     {
         $deleteForm = $this->createDeleteForm($mfund);
         $editform = $this->createForm('AppBundle\Form\MortgageFundsType', $mfund);
@@ -80,5 +80,4 @@ class MortgageFundsController extends Controller
             ->getForm()
         ;
     }
-
 }

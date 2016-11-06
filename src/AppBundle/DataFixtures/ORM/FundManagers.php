@@ -80,14 +80,14 @@ class FundManagersLoader extends AbstractFixture implements OrderedFixtureInterf
 
     public function readcsv($file)
     {
-        if (($handle = fopen("$file", "r")) !== FALSE) {
+        if (($handle = fopen("$file", "r")) !== false) {
             $headers = array();
             $data = array();
             $row = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
                 $row++;
                 $column = 0;
-                if ( $row === 1 ) {
+                if ($row === 1) {
                     $num = count($line);
                     echo "<p> $num fields in line $row: <br /></p>\n";
                     foreach ($line as $key) {

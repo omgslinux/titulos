@@ -15,15 +15,11 @@ class SecuritiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fundId')
-            ->add('credito')
-            ->add('loantypeId')
-            ->add('bankId')
-            ->add('date', 'datetime')
+            ->add('creditnumber')
+            ->add('startdate', DateTime::class)
             ->add('duration')
-            ->add('municipioId')
-            ->add('loanamount')
             ->add('registration')
+            ->add('amount')
             ->add('volume')
             ->add('book')
             ->add('folio')
@@ -31,7 +27,7 @@ class SecuritiesType extends AbstractType
             ->add('page')
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

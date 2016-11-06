@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: es
-    pdf_rootdir: "%kernel.root_dir%/../web/app/Resources/pdf"
+    pdf_rootdir: "%kernel.root_dir%/../web/pdf"
 
 framework:
     #esi:             ~

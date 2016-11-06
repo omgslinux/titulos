@@ -25,10 +25,9 @@ class FileDownload
 
     public function setUrl($url)
     {
-        if ($server=strstr($url,'?',true))
-        {
+        if ($server=strstr($url, '?', true)) {
             $this->url['server']=$server;
-            $param=substr(strstr($url, '?'),1);
+            $param=substr(strstr($url, '?'), 1);
             $this->url['args'] = $param;
         } else {
             $this->url=array('server' => $url);
@@ -65,13 +64,11 @@ class FileDownload
         }
     }
 
-    public function getFile($path=false)
+    public function getFile($path = false)
     {
-        if ($path===false)
-        {
+        if ($path===false) {
             $path = $this->path;
-        }
-        else {
+        } else {
             $this->path = $path;
         }
         echo "basedir: " . $this->basedir . "\n";
@@ -81,17 +78,16 @@ class FileDownload
         echo "getFulldir: " . $this->getFulldir() . "\n";
         // print getcwd();
 
-        if (!is_dir($this->getFulldir()))
-        {
+        if (!is_dir($this->getFulldir())) {
             mkdir($this->getFulldir(), 0755, true);
         }
 
         if (!empty($this->url['args'])) {
             $url=$this->url['server'] . '?';
-            $params=explode('&',$this->url['args']);
+            $params=explode('&', $this->url['args']);
             foreach ($params as $param) {
-                $key = strstr($param, '=' , true);
-                $value = substr(strstr($param,'='), 1);
+                $key = strstr($param, '=', true);
+                $value = substr(strstr($param, '='), 1);
                 $url.="$key=" . rawurlencode($value);
             }
         } else {
@@ -101,13 +97,11 @@ class FileDownload
         system("curl -v -k --url $url -o ". $this->getFullbase() . '/' . $path);
     }
 
-    public function getoldFile($path=false)
+    public function getoldFile($path = false)
     {
-        if ($path===false)
-        {
+        if ($path===false) {
             $path = $this->path;
-        }
-        else {
+        } else {
             $this->path = $path;
         }
         echo "basedir: " . $this->basedir . "\n";
@@ -119,19 +113,18 @@ class FileDownload
         //$path = '/path/to/a-large-file.zip';
         // print getcwd();
 
-        if (!is_dir($this->getFulldir()))
-        {
+        if (! is_dir($this->getFulldir())) {
             mkdir($this->getFulldir(), 0755, true);
         }
 
         $fp = fopen($this->getFullbase() . '/' . $path, 'w');
         $this->ch = curl_init();
-    	$this->setopt(CURLOPT_SSL_VERIFYPEER, FALSE);
-    	$this->setopt(CURLOPT_FOLLOWLOCATION, TRUE);
-    	$this->setopt(CURLOPT_MAXREDIRS, 4);
-    	$this->setopt(CURLOPT_RETURNTRANSFER, TRUE);
-        $this->setopt(CURLOPT_HTTPGET,TRUE);
-    	$this->setopt(CURLOPT_HTTPHEADER, array('Content-Type: application/pdf'));
+        $this->setopt(CURLOPT_SSL_VERIFYPEER, false);
+        $this->setopt(CURLOPT_FOLLOWLOCATION, true);
+        $this->setopt(CURLOPT_MAXREDIRS, 4);
+        $this->setopt(CURLOPT_RETURNTRANSFER, true);
+        $this->setopt(CURLOPT_HTTPGET, true);
+        $this->setopt(CURLOPT_HTTPHEADER, array('Content-Type: application/pdf'));
 //            $this->setopt(CURLOPT_BINARYTRANSFER,TRUE);
 //            $this->setopt(CURLOPT_FILETIME,TRUE);
 //        $this->setopt(CURLOPT_VERBOSE,TRUE);
@@ -139,10 +132,10 @@ class FileDownload
 //            $this->setopt(CURLOPT_TIMEOUT, 100);
         if ($this->url['args']) {
             $url=$this->url['server'] . '?';
-            $params=explode('&',$this->url['args']);
+            $params=explode('&', $this->url['args']);
             foreach ($params as $param) {
-                $key = strstr($param, '=' , true);
-                $value = substr(strstr($param,'='), 1);
+                $key = strstr($param, '=', true);
+                $value = substr(strstr($param, '='), 1);
                 $url.="$key=" . rawurlencode($value);
             }
         } else {
@@ -152,9 +145,9 @@ class FileDownload
             //$this->setopt(CURLOPT_POSTFIELDS,$this->url['args']);
         $this->setopt(CURLOPT_FILE, $fp);
     //        curl_exec($ch);
-        if ( ! curl_exec($this->ch)) {
-        	$return_array['STATUS'] = curl_getinfo($this->ch);
-        	$return_array['ERROR']  = curl_error($this->ch);
+        if (! curl_exec($this->ch)) {
+            $return_array['STATUS'] = curl_getinfo($this->ch);
+            $return_array['ERROR']  = curl_error($this->ch);
             curl_close($this->ch);
             fclose($fp);
             print_r($return_array);
@@ -166,7 +159,7 @@ class FileDownload
             return system("curl -v --url $url -o ". $this->getFullbase() . '/' . $path);
             //return "Error";
         }
-    	 /* curl_setopt($ch, CURLOPT_URL, $target);
+     /* curl_setopt($ch, CURLOPT_URL, $target);
 	curl_setopt($ch, CURLOPT_REFERER, $ref);
 	curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -184,7 +177,7 @@ class FileDownload
             */
     }
 
-    public function setopt($option,$value)
+    public function setopt($option, $value)
     {
         curl_setopt($this->ch, $option, $value);
     }

@@ -21,7 +21,7 @@ class FundManagersType extends AbstractType
             ->add('nif')
             ->add('address')
             ->add('capitalsocial')
-            ->add('regdate',DateType::class, array(
+            ->add('regdate', DateType::class, array(
                 'years' => range(1980, date('Y'))))
             ->add('description')
         ;

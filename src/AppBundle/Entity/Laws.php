@@ -260,5 +260,4 @@ class Laws
         //return $this->getNumber() . '/'. $d->format("d");
         return $this->getNumber() . '/'. $this->getLawdate()->format('Y') . ' de ' . $this->getLawdate()->format('d'). ' de ' . $this->getLawdate()->format('F');
     }
-
 }

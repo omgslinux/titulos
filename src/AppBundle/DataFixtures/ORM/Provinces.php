@@ -50,7 +50,7 @@ class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
 
     public function qbdump(ObjectManager $manager)
     {
-        $fields=explode(',',$this->fieldlist);
+        $fields=explode(',', $this->fieldlist);
         print_r($fields);
         $records = $this->readcsv($this->csvfile);
         $counter=0;
@@ -62,8 +62,7 @@ class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
             $fcounter=count($fields);
             foreach ($fields as $field => $value) {
                 echo "field: ($field), v: ($value), record[value]:" . $record[$value] . "\n";
-                if (in_array($value, $fields ))
-                {
+                if (in_array($value, $fields)) {
                     $values .= "'" . $record["$value"] . "'";
                 }
                 $fcounter--;
@@ -77,20 +76,19 @@ class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
             $stmt = $manager->getConnection()->prepare($sql);
             $result = $stmt->execute();
         }
-
     }
 
     public function readcsv($csvfile)
     {
         // print getcwd();
-        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== FALSE) {
+        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== false) {
             $headers = array();
             $data = array();
             $row = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
                 $row++;
                 $column = 0;
-                if ( $row === 1 ) {
+                if ($row === 1) {
                     $num = count($line);
                     // echo "<p> $num fields in line $row: <br /></p>\n";
                     foreach ($line as $key) {
@@ -104,7 +102,6 @@ class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
                     }
                 }
             }
-
         }
         return $data;
     }

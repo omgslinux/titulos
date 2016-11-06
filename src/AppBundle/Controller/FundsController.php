@@ -13,7 +13,6 @@ use AppBundle\Entity\FundBanks;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Form\FundsType;
 use AppBundle\Util\Slugger;
-// use AppBundle\Util\FileDownload;
 
 /**
  * Funds controller.
@@ -192,7 +191,6 @@ class FundsController extends Controller
 
             return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
         }
-
     }
 
     /**
@@ -241,7 +239,6 @@ class FundsController extends Controller
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
-
     }
 
 
@@ -251,7 +248,7 @@ class FundsController extends Controller
      * @Route("/{id}/banks/new", name="manage_funds_banks_new")
      * @Method({"GET", "POST"})
      */
-    public function banksnewAction(Request $request,Funds $fund)
+    public function banksnewAction(Request $request, Funds $fund)
     {
         //$em = $this->getDoctrine()->getManager();
         //$fundbanks = $em->getRepository('AppBundle:FundBanks')->find($fund);
@@ -274,7 +271,6 @@ class FundsController extends Controller
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
-
     }
 
     /**
@@ -283,7 +279,7 @@ class FundsController extends Controller
      * @Route("/{id}/laws/new", name="manage_funds_laws_new")
      * @Method({"GET", "POST"})
      */
-    public function lawsnewAction(Request $request,Funds $fund)
+    public function lawsnewAction(Request $request, Funds $fund)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $fundlaws = new FundLaws($fund);
@@ -305,11 +301,5 @@ class FundsController extends Controller
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
-
     }
-
-
-
-
-
 }

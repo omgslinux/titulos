@@ -33,7 +33,7 @@ class FundLaws
     /**
      * @var Fund
      *
-     * @ORM\ManyToOne(targetEntity="Funds")
+     * @ORM\ManyToOne(targetEntity="Funds", inversedBy="laws")
      */
     private $fund;
 
@@ -136,6 +136,4 @@ class FundLaws
     {
         return $this->getLaw()->getShortname();
     }
-
-
 }

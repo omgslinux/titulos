@@ -196,5 +196,4 @@ class Banks
     {
         return $this->getShortname();
     }
-
 }

@@ -40,7 +40,7 @@ class UsersController extends Controller
      * @Route("/{id}", name="manage_users_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request,Users $user)
+    public function showAction(Request $request, Users $user)
     {
         $em = $this->getDoctrine()->getManager();
     //    $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findAll(array('fundbank' => $fundbanks->getId()));
@@ -57,7 +57,7 @@ class UsersController extends Controller
      * @Route("/{id}/edit", name="manage_users_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,Users $user)
+    public function editAction(Request $request, Users $user)
     {
 //        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
         $deleteForm = $this->createDeleteForm($user);
@@ -68,7 +68,7 @@ class UsersController extends Controller
             $em = $this->getDoctrine()->getManager();
             if (null != $user->getPlainpassword()) {
                 $encoder = $this->get('security.password_encoder');
-                $encodedPassword = $encoder->encodePassword($user,$user->getPlainpassword());
+                $encodedPassword = $encoder->encodePassword($user, $user->getPlainpassword());
                 $user->setPassword($encodedPassword);
             }
             $em->persist($user);
@@ -136,7 +136,7 @@ class UsersController extends Controller
         if ($createForm->isSubmitted() && $createForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $encoder = $this->get('security.password_encoder');
-            $encodedPassword = $encoder->encodePassword($user,$user->getPlainpassword());
+            $encodedPassword = $encoder->encodePassword($user, $user->getPlainpassword());
             $user->setPassword($encodedPassword);
             $em->persist($user);
             $em->flush();
@@ -158,10 +158,10 @@ class UsersController extends Controller
      * @Route("/{id}/roles/new", name="manage_user_roles_new")
      * @Method({"GET", "POST"})
      */
-    public function rolesnewAction(Request $request,Users $users)
+    public function rolesnewAction(Request $request, Users $user)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $roles = new Roles($users);
+        $roles = new Roles($user);
         $createForm = $this->createForm('AppBundle\Form\RolesType', $roles);
         $createForm->handleRequest($request);
 
@@ -170,18 +170,14 @@ class UsersController extends Controller
             $em->persist($roles);
             $em->flush();
 
-            return $this->redirectToRoute('manage_users_show', array('id' => $users->getId()));
+            return $this->redirectToRoute('manage_users_show', array('id' => $user->getId()));
         }
 
         return $this->render('users/roles.html.twig', array(
-            'users' => $users,
+            'users' => $user,
             'roles' => array('EDITOR', 'MANAGER','ADMIN'),
             'action' => 'Añadir rol',
             'create_form' => $createForm->createView(),
         ));
     }
-
-
-
-
 }

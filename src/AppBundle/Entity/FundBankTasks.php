@@ -252,5 +252,4 @@ class FundBankTasks
     {
         return $this->getDescription();
     }
-
 }

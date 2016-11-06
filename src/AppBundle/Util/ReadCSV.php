@@ -44,14 +44,14 @@ class ReadCSV
         // print getcwd();
         print $this->getFulldir()."\n$csvfile\n";
 
-        if (($handle = fopen($this->getFulldir()."$csvfile", "r")) !== FALSE) {
+        if (($handle = fopen($this->getFulldir()."$csvfile", "r")) !== false) {
             $headers = array();
             $data = array();
             $row = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
                 $row++;
                 $column = 0;
-                if ( $row === 1 ) {
+                if ($row === 1) {
                     $num = count($line);
                     echo "<p> $num fields in line $row: <br /></p>\n";
                     foreach ($line as $key) {
@@ -88,6 +88,4 @@ class ReadCSV
         }
         $manager->flush();
     }
-
-
 }

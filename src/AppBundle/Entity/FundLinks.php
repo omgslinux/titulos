@@ -181,12 +181,12 @@ class FundLinks
         return $this->getFund()->getFundname();
     }
 
-    public function getSlugger($slugger=false)
+    public function getSlugger($slugger = false)
     {
         if ($slugger===false) {
             $slugger = $this->getFundname();
         }
-        return Slugger::getSlug($slugger ,'_');
+        return Slugger::getSlug($slugger, '_');
     }
 
     public function getFullSlugger()
@@ -195,12 +195,12 @@ class FundLinks
     }
 
 
-    public function getDocpath($linktype=1)
+    public function getDocpath($linktype = 1)
     {
         return $this->getFund()->getFullSlugger() . '/' . $linktype;
     }
 
-    public function getFulldocpath($linktype=false,$filename=false)
+    public function getFulldocpath($linktype = false, $filename = false)
     {
         if ($linktype===false) {
             $linktype=$this->getLinktypeid();
@@ -275,7 +275,7 @@ class FundLinks
 
     public function getFulluncleancsvpath()
     {
-        return $this->getFulldocpath(6,$this->getLoadFilename());
+        return $this->getFulldocpath(6, $this->getLoadFilename());
     }
 
     public function getCleancsvpath()
@@ -285,7 +285,7 @@ class FundLinks
 
     public function getFullcleancsvpath($filename)
     {
-        return $this->getFulldocpath(7,$filename);
+        return $this->getFulldocpath(7, $filename);
     }
 
     public function getFactspath()
@@ -297,8 +297,4 @@ class FundLinks
     {
         return $this->getFulldocpath(8);
     }
-
-
-
-
 }
