@@ -2,11 +2,11 @@
 
 {% block body %}
 
-<h1>Tareas en el fondo {{ banktasks.getFundname }}</h1>
-<h2>Entidad {{ banktasks.fundname }}</h2>
+<h1>Tareas en el fondo {{ fundbank.fundname }}</h1>
+<h2>Entidad {{ fundbank.getBankname }}</h2>
 
     {% if edit_form is defined or create_form is defined %}
-    <h2>{{ action }} para la entidad {{ banktasks.getBankname }}</h2>
+    <h2>{{ action }} para la entidad {{ fundbank.getBankname }}</h2>
 
     {{ block('crudform') }}
     {% else %}

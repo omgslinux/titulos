@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Securities;
+use AppBundle\Entity\Cities;
 use AppBundle\Form\SecuritiesType;
 use AppBundle\Entity\FundBanks;
 
@@ -183,38 +184,92 @@ class SecuritiesController extends Controller
         $full = $rootdir . '/' . $filename;
         $records = $this->get('app.readcsv')->readcsv($filename);
         $fields = array(
-            'creditnumber',
-            'startdate',
-            'duration',
-            'amount',
-            'city' =>  array(
-                'entity' => 'Cities'
+            'creditnumber' => true,
+            'startdate' => array(
+                'type' => array(
+                    'date' => true,
+                    'format' => 'Y-m-d'
+                )
             ),
-            'volume',
-            'book',
-            'folio',
-            'building',
-            'page'
+            'duration' => true,
+            'amount' => true,
+            'city' => array(
+                'type' => array(
+                    'entity' => true,
+                    'class' => 'Cities',
+                    'property' => 'city',
+                    'mappedBy' => 'city'
+                )
+            ),
+            'city_id' => array(
+                'type' => array(
+                    'entity' => true,
+                    'class' => 'Cities',
+                    'property' => 'city',
+                    'mappedBy' => 'id'
+                )
+            ),
+            'volume' => true,
+            'book' => true,
+            'folio' => true,
+            'building' => true,
+            'page' => true
         );
-        print_r($_POST);
-        die(print_r($records));
+        printf("fields: (%s)\n<br><br>", print_r($fields, true));
 
-        sleep(5);
+        //sleep(5);
         $em = $this->getDoctrine()->getManager();
         foreach ($records as $recordkey => $record) {
-            $security = new Securities($fundbank);
-            foreach ($fields as $fieldkey => $value) {
-            //    echo "field: ($field), v: ($value), record[value]:" . $record[$value] . "\n";
-                if (in_array($value, $fields)) {
-                    if (is_array($value)) {
-                        $object = $em->getRepository('AppBundle:' . $fieldkey['entity'])->findBy(array($value => $record[$value]));
-                        $contents = $object;
+            printf("recordkey: (%s)\n<br><br>", print_r($record, true));
+            $security = new Securities();
+            $security->setFundbank($fundbank);
+            foreach ($record as $field => $value) {
+                if (!empty($fields["$field"])) {
+                    printf("<strong>field</strong>: (line %s) (%s) ", __LINE__, $field);
+                    echo "<strong>value</strong>: ($value)\n<br>";
+                    $property = $field;
+                    if (!is_array($fields["$field"])) {
+                        $function = '$security->set' . ucfirst($property) . '(\'' . $value. '\');';
                     } else {
-                        $contents = $record[$value];
+                        $properties = $fields["$field"];
+                        printf("<strong>properties</strong>: (line %s), (%s)\n<br>", __LINE__, print_r($properties, true));
+                        if (!empty($properties['type'])) {
+                            $types=$properties['type'];
+                            foreach ($types as $type => $v) {
+                                printf("<strong>type</strong>: (line %s), (%s)<br>", __LINE__, print_r($type, true));
+                                switch ($type) {
+                                    case 'date':
+                                        $date = $types['date'];
+                                        printf("<strong>date</strong>: (line %s) (%s)<br>", __LINE__, print_r($date, true));
+                                        $format = $types['format'];
+                                        $classobject = \DateTime::createFromFormat($format, $value);
+                                        printf("<strong>classobject</strong>: (line %s) (%s)<br>", __LINE__, $classobject->format($format));
+                                        break;
+                                    case 'entity':
+                                        $entity = $properties['type'];
+                                        printf("<strong>entity</strong>: (line %s) (%s)<br>", __LINE__, print_r($entity, true));
+                                        $property = $entity['property'];
+                                        $class = $entity['class'];
+                                        $mappedby = $entity['mappedBy'];
+                                        printf("<strong>class</strong>: (line %s) (%s)<br>", __LINE__, $class);
+                                        $eval = '$classobject = new AppBundle\Entity\\'. $class . '();';
+                                        printf("eval (line %s): (%s)", __LINE__, $eval);
+                                        eval($eval);
+                                        $classobject = $em->getRepository('AppBundle:' . $class)
+                                            ->findOneBy(array($mappedby => $value));
+                                        break;
+                                    default:
+                                        # code...
+                                        break;
+                                }
+                            }
+                            $function= '$security->set' . ucfirst($property) . '($classobject);';
+                        } else {
+                            //$function= '$security->set' . ucfirst($property) . '($object);';
+                        }
                     }
-                    $function= '$security->set' . ucfirst() . '('.$contents.');';
+                    printf("\n<strong>function</strong> (line %s): %s\n<br><br>", __LINE__, $function);
                     eval($function);
-                    //$values .= "'" . $record["$value"] . "'";
                 }
             }
             $em->persist($security);

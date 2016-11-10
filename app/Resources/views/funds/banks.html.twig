@@ -2,14 +2,14 @@
 
 {% block body %}
 
-<h1>Fondo {{ fundbanks.fund }}</h1>
+<h1>Fondo {{ fundbank.fund }}</h1>
 
     {% if edit_form is defined or create_form is defined %}
 
     {{ block('crudform') }}
     {% else %}
-    <h2>Datos de la entidad {{ fundbanks.getBank }}</h2>
-    <table>
+    <h2>Datos de la entidad {{ fundbank.getBank }}</h2>
+    <table class=table>
         <tbody>
            <tr>
                 <th>Entidad</th>
@@ -19,23 +19,23 @@
                 <th>Acción</th>
            </tr>
            <tr>
-               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbanks.id } ) }}">{{ fundbanks.bank }}</a></td>
-               <td>{{ fundbanks.loantype }}</td>
-               <td>{{ fundbanks.count }}</td>
+               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
+               <td>{{ fundbank.loantype }}</td>
+               <td>{{ fundbank.count }}</td>
                <td>{% if filename %}X</td><td>
                         {% if securitiescount %}{{ securitiescount }}
                         {% else %}{{ form_start(download_form) }}
                                <input type="submit" value="Cargar">
                                <input name="filename" type="hidden" value="{{ filename|url_encode }}">
-                           {{ form_end(download_form) }}<a href="{{ path('manage_securities_load', { 'id': fundbanks.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
+                           {{ form_end(download_form) }}<a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
                        {% endif %}
                    {% else %}No hay fichero</td>
-                    <td><a href="{{ path('manage_funds_links_new', { 'id': fundbanks.getId }) }}">Crear enlace a CSV</a>
+                    <td><a href="{{ path('manage_funds_links_new', { 'id': fundbank.getId }) }}">Crear enlace a CSV</a>
                    {% endif %}({{ filename }})</td>
            </tr>
         </tbody>
     </table>
-    {% if banktasks %}
+    {% if fundbank.getTasks %}
     <h3>Tareas</h3>
     <table>
         <tbody>
@@ -44,7 +44,7 @@
                 <th>Descripción</th>
                 <th>Finalizada</th>
             </tr>
-            {% for banktask in banktasks %}
+            {% for banktask in fundbank.tasks %}
             <tr>
                 <td><a href="{{ path('manage_fundbanks__tasks_edit', { 'id': banktask.id }) }}">{{ banktask.taskdate|date('d/m/Y') }}</a></td>
                 <td>{{ banktask.shortdescription }}</td>
@@ -56,12 +56,12 @@
     {% else %}
         <p>No hay tareas</p>
     {% endif %}
-    <p><a href="{{ path('manage_fundbanks_tasks_new', { 'id': fundbanks.id }) }}">Añadir tarea</a></p>
+    <p><a href="{{ path('manage_fundbanks_tasks_new', { 'id': fundbank.id }) }}">Añadir tarea</a></p>
 
     {% endif %}
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': fundbanks.getFundid } ) }}">Volver al fondo</a>
+            <a href="{{ path('manage_funds_show', { 'id': fundbank.getFundid } ) }}">Volver al fondo</a>
         </li>
     </ul>
 {% endblock %}

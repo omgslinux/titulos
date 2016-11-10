@@ -36,9 +36,11 @@ class MortgageFundsType extends AbstractType
                 'required' => false,
                 'label' => '¿Hay folleto?'))
             ->add('liqdate', DateType::class, array(
+                'widget' => 'single_text',
                 'label' => 'Fecha de liquidación',
                 'years' => range(1980, date('Y'))))
             ->add('extdate', DateType::class, array(
+                'widget' => 'single_text',
                 'label' => 'Fecha de extinción',
                 'years' => range(1980, date('Y'))))
         ;

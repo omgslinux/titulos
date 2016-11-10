@@ -27,35 +27,32 @@ class FundBanksController extends Controller
      * @Route("/{id}", name="manage_funds_banks_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request, FundBanks $fundbanks)
+    public function showAction(Request $request, FundBanks $fundbank)
     {
-        $em = $this->getDoctrine()->getManager();
-        $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findBy(array('fundbank' => $fundbanks->getId()));
+        //$em = $this->getDoctrine()->getManager();
+        //$banktasks = $em->getRepository('AppBundle:FundBankTasks')->findBy(array('fundbank' => $fundbanks->getId()));
 
         $filename = false;
         $form = false;
         $securitiescount=false;
-        if ($fundlinks = $em->getRepository('AppBundle:FundLinks')->findOneBy(array(
-            'fund' => $fundbanks->getFund()->getId(),
-            'linktype' => 7
-            ))) {
-            $filepath = $this->get('app.filedownload');
-            // $filename = $fundlinks->getFulldocpath(7,$fundbanks->getLoadFilename());
-            $filename = $fundlinks->getFullcleancsvpath($fundbanks->getLoadFilename());
-            if (!$filepath->isDocdownloaded($filename)) {
-                $filename = false;
-            }
-            $loadSecurityForm = $this->createLoadSecurityForm($fundbanks);
-            $form = $loadSecurityForm->createView();
+        foreach ($fundbank->getFund()->getLinks() as $fundlink) {
+            if ($fundlink->getLinktypeid() == 7) {
+                $filepath = $this->get('app.filedownload');
+                // $filename = $fundlink->getFulldocpath(7,$fundbank->getLoadFilename());
+                $filename = $fundlink->getFullcleancsvpath($fundbank->getLoadFilename());
+                if (!$filepath->isDocdownloaded($filename)) {
+                    $filename = false;
+                }
+                $loadSecurityForm = $this->createLoadSecurityForm($fundbank);
+                $form = $loadSecurityForm->createView();
 
-            if ($securities= $em->getRepository('AppBundle:Securities')->findBy(array('fundbank' => $fundbanks->getId()))) {
-                $securitiescount = count($securities);
+                $securitiescount = count($fundbank->getSecurities());
             }
         }
 
         return $this->render('funds/banks.html.twig', array(
-            'fundbanks' => $fundbanks,
-            'banktasks' => $banktasks,
+            'fundbank' => $fundbank,
+            //'banktasks' => $banktasks,
             'filename' => $filename,
             'securitiescount' => $securitiescount,
             'download_form' => $form
@@ -68,23 +65,23 @@ class FundBanksController extends Controller
      * @Route("/{id}/edit", name="manage_funds_banks_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, FundBanks $fundbanks)
+    public function editAction(Request $request, FundBanks $fundbank)
     {
 //        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
-        $deleteForm = $this->createDeleteForm($fundbanks);
-        $editform = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
+        $deleteForm = $this->createDeleteForm($fundbank);
+        $editform = $this->createForm('AppBundle\Form\FundBanksType', $fundbank);
         $editform->handleRequest($request);
 
         if ($editform->isSubmitted() && $editform->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($fundbanks);
+            $em->persist($fundbank);
             $em->flush();
 
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fundbanks->getFundid()));
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundbank->getFundid()));
         }
 
         return $this->render('funds/banks.html.twig', array(
-            'fundbanks' => $fundbanks,
+            'fundbank' => $fundbank,
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -96,18 +93,18 @@ class FundBanksController extends Controller
      * @Route("/{id}/delete", name="manage_funds_banks_delete")
      * @Method({"GET", "DELETE"})
      */
-    public function deleteAction(Request $request, FundBanks $fundbanks)
+    public function deleteAction(Request $request, FundBanks $fundbank)
     {
-        $form = $this->createDeleteForm($fundbanks);
+        $form = $this->createDeleteForm($fundbank);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($fundbanks);
+            $em->remove($fundbank);
             $em->flush();
         }
 
-        return $this->redirectToRoute('manage_funds_show', array('id' => $fundbanks->getFundid()));
+        return $this->redirectToRoute('manage_funds_show', array('id' => $fundbank->getFundid()));
     }
 
     /**
@@ -117,10 +114,10 @@ class FundBanksController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(FundBanks $fundbanks)
+    private function createDeleteForm(FundBanks $fundbank)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('manage_funds_banks_delete', array('id' => $fundbanks->getId())))
+            ->setAction($this->generateUrl('manage_funds_banks_delete', array('id' => $fundbank->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -142,34 +139,6 @@ class FundBanksController extends Controller
         ;
     }
 
-
-    /**
-     * Creates a new FundBankTasks entity.
-     *
-     * @Route("/{id}/tasks/new", name="manage_fundbanks_tasks_new")
-     * @Method({"GET", "POST"})
-     */
-    public function tasksnewAction(Request $request, FundBanks $fundbank)
-    {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $banktasks = new FundBankTasks($fundbank);
-        $createForm = $this->createForm('AppBundle\Form\FundBankTasksType', $banktasks);
-        $createForm->handleRequest($request);
-
-        if ($createForm->isSubmitted() && $createForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($banktasks);
-            $em->flush();
-
-            return $this->redirectToRoute('manage_funds_banks_show', array('id' => $banktasks->getBankid()));
-        }
-
-        return $this->render('funds/tasks.html.twig', array(
-            'banktasks' => $banktasks,
-            'action' => 'Crear tarea',
-            'create_form' => $createForm->createView(),
-        ));
-    }
 
     /**
      * Creates a form to load a file into Securities entity

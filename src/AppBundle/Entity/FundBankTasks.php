@@ -26,7 +26,7 @@ class FundBankTasks
     /**
      * @var FundBanks
      *
-     * @ORM\ManyToOne(targetEntity="FundBanks")
+     * @ORM\ManyToOne(targetEntity="FundBanks", inversedBy="tasks")
      */
     private $fundbank;
 

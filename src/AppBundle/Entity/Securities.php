@@ -26,7 +26,7 @@ class Securities
     /**
      * @var FundBanks
      *
-     * @ORM\ManyToOne(targetEntity="FundBanks")
+     * @ORM\ManyToOne(targetEntity="FundBanks", inversedBy="securities")
      */
     private $fundbank;
 
@@ -38,7 +38,7 @@ class Securities
     private $creditnumber;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
      * @ORM\Column(type="date")
      */
@@ -61,7 +61,7 @@ class Securities
     /**
      * @var Cities
      *
-     * @ORM\ManyToOne(targetEntity="Cities")
+     * @ORM\ManyToOne(targetEntity="Cities", inversedBy="securities")
      */
     private $city;
 
@@ -140,6 +140,30 @@ class Securities
     public function getFundbank()
     {
         return $this->fundbank;
+    }
+
+    /**
+     * Set creditnumber
+     *
+     * @param string $creditnumber
+     *
+     * @return Securities
+     */
+    public function setCreditnumber($creditnumber)
+    {
+        $this->creditnumber = $creditnumber;
+
+        return $this;
+    }
+
+    /**
+     * Get creditnumber
+     *
+     * @return string
+     */
+    public function getCreditnumber()
+    {
+        return $this->creditnumber;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Cities;
 use AppBundle\Entity\Provinces;
 
 /**
@@ -35,6 +36,14 @@ class Cities
     * @ORM\ManyToOne(targetEntity="Provinces")
     */
     private $province;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Securities", mappedBy="city")
+     */
+    private $securities;
+
 
     /**
      * Get id
@@ -92,6 +101,31 @@ class Cities
     public function getProvince()
     {
         return $this->province;
+    }
+
+    /**
+     * Get securities
+     *
+     * @return ArrayCollection
+     */
+    public function getSecurities()
+    {
+        return $this->securities;
+    }
+
+    /**
+     * Add security
+     *
+     * @param Securities $security
+     *
+     * @return Cities
+     */
+    public function addSecurity(Securities $security)
+    {
+        $this->securities->add($security);
+        $security->setCity($this);
+
+        return $this;
     }
 
 

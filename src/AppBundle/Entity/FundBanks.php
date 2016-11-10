@@ -7,6 +7,9 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\LoanTypes;
+use AppBundle\Entity\FundBanks;
+use AppBundle\Entity\Securities;
+use AppBundle\Entity\FundBankTasks;
 use AppBundle\Util\Slugger;
 
 /**
@@ -36,7 +39,7 @@ class FundBanks
     /**
      * @var Banks
      *
-     * @ORM\ManyToOne(targetEntity="Banks")
+     * @ORM\ManyToOne(targetEntity="Banks", inversedBy="fundbanks")
      * @ORM\OrderBy({"shortname" = "ASC"})
      */
     private $bank;
@@ -55,10 +58,21 @@ class FundBanks
     */
     private $count;
 
-    public function __construct(Funds $fund)
-    {
-        $this->setFund($fund);
-    }
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundBankTasks", mappedBy="fundbank")
+     */
+    private $tasks;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Securities", mappedBy="fundbank")
+     */
+    private $securities;
+
+
 
     /**
      * Get id
@@ -201,5 +215,70 @@ class FundBanks
     public function getCount()
     {
         return $this->count;
+    }
+
+
+    /**
+     * Get tasks
+     *
+     * @return ArrayCollection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * Add task
+     *
+     * @param FundBankTasks $task
+     *
+     * @return FundBanks
+     */
+    public function addTask(FundBankTasks $task)
+    {
+        $this->tasks->add($task);
+        $task->setTask($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param FundBankTasks $task
+     *
+     * @return FundBanks
+     */
+    public function removeTask(FundBankTasks $task)
+    {
+        $this->tasks->removeElement($task);
+
+        return $this;
+    }
+
+    /**
+     * Get securities
+     *
+     * @return ArrayCollection
+     */
+    public function getSecurities()
+    {
+        return $this->securities;
+    }
+
+    /**
+     * Add security
+     *
+     * @param Securities $security
+     *
+     * @return FundBanks
+     */
+    public function addSecurity(Securities $security)
+    {
+        $this->securities->add($security);
+        $security->setFundbank($this);
+
+        return $this;
     }
 }

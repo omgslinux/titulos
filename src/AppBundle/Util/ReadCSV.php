@@ -6,7 +6,7 @@ class ReadCSV
 {
     private $rootdir;
     private $url=array();
-    private $basedir='../web/app/Resources/pdf/';
+    private $basedir='../web/pdf/';
     private $path;
 
     public function setRootdir($rootdir)

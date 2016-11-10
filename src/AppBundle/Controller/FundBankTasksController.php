@@ -13,33 +13,63 @@ use AppBundle\Form\FundBankTasksType;
 /**
  * Funds controller.
  *
- * @Route("/manage/funds/banks/tasks")
+ * @Route("/manage/funds/banks")
  */
 class FundBankTasksController extends Controller
 {
 
     /**
-     * Creates a form to edit a FundBanks entity.
+     * Creates a new FundBankTasks entity.
      *
-     * @Route("/{id}", name="manage_fundbanks_tasks_show")
+     * @Route("/{id}/tasks/new", name="manage_fundbanks_tasks_new")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request, FundBankTasks $banktasks)
+    public function newAction(Request $request, FundBanks $fundbank)
     {
-        $em = $this->getDoctrine()->getManager();
-        $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findOneBy(array('id' => $fundbanks->getBankid()));
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $banktask = new FundBankTasks();
+        $fundbank->addTask($banktask);
+        $createForm = $this->createForm('AppBundle\Form\FundBankTasksType', $banktask);
+        $createForm->handleRequest($request);
+
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($banktask);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_banks_show', array('id' => $banktask->getBankid()));
+        }
+
+        return $this->render('funds/tasks.html.twig', array(
+            'fundbank' => $fundbank,
+            'action' => 'Crear tarea',
+            'create_form' => $createForm->createView(),
+        ));
+    }
+
+    /**
+     * Creates a form to show a FundBankTasks entity.
+     *
+     * @Route("/tasks/{id}", name="manage_fundbanks_tasks_show")
+     * @Method({"GET", "POST"})
+     */
+    public function showAction(Request $request, FundBank $fundbank)
+    {
+        //$em = $this->getDoctrine()->getManager();
+        //$banktasks = $em->getRepository('AppBundle:FundBankTasks')->findOneBy(array('id' => $fundbanks->getBankid()));
+
 
 
         return $this->render('funds/tasks.html.twig', array(
             'action' => 'Listado de tareas',
-            'banktasks' => $banktasks,
+            'fundbank' => $fundbank,
         ));
     }
 
     /**
      * Creates a form to edit a FundBanks entity.
      *
-     * @Route("/{id}/edit", name="manage_fundbanks__tasks_edit")
+     * @Route("/tasks/{id}/edit", name="manage_fundbanks__tasks_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, FundBankTasks $banktasks)
@@ -68,7 +98,7 @@ class FundBankTasksController extends Controller
     /**
      * Deletes a FundBanks entity.
      *
-     * @Route("/{id}/delete", name="manage_fundbanks_tasks_delete")
+     * @Route("/tasks/{id}/delete", name="manage_fundbanks_tasks_delete")
      * @Method({"GET", "DELETE"})
      */
     public function deleteAction(Request $request, FundBankTasks $banktasks)

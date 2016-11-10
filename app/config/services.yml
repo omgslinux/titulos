@@ -17,3 +17,6 @@ services:
         class: AppBundle\Util\ReadCSV
         calls:
             - [setRootdir , ["%kernel.root_dir%"]]
+    app.cnmvlinks:
+        class: AppBundle\AppBundle\Util\CNMVLinks
+        

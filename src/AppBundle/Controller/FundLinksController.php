@@ -153,7 +153,6 @@ class FundLinksController extends Controller
      */
     public function newAction(Request $request, Funds $fund)
     {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $fundlinks = new FundLinks();
         $fund->addLink($fundlinks);
         $form = $this->createForm('AppBundle\Form\FundLinksType', $fundlinks);

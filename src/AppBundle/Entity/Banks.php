@@ -59,6 +59,13 @@ class Banks
      */
     private $city;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundBanks", mappedBy="bank")
+     */
+    private $fundbanks;
+
 
 
     /**
