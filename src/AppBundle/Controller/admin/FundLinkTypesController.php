@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,14 +12,14 @@ use AppBundle\Form\FundLinkTypesType;
 /**
  * FundLinkTypes controller.
  *
- * @Route("/manage/linktypes/")
+ * @Route("/admin/linktypes/")
  */
 class FundLinkTypesController extends Controller
 {
     /**
      * Lists all FundLinkTypes entities.
      *
-     * @Route("/", name="manage_linktypes_index")
+     * @Route("/", name="admin_linktypes_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -28,7 +28,7 @@ class FundLinkTypesController extends Controller
 
         $fltype = $em->getRepository('AppBundle:FundLinkTypes')->findAll();
 
-        return $this->render('linktypes/index.html.twig', array(
+        return $this->render('admin/linktypes/index.html.twig', array(
             'fltype' => $fltype,
         ));
     }
@@ -36,7 +36,7 @@ class FundLinkTypesController extends Controller
     /**
      * Creates a new FundLinkTypes entity.
      *
-     * @Route("/new", name="manage_linktypes_new")
+     * @Route("/new", name="admin_linktypes_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -53,7 +53,7 @@ class FundLinkTypesController extends Controller
             return $this->redirectToRoute('manage_linktypes_index');
         }
 
-        return $this->render('linktypes/edit.html.twig', array(
+        return $this->render('admin/linktypes/edit.html.twig', array(
             'fltype' => $fltype,
             'create_form' => $form->createView(),
         ));
@@ -62,14 +62,14 @@ class FundLinkTypesController extends Controller
     /**
      * Finds and displays a FundLinkTypes entity.
      *
-     * @Route("/{id}", name="manage_linktypes_show")
+     * @Route("/{id}", name="admin_linktypes_show")
      * @Method("GET")
      */
     public function showAction(FundLinkTypes $fltype)
     {
         $deleteForm = $this->createDeleteForm($fltype);
 
-        return $this->render('linktypes/show.html.twig', array(
+        return $this->render('admin/linktypes/show.html.twig', array(
             'fltype' => $fltype,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -78,7 +78,7 @@ class FundLinkTypesController extends Controller
     /**
      * Displays a form to edit an existing FundLinkTypes entity.
      *
-     * @Route("/{id}/edit", name="manage_linktypes_edit")
+     * @Route("/{id}/edit", name="admin_linktypes_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, FundLinkTypes $fltype)
@@ -92,10 +92,10 @@ class FundLinkTypesController extends Controller
             $em->persist($fltype);
             $em->flush();
 
-            return $this->redirectToRoute('manage_linktypes_show', array('id' => $fltype->getId()));
+            return $this->redirectToRoute('admin_linktypes_show', array('id' => $fltype->getId()));
         }
 
-        return $this->render('linktypes/edit.html.twig', array(
+        return $this->render('admin/linktypes/edit.html.twig', array(
             'fltype' => $fltype,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -105,7 +105,7 @@ class FundLinkTypesController extends Controller
     /**
      * Deletes a FundLinkTypes entity.
      *
-     * @Route("/{id}", name="manage_linktypes_delete")
+     * @Route("/{id}", name="admin_linktypes_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, FundLinkTypes $fltype)
@@ -119,7 +119,7 @@ class FundLinkTypesController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('manage_linktypes_index');
+        return $this->redirectToRoute('admin_linktypes_index');
     }
 
     /**
@@ -132,7 +132,7 @@ class FundLinkTypesController extends Controller
     private function createDeleteForm(FundLinkTypes $fltype)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('manage_linktypes_delete', array('id' => $fltype->getId())))
+            ->setAction($this->generateUrl('admin_linktypes_delete', array('id' => $fltype->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BanksType extends AbstractType
@@ -16,11 +17,24 @@ class BanksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('acronym')
-            ->add('shortname')
-            ->add('longname')
-            ->add('address')
-            ->add('city')
+            ->add('acronym', TextType::class, array(
+                'label' => 'Abreviatura'
+            ))
+            ->add('shortname', TextType::class, array(
+                'label' => 'Nombre corto'
+            ))
+            ->add('longname', TextType::class, array(
+                'label' => 'Nombre largo',
+                'required' => false
+            ))
+            ->add('address', TextType::class, array(
+                'label' => 'Dirección',
+                'required' => false
+            ))
+            ->add('city', TextType::class, array(
+                'label' => 'Ciudad',
+                'required' => false
+            ))
         ;
     }
 

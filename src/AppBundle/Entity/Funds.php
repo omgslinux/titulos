@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\FundManagers;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Entity\FundTypes;
+use AppBundle\Entity\FundLaws;
 use AppBundle\Entity\FundLinks;
 use AppBundle\Util\Slugger;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -42,9 +43,9 @@ class Funds
     private $fundlongname;
 
     /**
-     * @var \FundManagers
+     * @var FundManagers
      *
-     * @ORM\ManyToOne(targetEntity="FundManagers")
+     * @ORM\ManyToOne(targetEntity="FundManagers", inversedBy="funds")
      */
     private $fundmanager;
 
@@ -89,6 +90,13 @@ class Funds
      * @ORM\Column(type="string",length=64,nullable=true)
      */
     private $cnmvpdf;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToOne(targetEntity="MortgageFunds", mappedBy="fund")
+     */
+    private $mfund;
 
     /**
      * @var ArrayCollection
@@ -350,6 +358,45 @@ class Funds
     }
 
     /**
+     * Get mfund
+     *
+     * @return ArrayCollection
+     */
+    public function getMfund()
+    {
+        return $this->mfund;
+    }
+
+    /**
+     * Add mfund
+     *
+     * @param MortgageFunds $mfund
+     *
+     * @return Funds
+     */
+    public function addMfund(MortgageFunds $mfund)
+    {
+        $this->mfund->add($mfund);
+        $mfund->setFund($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove fund
+     *
+     * @param MortgageFunds $fund
+     *
+     * @return Funds
+     */
+    public function removeFund(MortgageFunds $mfund)
+    {
+        $this->mfund->removeElement($mfund);
+
+        return $this;
+    }
+
+    /**
      * Get links
      *
      * @return ArrayCollection
@@ -423,6 +470,45 @@ class Funds
     public function removeBank(FundBanks $fundbank)
     {
         $this->banks->removeElement($fundbank);
+
+        return $this;
+    }
+
+    /**
+     * Get laws
+     *
+     * @return ArrayCollection
+     */
+    public function getLaws()
+    {
+        return $this->laws;
+    }
+
+    /**
+     * Add law
+     *
+     * @param FundLaws $law
+     *
+     * @return Funds
+     */
+    public function addLaw(FundLaws $law)
+    {
+        $this->laws->add($law);
+        $law->setFund($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove law
+     *
+     * @param FundLaws $law
+     *
+     * @return Funds
+     */
+    public function removeLaw(FundLaws $law)
+    {
+        $this->laws->removeElement($law);
 
         return $this;
     }

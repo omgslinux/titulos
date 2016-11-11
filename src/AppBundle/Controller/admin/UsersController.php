@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,7 +12,7 @@ use AppBundle\Entity\Users;
 /**
  * Funds controller.
  *
- * @Route("/manage/users")
+ * @Route("/admin/users")
  */
 class UsersController extends Controller
 {
@@ -29,7 +29,7 @@ class UsersController extends Controller
         $users = $em->getRepository('AppBundle:Users')->findAll();
 
 
-        return $this->render('users/index.html.twig', array(
+        return $this->render('admin/users/index.html.twig', array(
             'users' => $users,
         ));
     }
@@ -46,7 +46,7 @@ class UsersController extends Controller
     //    $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findAll(array('fundbank' => $fundbanks->getId()));
 
 
-        return $this->render('users/show.html.twig', array(
+        return $this->render('admin/users/show.html.twig', array(
             'user' => $user,
         ));
     }
@@ -77,7 +77,7 @@ class UsersController extends Controller
             return $this->redirectToRoute('manage_users_show', array('id' => $user->getId()));
         }
 
-        return $this->render('users/edit.html.twig', array(
+        return $this->render('admin/users/edit.html.twig', array(
             'users' => $user,
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -144,7 +144,7 @@ class UsersController extends Controller
             return $this->redirectToRoute('manage_users_index');
         }
 
-        return $this->render('users/edit.html.twig', array(
+        return $this->render('admin/users/edit.html.twig', array(
             'users' => $user,
             'roles' => array('EDITOR', 'MANAGER','ADMIN'),
             'action' => 'Crear usuario',
@@ -173,7 +173,7 @@ class UsersController extends Controller
             return $this->redirectToRoute('manage_users_show', array('id' => $user->getId()));
         }
 
-        return $this->render('users/roles.html.twig', array(
+        return $this->render('admin/users/roles.html.twig', array(
             'users' => $user,
             'roles' => array('EDITOR', 'MANAGER','ADMIN'),
             'action' => 'Añadir rol',

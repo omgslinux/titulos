@@ -14,10 +14,10 @@ use AppBundle\Entity\Funds;
 class MortgageFunds
 {
     /**
-     * @var \Funds
+     * @var Funds
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Funds")
+     * @ORM\OneToOne(targetEntity="Funds", inversedBy="mfund")
      */
     private $fund;
 
@@ -123,6 +123,20 @@ class MortgageFunds
     public function getFundname()
     {
         return $this->fund->getFundname();
+    }
+
+    /**
+     * Set fund
+     *
+     * @param Funds $fund
+     *
+     * @return FundsExtra
+     */
+    public function setFund(Funds $fund)
+    {
+        $this->fund = $fund;
+
+        return $this;
     }
 
     /**

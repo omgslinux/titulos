@@ -34,10 +34,10 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_banks_index') }}">Volver a la lista</a>
+            <a href="{{ path('admin_banks_index') }}">Volver a la lista</a>
         </li>
         <li>
-            <a href="{{ path('manage_banks_edit', { 'id': bank.id }) }}">Editar</a>
+            <a href="{{ path('admin_banks_edit', { 'id': bank.id }) }}">Editar</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

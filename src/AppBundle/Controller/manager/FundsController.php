@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -60,7 +60,7 @@ class FundsController extends Controller
 
         return $this->render('funds/edit.html.twig', array(
             'fund' => $fund,
-            'h1' => 'Crear fondo ',
+            'title' => 'Crear fondo ',
             'backlink' => $this->generateUrl('manage_funds_index'),
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
@@ -93,10 +93,10 @@ class FundsController extends Controller
 
         return $this->render('funds/show.html.twig', array(
             'fund' => $fund,
-            'mfund' => $mfund,
-            'fundlinks' => $fundlinks,
-            'fundbanks' => $fundbanks,
-            'fundlaws' => $fundlaws,
+            //'mfund' => $mfund,
+            //'fundlinks' => $fundlinks,
+            //'fundbanks' => $fundbanks,
+            //'fundlaws' => $fundlaws,
             'filepath' => $filepath,
             'delete_form' => $deleteForm->createView(),
             'download_form' => $downloadForm->createView(),
@@ -125,7 +125,7 @@ class FundsController extends Controller
 
         return $this->render('funds/edit.html.twig', array(
             'fund' => $fund,
-            'h1' => 'Editar fondo',
+            'title' => 'Editar fondo',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
             'backmessage' => 'Volver al fondo',
             'edit_form' => $editForm->createView(),

@@ -22,7 +22,7 @@
         <tbody>
         {% for bank in banks %}
             <tr>
-                <td><a href="{{ path('manage_banks_show', { 'id': bank.id }) }}">{{ bank.id }}</a></td>
+                <td><a href="{{ path('admin_banks_show', { 'id': bank.id }) }}">{{ bank.id }}</a></td>
                 <td>{{ bank.acronym }}</td>
                 <td>{{ bank.shortname }}</td>
                 <td>{{ bank.longname }}</td>
@@ -35,7 +35,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_banks_new') }}">Añadir un banco</a>
+            <a href="{{ path('admin_banks_new') }}">Añadir un banco</a>
         </li>
     </ul>
     <ul>

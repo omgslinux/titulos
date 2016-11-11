@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,14 +11,14 @@ use AppBundle\Entity\Banks;
 /**
  * Banks controller.
  *
- * @Route("/manage/banks")
+ * @Route("/admin/banks")
  */
 class BanksController extends Controller
 {
     /**
      * Lists all Banks entities.
      *
-     * @Route("/", name="manage_banks_index")
+     * @Route("/", name="admin_banks_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -27,7 +27,7 @@ class BanksController extends Controller
 
         $banks = $em->getRepository('AppBundle:Banks')->findAll();
 
-        return $this->render('banks/index.html.twig', array(
+        return $this->render('admin/banks/index.html.twig', array(
             'banks' => $banks,
         ));
     }
@@ -35,7 +35,7 @@ class BanksController extends Controller
     /**
      * Creates a new Banks entity.
      *
-     * @Route("/new", name="manage_banks_new")
+     * @Route("/new", name="admin_banks_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -49,19 +49,22 @@ class BanksController extends Controller
             $em->persist($bank);
             $em->flush();
 
-            return $this->redirectToRoute('manage_banks_show', array('id' => $bank->getId()));
+            return $this->redirectToRoute('admin_banks_show', array('id' => $bank->getId()));
         }
 
-        return $this->render('banks/new.html.twig', array(
+        return $this->render('admin/banks/edit.html.twig', array(
             'bank' => $bank,
-            'form' => $form->createView(),
+            'title' => 'Crear banco ',
+            'backlink' => $this->generateUrl('admin_banks_index'),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
         ));
     }
 
     /**
      * Finds and displays a Banks entity.
      *
-     * @Route("/{id}", name="manage_banks_show")
+     * @Route("/{id}", name="admin_banks_show")
      * @Method("GET")
      */
     public function showAction(Banks $bank)
@@ -74,7 +77,7 @@ class BanksController extends Controller
         $deleteForm = $this->createDeleteForm($bank);
 
 
-        return $this->render('banks/show.html.twig', array(
+        return $this->render('admin/banks/show.html.twig', array(
             'bank' => $bank,
             'city' => $city,
             'delete_form' => $deleteForm->createView(),
@@ -84,7 +87,7 @@ class BanksController extends Controller
     /**
      * Displays a form to edit an existing Banks entity.
      *
-     * @Route("/{id}/edit", name="manage_banks_edit")
+     * @Route("/{id}/edit", name="admin_banks_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Banks $bank)
@@ -98,11 +101,14 @@ class BanksController extends Controller
             $em->persist($bank);
             $em->flush();
 
-            return $this->redirectToRoute('manage_banks_show', array('id' => $bank->getId()));
+            return $this->redirectToRoute('admin_banks_show', array('id' => $bank->getId()));
         }
 
-        return $this->render('banks/edit.html.twig', array(
+        return $this->render('admin/banks/edit.html.twig', array(
             'bank' => $bank,
+            'title' => 'Editar banco ',
+            'backlink' => $this->generateUrl('admin_banks_index'),
+            'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -111,7 +117,7 @@ class BanksController extends Controller
     /**
      * Deletes a Banks entity.
      *
-     * @Route("/{id}", name="manage_banks_delete")
+     * @Route("/{id}", name="admin_banks_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Banks $bank)
@@ -125,7 +131,7 @@ class BanksController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('manage_banks_index');
+        return $this->redirectToRoute('admin_banks_index');
     }
 
     /**
@@ -138,7 +144,7 @@ class BanksController extends Controller
     private function createDeleteForm(Banks $bank)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('manage_banks_delete', array('id' => $bank->getId())))
+            ->setAction($this->generateUrl('admin_banks_delete', array('id' => $bank->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

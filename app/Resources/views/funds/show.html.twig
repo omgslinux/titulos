@@ -27,7 +27,7 @@
             </table>
         <hr>
     {% if fund.fundtype == 'Hipotecario' %}
-        {% if mfund %}
+        {% if fund.mfund %}
         <table class="table table-bordered">
             <tbody>
                 <tr>
@@ -45,16 +45,16 @@
                 </tr>
                 <tr>
                     <td><a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos</a></td>
-                    <td>{% if mfund.liqdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.liqdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
-                    <td>{% if mfund.extdate|date('d/m/Y') != '01/01/1980' %}{{ mfund.extdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
-                    <td>{{ mfund.numrecords }}</td>
-                    <td>{% if mfund.openfund == 0 %}Cerrado{% else %}Abierto{% endif %}</td>
-                    <td>{{ mfund.loansfirstpage }}</td>
-                    <td>{{ mfund.loanslastpage }}</td>
-                    <td>{{ mfund.fundpages }}</td>
-                    <td>{% if mfund.legible %}✔{% else %}✘{% endif %}</td>
-                    <td>{% if mfund.brochure %}✔{% else %}✘{% endif %}</td>
-                    <td>{% if mfund.digitalizable %}✔{% else %}✘{% endif %}</td>
+                    <td>{% if fund.mfund.liqdate|date('d/m/Y') != '01/01/1980' %}{{ fund.mfund.liqdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
+                    <td>{% if fund.mfund.extdate|date('d/m/Y') != '01/01/1980' %}{{ fund.mfund.extdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
+                    <td>{{ fund.mfund.numrecords }}</td>
+                    <td>{% if fund.mfund.openfund == 0 %}Cerrado{% else %}Abierto{% endif %}</td>
+                    <td>{{ fund.mfund.loansfirstpage }}</td>
+                    <td>{{ fund.mfund.loanslastpage }}</td>
+                    <td>{{ fund.mfund.fundpages }}</td>
+                    <td>{% if fund.mfund.legible %}✔{% else %}✘{% endif %}</td>
+                    <td>{% if fund.mfund.brochure %}✔{% else %}✘{% endif %}</td>
+                    <td>{% if fund.mfund.digitalizable %}✔{% else %}✘{% endif %}</td>
                 </tr>
             </tbody>
         </table>
@@ -62,7 +62,7 @@
         <p><a href="{{ path('manage_funds_extra_new', { 'id': fund.id }) }}">Añadir datos adicionales</a></p>
         {% endif %}
         <hr>
-        {% if fundbanks %}
+        {% if fund.banks %}
         <table class="table table-striped table-bordered">
             <tbody>
                <tr>
@@ -70,7 +70,7 @@
                    <th>Tipo préstamo</th>
                    <th>Número préstamos</th>
                </tr>
-               {% for fundbank in fundbanks %}
+               {% for fundbank in fund.banks %}
                <tr>
                    <td><a href="{{ path('manage_funds_banks_show', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
                    <td>{{ fundbank.loantype }}</td>
@@ -82,14 +82,14 @@
         {% endif %}
         <p><a href="{{ path('manage_funds_banks_new', { 'id': fund.id }) }}">Añadir entidades cedentes</a></p>
         <hr>
-        {% if fundlinks %}
+        {% if fund.links %}
         <table class="table table-bordered">
             <tbody>
                <tr>
                    <th>Tipo</th>
                    <th colspan="2">Descripción</th>
                </tr>
-               {% for fundlink in fundlinks %}
+               {% for fundlink in fund.links %}
                <tr>
                    <td>{{ fundlink.linktype }}</td>
                    <td><a href="{{ path('manage_funds_links_show', { 'id': fundlink.id } ) }}">{{ fundlink.description }}</a></td>
@@ -101,14 +101,14 @@
         {% endif %}
         <p><a href="{{ path('manage_funds_links_new', { 'id': fund.id }) }}">Añadir enlaces</a></p>
         <hr>
-        {% if fundlaws %}
+        {% if fund.laws %}
         <table>
             <tbody>
                <tr>
                    <th>Ley</th>
                    <th>Notas</th>
                </tr>
-               {% for fundlaw in fundlaws %}
+               {% for fundlaw in fund.laws %}
                <tr>
                    <td><a href="{{ path('manage_funds_laws_show', { 'id': fundlaw.id } ) }}">{{ fundlaw.law }}</td>
                    <td>{{ fundlaw.notes }}</td>

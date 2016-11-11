@@ -55,6 +55,12 @@ class FundManagers
     */
     protected $description;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Funds", mappedBy="fundmanager")
+     */
+    private $funds;
 
 
     public function getId()
@@ -141,6 +147,46 @@ class FundManagers
 
         return $this;
     }
+
+    /**
+     * Get funds
+     *
+     * @return ArrayCollection
+     */
+    public function getFunds()
+    {
+        return $this->funds;
+    }
+
+    /**
+     * Add fund
+     *
+     * @param Funds $funds
+     *
+     * @return FundManagers
+     */
+    public function addFund(Funds $fund)
+    {
+        $this->funds->add($fund);
+        $fund->setFund($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove fund
+     *
+     * @param Funds $fund
+     *
+     * @return FundManagers
+     */
+    public function removeFund(Funds $fund)
+    {
+        $this->funds->removeElement($fund);
+
+        return $this;
+    }
+
 
     public function getDescription()
     {

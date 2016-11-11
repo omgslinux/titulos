@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Roles;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Users
@@ -67,7 +68,7 @@ class Users implements UserInterface
     /**
     * @var Roles
     *
-    * @ORM\ManyToOne(targetEntity="Roles")
+    * @ORM\ManyToOne(targetEntity="Roles", inversedBy="users")
     */
     private $rol;
 
@@ -238,7 +239,7 @@ class Users implements UserInterface
     }
 
     /**
-     * Set isactive
+     * Set active
      *
      * @param boolean $active
      *
@@ -264,9 +265,9 @@ class Users implements UserInterface
     /**
      * Set rol
      *
-     * @param \Roles $rol
+     * @param Roles $rol
      *
-     * @return Cities
+     * @return Users
      */
     public function setRol(Roles $rol = null)
     {
@@ -278,11 +279,11 @@ class Users implements UserInterface
     /**
      * Get rol
      *
-     * @return \Roles
+     * @return Roles
      */
     public function getRol()
     {
-        return $this->rol;
+        return strtoupper('ROL_'.$this->rol);
     }
 
 

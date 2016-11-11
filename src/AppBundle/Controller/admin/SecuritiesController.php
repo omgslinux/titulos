@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -217,7 +217,6 @@ class SecuritiesController extends Controller
         );
         printf("fields: (%s)\n<br><br>", print_r($fields, true));
 
-        //sleep(5);
         $em = $this->getDoctrine()->getManager();
         foreach ($records as $recordkey => $record) {
             printf("recordkey: (%s)\n<br><br>", print_r($record, true));
