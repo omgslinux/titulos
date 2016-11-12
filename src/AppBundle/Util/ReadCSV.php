@@ -2,16 +2,27 @@
 
 namespace AppBundle\Util;
 
-class ReadCSV
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
+
+class ReadCSV extends ContainerAwareLoader
 {
     private $rootdir;
     private $url=array();
-    private $basedir='../web/pdf/';
+    private $basedir; //='../web/pdf/';
     private $path;
 
     public function setRootdir($rootdir)
     {
         $this->rootdir = $rootdir;
+    }
+
+    public function getBaseDir()
+    {
+        if (empty($this->basedir)) {
+            $this->setBasedir($this->getParameter('pdf_rootdir'));
+        }
+
+        return $this->basedir;
     }
 
     public function setBasedir($basedir)

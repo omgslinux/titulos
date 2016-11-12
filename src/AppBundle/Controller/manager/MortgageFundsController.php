@@ -13,15 +13,45 @@ use AppBundle\Form\MortgageFundsType;
 /**
  * MortgageFunds controller.
  *
- * @Route("/manage/funds/extra")
+ * @Route("/manage/funds")
  */
 class MortgageFundsController extends Controller
 {
 
     /**
+     * Creates a new MortgageFunds entity.
+     *
+     * @Route("/{id}/extra/new", name="manage_funds_extra_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request, Funds $fund)
+    {
+        $mfund = new MortgageFunds();
+        $mfund->setFund($fund);
+        $form = $this->createForm('AppBundle\Form\MortgageFundsType', $mfund);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($mfund);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $mfund->getId()));
+        }
+
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'title' => 'Añadir datos adicionales para el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
+        ));
+    }
+
+    /**
      * Displays a form to edit a MortgageFunds entity.
      *
-     * @Route("/{id}/edit", name="manage_funds_extra_edit")
+     * @Route("/extra/{id}/edit", name="manage_funds_extra_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, MortgageFunds $mfund)
@@ -48,7 +78,7 @@ class MortgageFundsController extends Controller
     /**
      * Deletes a MortgageFunds entity.
      *
-     * @Route("/{id}/delete", name="manage_funds_extra_delete")
+     * @Route("/extra/{id}/delete", name="manage_funds_extra_delete")
      * @Method({"GET", "DELETE"})
      */
     public function deleteAction(Request $request, MortgageFunds $mfund)

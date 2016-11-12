@@ -30,7 +30,7 @@
     {% endif %}
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': banktasks.getFundid } ) }}">Volver al fondo</a>
+            <a href="{{ path('manage_funds_show', { 'id': fundbank.fund.getId } ) }}">Volver al fondo {{ fundbank.fundname }}</a>
         </li>
     </ul>
 {% endblock %}

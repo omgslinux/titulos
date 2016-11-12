@@ -16,7 +16,7 @@ use AppBundle\Form\FundBanksType;
 /**
  * Funds controller.
  *
- * @Route("/manage/funds/banks")
+ * @Route("/manage/funds")
  */
 class FundBanksController extends Controller
 {
@@ -24,14 +24,11 @@ class FundBanksController extends Controller
     /**
      * Creates a form to edit a FundBanks entity.
      *
-     * @Route("/{id}", name="manage_funds_banks_show")
+     * @Route("/banks/{id}", name="manage_funds_banks_show")
      * @Method({"GET", "POST"})
      */
     public function showAction(Request $request, FundBanks $fundbank)
     {
-        //$em = $this->getDoctrine()->getManager();
-        //$banktasks = $em->getRepository('AppBundle:FundBankTasks')->findBy(array('fundbank' => $fundbanks->getId()));
-
         $filename = false;
         $form = false;
         $securitiescount=false;
@@ -52,7 +49,6 @@ class FundBanksController extends Controller
 
         return $this->render('funds/banks.html.twig', array(
             'fundbank' => $fundbank,
-            //'banktasks' => $banktasks,
             'filename' => $filename,
             'securitiescount' => $securitiescount,
             'download_form' => $form
@@ -60,9 +56,40 @@ class FundBanksController extends Controller
     }
 
     /**
+     * Creates a new FundBanks entity.
+     *
+     * @Route("/{id}/banks/new", name="manage_funds_banks_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request, Funds $fund)
+    {
+        //$em = $this->getDoctrine()->getManager();
+        //$fundbanks = $em->getRepository('AppBundle:FundBanks')->find($fund);
+        $fundbanks = new FundBanks($fund);
+        $form = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fundbanks);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundbanks->getFundid()));
+        }
+
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'title' => 'Crear entidad cedente para el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
+        ));
+    }
+
+    /**
      * Creates a form to edit a FundBanks entity.
      *
-     * @Route("/{id}/edit", name="manage_funds_banks_edit")
+     * @Route("/banks/{id}/edit", name="manage_funds_banks_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, FundBanks $fundbank)
@@ -90,7 +117,7 @@ class FundBanksController extends Controller
     /**
      * Deletes a FundBanks entity.
      *
-     * @Route("/{id}/delete", name="manage_funds_banks_delete")
+     * @Route("/banks/{id}/delete", name="manage_funds_banks_delete")
      * @Method({"GET", "DELETE"})
      */
     public function deleteAction(Request $request, FundBanks $fundbank)

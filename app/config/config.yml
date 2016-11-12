@@ -8,6 +8,7 @@ imports:
 parameters:
     locale: es
     pdf_rootdir: "%kernel.root_dir%/../web/pdf"
+    csv_loaddir: "%kernel.root_dir%/../app/Resources/csv"
 
 framework:
     #esi:             ~

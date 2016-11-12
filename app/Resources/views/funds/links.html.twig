@@ -1,14 +1,13 @@
 {% extends 'custom.html.twig' %}
 
 {% block body %}
-    <h1>{{ h1 }} {{ fundlink.fund.fundname }}</h1>
+    <h1>{{ title }} {{ fundlink.fund.fundname }}</h1>
 
         {% if edit_form is defined or create_form is defined %}
 
         {{ block('crudform') }}
         {% else %}
-        <h2>Datos dela ley {{ fundlink }}</h2>
-        <table>
+        <table class="table table-bordered">
             <tbody>
                <tr>
                    <th>Tipo</th>
@@ -20,7 +19,7 @@
                    <td><a href="{{ path('manage_funds_links_edit', { 'id': fundlink.id } ) }}">{{ fundlink.description }}</a></td>
                    <td>{% if filepath.isDocdownloaded(fundlink.getFulldocpath) == false %}{{ form_start(download_form) }}
                                    <input type="submit" value="Descargar">
-                               {{ form_end(download_form) }}{% else %}<a href="{{ asset('fundlink.fund.getDocpath') }}" target="_blank">Descarga directa</a>
+                               {{ form_end(download_form) }}{% else %}<a href="{{ asset('fundlink.fund.getDocpath()') }}" target="_blank">Descarga directa</a>
                    {% endif %}</td>
                </tr>
             </tbody>
@@ -29,7 +28,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': fundlink.getFundid } ) }}">Volver al fondo</a>
+            <a href="{{ backlink }}">{{ backmessage }}</a>
         </li>
     </ul>
 {% endblock %}

@@ -95,11 +95,6 @@ class MortgageFunds
 
 
 
-    public function __construct(Funds $fund)
-    {
-        $this->fund = $fund;
-    }
-
     public function getDocpath()
     {
         return $this->getId()->getDocpath();

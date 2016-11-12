@@ -27,7 +27,7 @@ class LawsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $law = $em->getRepository('AppBundle:Laws')->findAll();
+        $law = $em->getRepository('AppBundle:Laws')->findBy(array(), array('lawdate' => 'ASC'));
 
         return $this->render('laws/index.html.twig', array(
             'laws' => $law,
@@ -97,7 +97,7 @@ class LawsController extends Controller
         }
 
         return $this->render('laws/edit.html.twig', array(
-            'h1' => 'Editar enlace a ley',
+            'title' => 'Editar enlace a ley',
             'backlink' => $this->generateUrl('manage_laws_show', array('id' => $law->getId())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),

@@ -1,14 +1,11 @@
 <?php
-namespace AppBundle\DataFixtures\ORM;
+namespace AppBundle\Command;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\FundManagers;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class FundsLoader extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
+class FundsCommand extends ContainerAwareCommand
 {
     private $order = 100;
     private $csvfile;
@@ -19,13 +16,10 @@ class FundsLoader extends AbstractFixture implements ContainerAwareInterface, Or
         return $this->order;
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->container = $container;
-    }
-
-    public function load(ObjectManager $em)
-    {
+        $io = new SymfonyStyle($input, $output);
+        //$ciudad = $io->ask('¿Para qué ciudad quieres generar los emails?', 'sevilla');
         //$fieldlist = 'fundmanager_id,fundtype_id,fundname,nif,constdate';
 
         $this->csvfile = "fundamangers_funds.csv";
@@ -49,8 +43,8 @@ class FundsLoader extends AbstractFixture implements ContainerAwareInterface, Or
             'address' => true
         );
         printf("fields: (%s)\n<br><br>", print_r($fields, true));
-
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        //$em = $this->getDoctrine()->getManager();
         foreach ($records as $recordkey => $record) {
             printf("recordkey: (%s)\n<br><br>", print_r($record, true));
             //$security = new Securities();

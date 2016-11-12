@@ -21,6 +21,7 @@ class LawsType extends AbstractType
         $builder
             ->add('number', IntegerType::class, array ('label' => 'Número de la ley'))
             ->add('lawdate', DateType::class, array(
+                'widget' => 'single_text',
                 'label' => 'Fecha de la ley',
                 'years' => range(1980, date('Y'))))
             ->add('shortname', TextType::class, array('label' => 'Descripción corta'))
@@ -29,7 +30,8 @@ class LawsType extends AbstractType
             ->add('contents', TextareaType::class, array('label' => 'Contenido',
                 'attr' => array('cols' => 80, 'rows' => 15)
             ))
-            ->add('analysis', TextareaType::class, array('label' => 'Análisis',
+            ->add('analysis', TextareaType::class, array(
+                'label' => 'Análisis',
                 'attr' => array('cols' => 80, 'rows' => 15)
             ))
         ;

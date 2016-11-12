@@ -177,7 +177,7 @@ class Banks
     /**
      * Set city
      *
-     * @param \Cities $city
+     * @param Cities $city
      *
      * @return Banks
      */
@@ -191,7 +191,7 @@ class Banks
     /**
      * Get city
      *
-     * @return \Cities
+     * @return Cities
      */
     public function getCity()
     {

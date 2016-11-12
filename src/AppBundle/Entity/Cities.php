@@ -33,7 +33,7 @@ class Cities
     /**
     * @var Provincies
     *
-    * @ORM\ManyToOne(targetEntity="Provinces")
+    * @ORM\ManyToOne(targetEntity="Provinces", inversedBy="cities")
     */
     private $province;
 

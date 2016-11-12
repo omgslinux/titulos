@@ -9,7 +9,7 @@
     {{ block('crudform') }}
     {% else %}
     <h2>Datos de la entidad {{ fundbank.getBank }}</h2>
-    <table class=table>
+    <table class="table table-bordered">
         <tbody>
            <tr>
                 <th>Entidad</th>
@@ -22,22 +22,23 @@
                <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
                <td>{{ fundbank.loantype }}</td>
                <td>{{ fundbank.count }}</td>
-               <td>{% if filename %}X</td><td>
-                        {% if securitiescount %}{{ securitiescount }}
-                        {% else %}{{ form_start(download_form) }}
-                               <input type="submit" value="Cargar">
+               {% if filename %}<td  class="btn btn-success">X</td>
+                        {% if securitiescount %}<td class="btn btn-success">{{ securitiescount }}
+                        {% else %}<td class="btn btn-warning">{{ form_start(download_form) }}
+                               <input type="submit" class="btn btn-success" value="Cargar">
                                <input name="filename" type="hidden" value="{{ filename|url_encode }}">
-                           {{ form_end(download_form) }}<a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
+                           {{ form_end(download_form) }}
+                           <a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
                        {% endif %}
-                   {% else %}No hay fichero</td>
+                   {% else %}<td  class="btn btn-warning">No hay fichero</td>
                     <td><a href="{{ path('manage_funds_links_new', { 'id': fundbank.getId }) }}">Crear enlace a CSV</a>
-                   {% endif %}({{ filename }})</td>
+                   {% endif %}</td>
            </tr>
         </tbody>
     </table>
-    {% if fundbank.getTasks %}
+    {% if fundbank.getTasks.count %}
     <h3>Tareas</h3>
-    <table>
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>Fecha</th>

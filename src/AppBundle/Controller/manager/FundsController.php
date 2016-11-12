@@ -71,19 +71,10 @@ class FundsController extends Controller
      * Finds and displays a Funds entity.
      *
      * @Route("/{id}", name="manage_funds_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
     public function showAction(Funds $fund)
     {
-
-        $em = $this->getDoctrine()->getManager();
-
-        $mfund = $em->getRepository('AppBundle:MortgageFunds')->find($fund);
-
-        $fundlinks = $em->getRepository('AppBundle:FundLinks')->findBy(array('fund' => $fund->getId()));
-        $fundbanks = $em->getRepository('AppBundle:FundBanks')->findBy(array('fund' => $fund->getId()));
-        $fundlaws = $em->getRepository('AppBundle:FundLaws')->findBy(array('fund' => $fund->getId()));
-
         $deleteForm = $this->createDeleteForm($fund);
         $downloadForm = $this->createDownloadForm($fund);
 
@@ -93,10 +84,6 @@ class FundsController extends Controller
 
         return $this->render('funds/show.html.twig', array(
             'fund' => $fund,
-            //'mfund' => $mfund,
-            //'fundlinks' => $fundlinks,
-            //'fundbanks' => $fundbanks,
-            //'fundlaws' => $fundlaws,
             'filepath' => $filepath,
             'delete_form' => $deleteForm->createView(),
             'download_form' => $downloadForm->createView(),
@@ -207,99 +194,5 @@ class FundsController extends Controller
             ->setMethod('POST')
             ->getForm()
         ;
-    }
-
-
-
-
-    /**
-     * Creates a new MortgageFunds entity.
-     *
-     * @Route("/{id}/extra/new", name="manage_funds_extra_new")
-     * @Method({"GET", "POST"})
-     */
-    public function extranewAction(Request $request, Funds $fund)
-    {
-        $mfund = new MortgageFunds($fund);
-        $form = $this->createForm('AppBundle\Form\MortgageFundsType', $mfund);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($mfund);
-            $em->flush();
-
-            return $this->redirectToRoute('manage_funds_show', array('id' => $mfund->getId()));
-        }
-
-        return $this->render('funds/edit.html.twig', array(
-            'fund' => $fund,
-            'h1' => 'Añadir datos adicionales para el fondo ',
-            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
-            'backmessage' => 'Volver al listado',
-            'create_form' => $form->createView(),
-        ));
-    }
-
-
-    /**
-     * Creates a new FundBanks entity.
-     *
-     * @Route("/{id}/banks/new", name="manage_funds_banks_new")
-     * @Method({"GET", "POST"})
-     */
-    public function banksnewAction(Request $request, Funds $fund)
-    {
-        //$em = $this->getDoctrine()->getManager();
-        //$fundbanks = $em->getRepository('AppBundle:FundBanks')->find($fund);
-        $fundbanks = new FundBanks($fund);
-        $form = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fundbanks);
-            $em->flush();
-
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fundbanks->getFundid()));
-        }
-
-        return $this->render('funds/edit.html.twig', array(
-            'fund' => $fund,
-            'h1' => 'Crear entidad cedente para el fondo ',
-            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
-            'backmessage' => 'Volver al listado',
-            'create_form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Creates a new FundLaws entity.
-     *
-     * @Route("/{id}/laws/new", name="manage_funds_laws_new")
-     * @Method({"GET", "POST"})
-     */
-    public function lawsnewAction(Request $request, Funds $fund)
-    {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $fundlaws = new FundLaws($fund);
-        $form = $this->createForm('AppBundle\Form\FundLawsType', $fundlaws);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($fundlaws);
-            $em->flush();
-
-            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlaws->getFund()->getId()));
-        }
-
-        return $this->render('funds/edit.html.twig', array(
-            'fund' => $fund,
-            'h1' => 'Crear enlace a ley ',
-            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
-            'backmessage' => 'Volver al listado',
-            'create_form' => $form->createView(),
-        ));
     }
 }

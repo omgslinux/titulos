@@ -15,21 +15,35 @@
             <tr>
                 <th>Gestora</th>
                 <th>Nombre</th>
-                <th>Tipo de fondo</th>
                 <th>NIF</th>
                 <th>Fecha constitución</th>
-                <th>Cantidad</th>
+                <th>Estado</th>
             </tr>
         </thead>
         <tbody>
         {% for fund in funds %}
             <tr>
                 <td>{{ fund.fundmanager }}</td>
-                <td><a href="{{ path('manage_funds_show', { 'id': fund.id }) }}">{{ fund.fundname }}</a></td>
-                <td>{{ fund.fundtype }}</td>
+                <td><form><button type="submit" formaction="{{ path('manage_funds_show', { 'id': fund.id }) }}"
+                {% if fund.fundtype == 'Hipotecario' %} class="btn btn-block btn-success" title="Fondo hipotecario"
+                {% else %} class="btn btn-block btn-warning" title="Fondo no hipotecario"
+                {% endif %}>{{ fund.fundname }}</button></form></td>
                 <td>{{ fund.nif }}</td>
                 <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
-                <td>{{ fund.amount|number_format(2,',','.') }} €</td>
+                <td {% if fund.mfund and fund.fundtype == 'Hipotecario' %}{% set suma = 0 %}{% set sumasec = 0 %}
+                        {% for bank in fund.banks %}
+                            {% set suma = suma + bank.count %}
+                            {% set sumasec = sumasec + bank.securities.count %}
+                        {% endfor %}
+                        {% if sumasec == suma %}class="btn-success">Cargado
+                        {% else %}class="btn-warning">Incompleto
+                        {% endif %}
+                    {% else %}
+                        {% if fund.fundtype == 'Hipotecario' %}class="btn-danger">Faltan datos
+                        {% else %}class="btn-info">No es hipotecario
+                        {% endif %}
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

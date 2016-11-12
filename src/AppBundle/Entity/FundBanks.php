@@ -238,7 +238,7 @@ class FundBanks
     public function addTask(FundBankTasks $task)
     {
         $this->tasks->add($task);
-        $task->setTask($this);
+        $task->setFundbank($this);
 
         return $this;
     }

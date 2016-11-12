@@ -40,9 +40,9 @@ class FundLinksController extends Controller
 
         return $this->render('funds/links.html.twig', array(
             'fundlink' => $fundlinks,
-            'h1' => 'Editar enlace ',
-            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFund()->getId())),
-            'backmessage' => 'Volver al listado',
+            'title' => 'Editar enlace ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFundid())),
+            'backmessage' => 'Volver al fondo ' . $fundlinks->getFundname(),
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         ));
@@ -63,7 +63,9 @@ class FundLinksController extends Controller
         return $this->render('funds/links.html.twig', array(
             'fundlink' => $fundlinks,
             'filepath' => $filepath,
-            'h1' => 'Enlace en el fondo ',
+            'title' => 'Enlaces en el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFundid())),
+            'backmessage' => 'Volver al fondo ' . $fundlinks->getFundname(),
             'download_form' => $downloadForm->createView()
         ));
     }
@@ -168,9 +170,9 @@ class FundLinksController extends Controller
 
         return $this->render('funds/edit.html.twig', array(
             'fund' => $fund,
-            'h1' => 'Crear enlace ',
+            'title' => 'Crear enlace ',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
-            'backmessage' => 'Volver al listado',
+            'backmessage' => 'Volver al fondo ' . $fund->getFundname(),
             'create_form' => $form->createView(),
         ));
     }

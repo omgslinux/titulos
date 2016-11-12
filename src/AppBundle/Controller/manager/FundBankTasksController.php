@@ -55,10 +55,6 @@ class FundBankTasksController extends Controller
      */
     public function showAction(Request $request, FundBank $fundbank)
     {
-        //$em = $this->getDoctrine()->getManager();
-        //$banktasks = $em->getRepository('AppBundle:FundBankTasks')->findOneBy(array('id' => $fundbanks->getBankid()));
-
-
 
         return $this->render('funds/tasks.html.twig', array(
             'action' => 'Listado de tareas',
@@ -88,7 +84,7 @@ class FundBankTasksController extends Controller
         }
 
         return $this->render('funds/tasks.html.twig', array(
-            'banktasks' => $banktasks,
+            'fundbank' => $banktasks->getFundbank(),
             'action' => 'Edición de tareas',
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),

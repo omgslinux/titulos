@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Users
  *
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
+ * @ORM\Entity
  */
 class Users implements UserInterface
 {

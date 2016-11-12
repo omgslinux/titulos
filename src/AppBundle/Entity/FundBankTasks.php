@@ -66,11 +66,6 @@ class FundBankTasks
     private $finished;
 
 
-    public function __construct(FundBanks $fundbank)
-    {
-        $this->fundbank = $fundbank;
-    }
-
 
     /**
      * Get id

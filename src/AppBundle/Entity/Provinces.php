@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Provinces
@@ -27,6 +28,13 @@ class Provinces
      * @ORM\Column(type="string", length=64)
      */
     private $name;
+
+    /**
+    * @var ArrayCollection
+    *
+    * @ORM\OneToMany(targetEntity="Cities", mappedBy="province")
+    */
+    private $cities;
 
 
     /**
@@ -62,6 +70,32 @@ class Provinces
     {
         return $this->name;
     }
+
+    /**
+     * Get cities
+     *
+     * @return ArrayCollection
+     */
+    public function getCities()
+    {
+        return $this->cities;
+    }
+
+    /**
+     * Add city
+     *
+     * @param Cities $city
+     *
+     * @return Provinces
+     */
+    public function addCity(Cities $city)
+    {
+        $this->cities->add($city);
+        $city->setProvince($this);
+
+        return $this;
+    }
+
 
 
     public function __toString()

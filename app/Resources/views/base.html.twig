@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Aplicación de titulizaciones{% endblock %}</title>
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}" />
@@ -11,7 +12,9 @@
         <link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/0b673c62218d8d3175d24dd80131b574?s=32" sizes="16x16" />
     </head>
     <body>
+        <div class="container-fluid">
         {% block body %}{% endblock %}
+        </div>
         <!-- Needed for Forms Feature Detection -->
     		<script type="text/javascript" src="{{ asset('shared/js/modernizr.com/Modernizr-2.5.3.forms.js') }}">
     		</script>

@@ -1,12 +1,13 @@
 {% extends 'custom.html.twig' %}
 
 {% block body %}
-    <h1>Edición de tipo de enlace</h1>
+    <h1>{{ title }} {{ user }}</h1>
 
-{{ block('crudform') }}
+    {{ block('crudform') }}
+
     <ul>
         <li>
-            <a href="{{ path('manage_linktypes_index') }}">Volver a la lista</a>
+            <a href="{{ backlink }}">{{ backmessage }}</a>
         </li>
     </ul>
 {% endblock %}

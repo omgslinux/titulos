@@ -1,19 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Usuarios</h1>
+    <h1>Indice de usuarios</h1>
 
-    <table>
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>Login</th>
                 <th>Nombre completo</th>
             </tr>
             <tr>
-                <td><a href="{{ path('manage_users_edit', { 'id': user.id }) }}">{{ user.username }}</a></td>
+                <td><a href="{{ path('admin_users_edit', { 'id': user.id }) }}">{{ user.username }}</a></td>
                 <td>{{ user.fullname }}</td>
             </tr>
         </tbody>
     </table>
+    <ul>
+        <li>
+            <a href="{{ backlink }}">{{ backmessage }}</a>
+        </li>
+    </ul>
 
 {% endblock %}

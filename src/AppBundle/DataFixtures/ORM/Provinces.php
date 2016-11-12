@@ -6,15 +6,12 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Provinces;
 use Appbundle\repository\ProvincesRepository;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 
-class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
+class ProvincesLoader extends ContainerAwareLoader implements OrderedFixtureInterface
 {
     private $order = 1;
-    private $fieldlist;
-    private $table;
     private $csvfile;
-    private $records=array();
-    private $rawdump=false;
 
     public function getOrder()
     {
@@ -23,15 +20,31 @@ class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $this->fieldlist = 'name';
-        $this->table = 'provinces';
-        if ($this->rawdump) {
-            $this->csvfile = $this->table.'.csv';
-            $this->qbdump($manager);
-        } else {
-            $this->csvfile = 'provinces.csv';
-            $this->emdump($manager);
+        //$this->fieldlist = 'name';
+        $this->csvfile = 'provinces.csv';
+
+        $rootdir = $this->getParameter('csv_loaddir');
+        $filename = $rootdir . '/' . $this->csvfile;
+        $records = $this->get('app.readcsv')->readcsv($filename);
+        $fields = array(
+            'name' => true,
+        );
+        printf("fields: (%s)\n<br><br>", print_r($fields, true));
+
+        $em = $this->getDoctrine()->getManager();
+        foreach ($records as $recordkey => $record) {
+            printf("recordkey: (%s)\n<br><br>", print_r($record, true));
+            //$security = new Securities();
+            $params=array(
+                'fields' => $fields,
+                'classname'  => 'Provinces',
+                'row' => $record,
+            );
+            $province = $this->get('app.readcsv')->emdumprow($em, $params);
+            //$bank->setFundbank($bank);
+            $em->persist($province);
         }
+        $em->flush();
     }
 
     public function emdump(ObjectManager $manager)
@@ -76,33 +89,5 @@ class ProvincesLoader extends AbstractFixture implements OrderedFixtureInterface
             $stmt = $manager->getConnection()->prepare($sql);
             $result = $stmt->execute();
         }
-    }
-
-    public function readcsv($csvfile)
-    {
-        // print getcwd();
-        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== false) {
-            $headers = array();
-            $data = array();
-            $row = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
-                $row++;
-                $column = 0;
-                if ($row === 1) {
-                    $num = count($line);
-                    // echo "<p> $num fields in line $row: <br /></p>\n";
-                    foreach ($line as $key) {
-                        $headers[$column] = $key;
-                        $column++;
-                    }
-                } else {
-                    foreach ($line as $value) {
-                        $data[$row]["{$headers[$column]}"] = $value;
-                        $column++;
-                    }
-                }
-            }
-        }
-        return $data;
     }
 }

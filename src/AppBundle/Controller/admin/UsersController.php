@@ -20,7 +20,7 @@ class UsersController extends Controller
     /**
      * Index for all Users entity.
      *
-     * @Route("/", name="manage_users_index")
+     * @Route("/", name="admin_users_index")
      * @Method({"GET", "POST"})
      */
     public function indexAction(Request $request)
@@ -35,26 +35,26 @@ class UsersController extends Controller
     }
 
     /**
-     * Creates a form to edit a Users entity.
+     * Finds and displays a Users entity.
      *
-     * @Route("/{id}", name="manage_users_show")
+     * @Route("/{id}", name="admin_users_show")
      * @Method({"GET", "POST"})
      */
     public function showAction(Request $request, Users $user)
     {
-        $em = $this->getDoctrine()->getManager();
-    //    $banktasks = $em->getRepository('AppBundle:FundBankTasks')->findAll(array('fundbank' => $fundbanks->getId()));
-
+        //$em = $this->getDoctrine()->getManager();
 
         return $this->render('admin/users/show.html.twig', array(
             'user' => $user,
+            'backlink' => $this->generateUrl('admin_users_index'),
+            'backmessage' => 'Volver al listado de usuarios',
         ));
     }
 
     /**
      * Creates a form to edit a Users entity.
      *
-     * @Route("/{id}/edit", name="manage_users_edit")
+     * @Route("/{id}/edit", name="admin_users_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Users $user)
@@ -74,11 +74,14 @@ class UsersController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('manage_users_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('admin_users_show', array('id' => $user->getId()));
         }
 
         return $this->render('admin/users/edit.html.twig', array(
-            'users' => $user,
+            'user' => $user,
+            'title' => 'Editando usuario',
+            'backlink' => $this->generateUrl('admin_users_show', array('id' => $user->getId())),
+            'backmessage' => 'Volver al listado',
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -87,7 +90,7 @@ class UsersController extends Controller
     /**
      * Deletes a Users entity.
      *
-     * @Route("/{id}/delete", name="manage_users_delete")
+     * @Route("/{id}/delete", name="admin_users_delete")
      * @Method({"GET", "DELETE"})
      */
     public function deleteAction(Request $request, Users $users)
@@ -101,7 +104,7 @@ class UsersController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('manage_users_show', array('id' => $users->getId()));
+        return $this->redirectToRoute('admin_users_show', array('id' => $users->getId()));
     }
 
     /**
@@ -114,7 +117,7 @@ class UsersController extends Controller
     private function createDeleteForm(Users $users)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('manage_users_delete', array('id' => $users->getId())))
+            ->setAction($this->generateUrl('admin_users_delete', array('id' => $users->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -123,14 +126,14 @@ class UsersController extends Controller
     /**
      * Creates a new Users entity.
      *
-     * @Route("/new", name="manage_users_new")
+     * @Route("/new", name="admin_users_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $user = new Users;
-        $createForm = $this->createForm('AppBundle\Form\RolesType', $user);
+        $user = new Users();
+        $createForm = $this->createForm('AppBundle\Form\UsersType', $user);
         $createForm->handleRequest($request);
 
         if ($createForm->isSubmitted() && $createForm->isValid()) {
@@ -141,7 +144,7 @@ class UsersController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('manage_users_index');
+            return $this->redirectToRoute('admin_users_index');
         }
 
         return $this->render('admin/users/edit.html.twig', array(
@@ -155,7 +158,7 @@ class UsersController extends Controller
     /**
      * Creates a new Roles entity.
      *
-     * @Route("/{id}/roles/new", name="manage_user_roles_new")
+     * @Route("/{id}/roles/new", name="admin_user_roles_new")
      * @Method({"GET", "POST"})
      */
     public function rolesnewAction(Request $request, Users $user)
@@ -170,7 +173,7 @@ class UsersController extends Controller
             $em->persist($roles);
             $em->flush();
 
-            return $this->redirectToRoute('manage_users_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('admin_users_show', array('id' => $user->getId()));
         }
 
         return $this->render('admin/users/roles.html.twig', array(

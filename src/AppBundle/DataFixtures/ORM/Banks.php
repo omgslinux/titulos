@@ -4,14 +4,12 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 
-class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
+class BanksLoader extends ContainerAwareLoader implements OrderedFixtureInterface
 {
-    private $fieldlist;
     private $order=10;
-    private $table;
-
-    private $csvfile;
+    private $csvfile="banks.csv";
 
     public function getOrder()
     {
@@ -20,77 +18,57 @@ class BanksLoader extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $fieldlist = 'shortname,longname';
-        $table = 'banks';
-        $this->manage($fieldlist, $table);
-        $this->dump2bd($manager);
-    }
+//        $this->manage($fieldlist, $table);
+//        $this->dump2bd($manager);
 
-    public function manage($fieldlist, $table, $csvfile = null)
-    {
-        $this->fieldlist=$fieldlist;
-        $this->table = $table;
-        if (is_null($csvfile)) {
-            $csvfile = "$table";
-        }
-        $this->csvfile = "${csvfile}.csv";
-    }
+//        $this->fieldlist=$fieldlist;
+//        $this->table = $table;
+//        if (is_null($csvfile)) {
+//            $csvfile = "$table";
+//        }
+//        $this->csvfile = "${csvfile}.csv";
 
-    public function dump2bd(ObjectManager $manager)
-    {
-        $fields=explode(',', $this->fieldlist);
-        print_r($fields);
-        $records = $this->readcsv($this->csvfile);
-        $counter=0;
-        // print_r($funds);
+
+        $rootdir = $this->getParameter('csv_loaddir');
+        $filename = $rootdir . '/' . $this->csvfile;
+        $records = $this->get('app.readcsv')->readcsv($filename);
+        $fields = array(
+            'shortname' => true,
+            'longname' => true,
+            'acronym' => true,
+            'city' => array(
+                'type' => array(
+                    'entity' => true,
+                    'classname' => 'Cities',
+                    'property' => 'city',
+                    'mappedBy' => 'city'
+                )
+            ),
+            'city_id' => array(
+                'type' => array(
+                    'entity' => true,
+                    'classname' => 'Cities',
+                    'property' => 'city',
+                    'mappedBy' => 'id'
+                )
+            ),
+            'address' => true
+        );
+        printf("fields: (%s)\n<br><br>", print_r($fields, true));
+
+        $em = $this->getDoctrine()->getManager();
         foreach ($records as $recordkey => $record) {
-            // print_r($recordkey);
-            $counter++;
-            $values = '';
-            $fcounter=count($fields);
-            foreach ($fields as $field => $value) {
-                echo "field: ($field), v: ($value), record[value]:" . $record[$value] . "\n";
-                if (in_array($value, $fields)) {
-                    $values .= "'" . $record["$value"] . "'";
-                }
-                $fcounter--;
-                if ($fcounter>0) {
-                    $values .= ', ';
-                }
-            }
-
-            $sql = "INSERT INTO " . $this->table . " (". $this->fieldlist . ") VALUES ($values)";
-            echo "Ejecutando $sql\n";
-            $stmt = $manager->getConnection()->prepare($sql);
-            $result = $stmt->execute();
+            printf("recordkey: (%s)\n<br><br>", print_r($record, true));
+            //$security = new Securities();
+            $params=array(
+                'fields' => $fields,
+                'classname'  => 'Banks',
+                'row' => $record,
+            );
+            $bank = $this->get('app.readcsv')->emdumprow($em, $params);
+            //$bank->setFundbank($bank);
+            $em->persist($bank);
         }
-    }
-
-    public function readcsv($csvfile)
-    {
-        // print getcwd();
-        if (($handle = fopen('app/Resources/sql/'."$csvfile", "r")) !== false) {
-            $headers = array();
-            $data = array();
-            $row = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
-                $row++;
-                $column = 0;
-                if ($row === 1) {
-                    $num = count($line);
-                    // echo "<p> $num fields in line $row: <br /></p>\n";
-                    foreach ($line as $key) {
-                        $headers[$column] = $key;
-                        $column++;
-                    }
-                } else {
-                    foreach ($line as $value) {
-                        $data[$row]["{$headers[$column]}"] = $value;
-                        $column++;
-                    }
-                }
-            }
-        }
-        return $data;
+        $em->flush();
     }
 }

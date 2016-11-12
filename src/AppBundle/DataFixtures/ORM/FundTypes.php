@@ -5,23 +5,45 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\FundTypes;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 
-class FundTypesLoader extends AbstractFixture implements OrderedFixtureInterface
+class FundTypesLoader extends ContainerAwareLoader implements OrderedFixtureInterface
 {
     private $order = 2;
-    private $table;
-
-    private $fieldlist;
+    private $csvfile;
 
     public function getOrder()
     {
         return $this->order;
     }
-    public function load(ObjectManager $manager)
+
+    public function load(ObjectManager $em)
     {
-        $this->table = 'fundtypes';
-        $this->fieldlist = 'id,fundtype';
-        $this->manage($manager);
+        //$this->fieldlist = 'id,fundtype';
+        //$this->manage($manager);
+        $this->csvfile = 'fundtypes.csv';
+
+        $rootdir = $this->getParameter('csv_loaddir');
+        $filename = $rootdir . '/' . $this->csvfile;
+        $records = $this->get('app.readcsv')->readcsv($filename);
+        $fields = array(
+            'fundtype' => true,
+        );
+        printf("fields: (%s)\n<br><br>", print_r($fields, true));
+
+        foreach ($records as $recordkey => $record) {
+            printf("recordkey: (%s)\n<br><br>", print_r($record, true));
+            //$security = new Securities();
+            $params=array(
+                'fields' => $fields,
+                'classname'  => 'FundTypes',
+                'row' => $record,
+            );
+            $fundtype = $this->get('app.readcsv')->emdumprow($em, $params);
+            //$bank->setFundbank($bank);
+            $em->persist($bank);
+        }
+        $em->flush();
     }
 
     public function manage(ObjectManager $manager)

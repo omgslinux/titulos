@@ -6,12 +6,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLaws;
 
 /**
  * FundLinks controller.
  *
- * @Route("/manage/funds/laws")
+ * @Route("/manage/funds")
  */
 class FundLawsController extends Controller
 {
@@ -19,7 +20,7 @@ class FundLawsController extends Controller
     /**
      * Creates a form to edit a FundLaws entity.
      *
-     * @Route("/{id}/edit", name="manage_funds_laws_edit")
+     * @Route("/laws/{id}/edit", name="manage_funds_laws_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, FundLaws $fundlaw)
@@ -38,7 +39,7 @@ class FundLawsController extends Controller
 
         return $this->render('funds/edit.html.twig', array(
             'fund' => $fundlaw->getFund(),
-            'h1' => 'Editar enlace a ley para el fondo',
+            'title' => 'Editar enlace a ley para el fondo',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlaw->getFund()->getId())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),
@@ -47,9 +48,40 @@ class FundLawsController extends Controller
     }
 
     /**
+     * Creates a new FundLaws entity.
+     *
+     * @Route("/{id}/laws/new", name="manage_funds_laws_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request, Funds $fund)
+    {
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $fundlaw = new FundLaws();
+        $fundlaw->setFund($fund);
+        $form = $this->createForm('AppBundle\Form\FundLawsType', $fundlaw);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fundlaw);
+            $em->flush();
+
+            return $this->redirectToRoute('manage_funds_show', array('id' => $fundlaw->getFund()->getId()));
+        }
+
+        return $this->render('funds/edit.html.twig', array(
+            'fund' => $fund,
+            'title' => 'Crear enlace a ley ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $form->createView(),
+        ));
+    }
+
+    /**
      * Finds and displays a FundLaws entity.
      *
-     * @Route("/{id}", name="manage_funds_laws_show")
+     * @Route("/laws/{id}", name="manage_funds_laws_show")
      * @Method("GET")
      */
     public function showAction(FundLaws $fundlaw)
@@ -57,14 +89,14 @@ class FundLawsController extends Controller
 
         return $this->render('funds/laws.html.twig', array(
             'fundlaw' => $fundlaw,
-            'h1' => 'Ley en el fondo '
+            'title' => 'Ley en el fondo '
         ));
     }
 
     /**
      * Deletes a FundLaws entity.
      *
-     * @Route("/{id}", name="manage_funds_laws_delete")
+     * @Route("/laws/{id}", name="manage_funds_laws_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, FundLaws $fundlaw)
