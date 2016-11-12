@@ -99,7 +99,8 @@ class FundBankTasksController extends Controller
      */
     public function deleteAction(Request $request, FundBankTasks $banktasks)
     {
-        $form = $this->createDeleteForm($fundbanks);
+        $id = $banktasks->getBankid();
+        $form = $this->createDeleteForm($banktasks);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -108,7 +109,7 @@ class FundBankTasksController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('manage_funds_banks_show', array('id' => $banktasks->getBankid()));
+        return $this->redirectToRoute('manage_funds_banks_show', array('id' => $id));
     }
 
     /**

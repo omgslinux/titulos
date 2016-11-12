@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Users
  *
  * @ORM\Table(name="users")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  */
 class Users implements UserInterface
 {
@@ -183,7 +183,8 @@ class Users implements UserInterface
 
     public function getRoles()
     {
-        return array('ROLE_ADMIN');
+        return array($this->getRol());
+        //return array('ROLE_ADMIN');
     }
 
     public function eraseCredentials()

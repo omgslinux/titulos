@@ -21,7 +21,7 @@ class UsersController extends Controller
      * Index for all Users entity.
      *
      * @Route("/", name="admin_users_index")
-     * @Method({"GET", "POST"})
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -38,7 +38,7 @@ class UsersController extends Controller
      * Finds and displays a Users entity.
      *
      * @Route("/{id}", name="admin_users_show")
-     * @Method({"GET", "POST"})
+     * @Method("GET")
      */
     public function showAction(Request $request, Users $user)
     {
@@ -132,7 +132,7 @@ class UsersController extends Controller
     public function newAction(Request $request)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $user = new Users();
+        //$user = new Users();
         $createForm = $this->createForm('AppBundle\Form\UsersType', $user);
         $createForm->handleRequest($request);
 
@@ -148,7 +148,7 @@ class UsersController extends Controller
         }
 
         return $this->render('admin/users/edit.html.twig', array(
-            'users' => $user,
+            'user' => $user,
             'roles' => array('EDITOR', 'MANAGER','ADMIN'),
             'action' => 'Crear usuario',
             'create_form' => $createForm->createView(),
@@ -164,7 +164,7 @@ class UsersController extends Controller
     public function rolesnewAction(Request $request, Users $user)
     {
         //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        $roles = new Roles($user);
+        $roles = new Roles();
         $createForm = $this->createForm('AppBundle\Form\RolesType', $roles);
         $createForm->handleRequest($request);
 
