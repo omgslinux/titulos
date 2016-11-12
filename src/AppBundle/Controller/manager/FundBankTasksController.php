@@ -122,7 +122,7 @@ class FundBankTasksController extends Controller
     private function createDeleteForm(FundBankTasks $banktasks)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('manage_fundbanks_tasks_delete', array('id' => $banktasks->getBankid())))
+            ->setAction($this->generateUrl('manage_fundbanks_tasks_delete', array('id' => $banktasks->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
