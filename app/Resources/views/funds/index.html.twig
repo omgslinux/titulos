@@ -35,7 +35,7 @@
                             {% set suma = suma + bank.count %}
                             {% set sumasec = sumasec + bank.securities.count %}
                         {% endfor %}
-                        {% if sumasec == suma %}class="btn-success">Cargado
+                        {% if sumasec == suma and suma != 0 %}class="btn-success">Cargado
                         {% else %}class="btn-warning">Incompleto
                         {% endif %}
                     {% else %}
