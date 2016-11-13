@@ -284,7 +284,7 @@ class Users implements UserInterface
      */
     public function getRol()
     {
-        return strtoupper('ROL_'.$this->rol);
+        return strtoupper('ROLE_'.$this->rol);
     }
 
 
