@@ -183,7 +183,7 @@ class Users implements UserInterface
 
     public function getRoles()
     {
-        return array($this->getRol());
+        return array(strtoupper('ROLE_'. $this->getRol()));
         //return array('ROLE_ADMIN');
     }
 
@@ -284,7 +284,7 @@ class Users implements UserInterface
      */
     public function getRol()
     {
-        return strtoupper('ROLE_'.$this->rol);
+        return $this->rol;
     }
 
 

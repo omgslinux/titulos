@@ -8,10 +8,12 @@
             <tr>
                 <th>Login</th>
                 <th>Nombre completo</th>
+                <th>Rol</th>
             </tr>
             <tr>
                 <td><a href="{{ path('admin_users_edit', { 'id': user.id }) }}">{{ user.username }}</a></td>
                 <td>{{ user.fullname }}</td>
+                <td>{{ user.getRol }}</td>
             </tr>
         </tbody>
     </table>

@@ -35,6 +35,39 @@ class UsersController extends Controller
     }
 
     /**
+     * Creates a new Users entity.
+     *
+     * @Route("/new", name="admin_users_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
+        $user = new Users();
+        $createForm = $this->createForm('AppBundle\Form\UsersType', $user);
+        $createForm->handleRequest($request);
+
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $encoder = $this->get('security.password_encoder');
+            $encodedPassword = $encoder->encodePassword($user, $user->getPlainpassword());
+            $user->setPassword($encodedPassword);
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_users_index');
+        }
+
+        return $this->render('default/edit.html.twig', array(
+            'user' => $user,
+            'action' => 'Crear usuario',
+            'backlink' => $this->generateUrl('admin_users_index'),
+            'backmessage' => 'Volver al listado',
+            'create_form' => $createForm->createView(),
+        ));
+    }
+
+    /**
      * Finds and displays a Users entity.
      *
      * @Route("/{id}", name="admin_users_show")
@@ -77,9 +110,9 @@ class UsersController extends Controller
             return $this->redirectToRoute('admin_users_show', array('id' => $user->getId()));
         }
 
-        return $this->render('admin/users/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'user' => $user,
-            'title' => 'Editando usuario',
+            'action' => 'Editando usuario',
             'backlink' => $this->generateUrl('admin_users_show', array('id' => $user->getId())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editform->createView(),
@@ -121,38 +154,6 @@ class UsersController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
-    }
-
-    /**
-     * Creates a new Users entity.
-     *
-     * @Route("/new", name="admin_users_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
-        //$user = new Users();
-        $createForm = $this->createForm('AppBundle\Form\UsersType', $user);
-        $createForm->handleRequest($request);
-
-        if ($createForm->isSubmitted() && $createForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $encoder = $this->get('security.password_encoder');
-            $encodedPassword = $encoder->encodePassword($user, $user->getPlainpassword());
-            $user->setPassword($encodedPassword);
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_users_index');
-        }
-
-        return $this->render('admin/users/edit.html.twig', array(
-            'user' => $user,
-            'roles' => array('EDITOR', 'MANAGER','ADMIN'),
-            'action' => 'Crear usuario',
-            'create_form' => $createForm->createView(),
-        ));
     }
 
     /**
