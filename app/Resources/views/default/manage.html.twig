@@ -7,6 +7,8 @@
                 <h1>Administración</h1>
                 <ul>
                     <li><a href="{{ path('admin_users_index') }}">Administración de usuarios</a></li>
+                    <li><a href="{{ path('admin_linktypes_index') }}">Tipos de enlaces</a></li>
+                    <li><a href="{{ path('admin_banks_index') }}">Gestión de bancos</a></li>
                 </ul>
             {% endif %}
             {% if is_granted('ROLE_MANAGER') %}
@@ -14,8 +16,6 @@
                 <ul>
                     <li><a href="{{ path('manage_funds_index') }}">Gestión de fondos</a></li>
                     <li><a href="{{ path('manage_fundmanagers_index') }}">Gestión de entidades gestoras</a></li>
-                    <li><a href="{{ path('admin_linktypes_index') }}">Tipos de enlaces</a></li>
-                    <li><a href="{{ path('admin_banks_index') }}">Gestión de bancos</a></li>
                     <li><a href="{{ path('manage_laws_index')}}">Gestión de leyes</a></li>
                 </ul>
             {% endif %}
