@@ -10,6 +10,7 @@
                 <th>Nombre completo</th>
                 <th>Correo</th>
                 <th>Activo</th>
+                <th>Rol</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
                 <td>{{ user.fullname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.isactive ? 'X' : 'No' }}</td>
+                <td>{{ user.rol }}</td>
             </tr>
         {% endfor %}
         </tbody>
