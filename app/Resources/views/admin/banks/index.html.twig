@@ -8,10 +8,10 @@
         </li>
     </ul>
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Cod BE</th>
                 <th>Acrónimo</th>
                 <th>Shortname</th>
                 <th>Longname</th>
@@ -22,9 +22,9 @@
         <tbody>
         {% for bank in banks %}
             <tr>
-                <td><a href="{{ path('admin_banks_show', { 'id': bank.id }) }}">{{ bank.id }}</a></td>
+                <td>{{ bank.becode }}</td>
                 <td>{{ bank.acronym }}</td>
-                <td>{{ bank.shortname }}</td>
+                <td><a href="{{ path('admin_banks_show', { 'id': bank.id }) }}">{{ bank.shortname }}</a></td>
                 <td>{{ bank.longname }}</td>
                 <td>{{ bank.address }}</td>
                 <td>{{ bank.city }}</td>

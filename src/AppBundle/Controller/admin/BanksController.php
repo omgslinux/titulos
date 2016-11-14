@@ -25,7 +25,7 @@ class BanksController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $banks = $em->getRepository('AppBundle:Banks')->findAll();
+        $banks = $em->getRepository('AppBundle:Banks')->findBy(array(), array('shortname' => 'ASC'));
 
         return $this->render('admin/banks/index.html.twig', array(
             'banks' => $banks,
