@@ -58,9 +58,9 @@ class FundsController extends Controller
             return $this->redirectToRoute('manage_funds_index');
         }
 
-        return $this->render('funds/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'fund' => $fund,
-            'title' => 'Crear fondo ',
+            'action' => 'Crear fondo ',
             'backlink' => $this->generateUrl('manage_funds_index'),
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
@@ -110,9 +110,9 @@ class FundsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fund->getId()));
         }
 
-        return $this->render('funds/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'fund' => $fund,
-            'title' => 'Editar fondo',
+            'action' => 'Editar fondo',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
             'backmessage' => 'Volver al fondo',
             'edit_form' => $editForm->createView(),

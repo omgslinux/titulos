@@ -28,6 +28,7 @@ class UserController extends Controller
 
         return $this->render('profile/edit.html.twig', array(
             'user' => $user,
+            'action' => 'Editar perfil de usuario'
         ));
     }
 

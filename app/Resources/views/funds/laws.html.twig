@@ -1,0 +1,32 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+
+<h1>{{ action }} {{ fundlaw.fund.fundname }}</h1>
+
+    {% if edit_form is defined or create_form is defined %}
+
+    {{ block('crudform') }}
+    {% else %}
+    <h2>Datos de la ley {{ fundlaw.law }}</h2>
+    <table>
+        <tbody>
+           <tr>
+               <th>Ley</th>
+               <th>Notas del fondo</th>
+               <th>Texto</th>
+           </tr>
+           <tr>
+               <td><a href="{{ path('manage_funds_laws_edit', { 'id': fundlaw.id } ) }}">{{ fundlaw }}</a></td>
+               <td>{{ fundlaw.notes }}</td>
+               <td>{{ fundlaw.law.contents }}
+           </tr>
+        </tbody>
+    </table>
+    {% endif %}
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_show', { 'id': fundlaw.getFund.getId } ) }}">Volver al fondo</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -39,11 +39,10 @@ class MortgageFundsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $mfund->getId()));
         }
 
-        return $this->render('funds/edit.html.twig', array(
-            'fund' => $fund,
-            'title' => 'Añadir datos adicionales para el fondo ',
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Añadir datos adicionales para el fondo ' . $fund,
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
-            'backmessage' => 'Volver al listado',
+            'backmessage' => 'Volver al fondo',
             'create_form' => $form->createView(),
         ));
     }
@@ -68,8 +67,11 @@ class MortgageFundsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $mfund->getId()));
         }
 
-        return $this->render('funds/extra.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'mfund' => $mfund,
+            'action' => 'Datos adicionales del fondo ' . $mfund->getFundname(),
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $mfund->getId())),
+            'backmessage' => 'Volver al fondo',
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

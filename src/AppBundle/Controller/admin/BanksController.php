@@ -52,9 +52,9 @@ class BanksController extends Controller
             return $this->redirectToRoute('admin_banks_show', array('id' => $bank->getId()));
         }
 
-        return $this->render('admin/banks/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'bank' => $bank,
-            'title' => 'Crear banco ',
+            'action' => 'Crear banco ',
             'backlink' => $this->generateUrl('admin_banks_index'),
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
@@ -104,9 +104,9 @@ class BanksController extends Controller
             return $this->redirectToRoute('admin_banks_show', array('id' => $bank->getId()));
         }
 
-        return $this->render('admin/banks/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'bank' => $bank,
-            'title' => 'Editar banco ',
+            'action' => 'Editar banco ',
             'backlink' => $this->generateUrl('admin_banks_index'),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),

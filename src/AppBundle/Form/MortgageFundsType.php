@@ -23,6 +23,17 @@ class MortgageFundsType extends AbstractType
             ->add('openfund', CheckboxType::class, array(
                 'required' => false,
                 'label' => 'Fondo abierto'))
+            ->add('liqdate', DateType::class, array(
+                'widget' => 'single_text',
+                'label' => 'Fecha de liquidación',
+                ))
+            ->add('extdate', DateType::class, array(
+                'widget' => 'single_text',
+                'label' => 'Fecha de extinción',
+                'years' => range(1980, date('Y'))))
+            ->add('brochure', CheckboxType::class, array(
+                'required' => false,
+                'label' => '¿Hay folleto?'))
             ->add('loansfirstpage', IntegerType::class, array('label' => 'Primera página de préstamos'))
             ->add('loanslastpage', IntegerType::class, array('label' => 'Última página de prestamos'))
             ->add('fundpages', IntegerType::class, array('label' => 'Número de páginas del fondo'))
@@ -32,17 +43,6 @@ class MortgageFundsType extends AbstractType
             ->add('digitalizable', CheckboxType::class, array(
                 'required' => false,
                 'label' => '¿El listado es de texto?'))
-            ->add('brochure', CheckboxType::class, array(
-                'required' => false,
-                'label' => '¿Hay folleto?'))
-            ->add('liqdate', DateType::class, array(
-                'widget' => 'single_text',
-                'label' => 'Fecha de liquidación',
-                'years' => range(1980, date('Y'))))
-            ->add('extdate', DateType::class, array(
-                'widget' => 'single_text',
-                'label' => 'Fecha de extinción',
-                'years' => range(1980, date('Y'))))
         ;
     }
 

@@ -105,6 +105,12 @@ class MortgageFunds
         return $this->getId()->getFulldocpath();
     }
 
+    public function __construct()
+    {
+        $this->liqdate = \DateTime::createFromFormat('Y-m-d', '1980-01-01');
+        $this->extdate = \DateTime::createFromFormat('Y-m-d', '1980-01-01');
+    }
+
     /**
      * Get id
      *

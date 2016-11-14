@@ -391,7 +391,7 @@ class Funds
      *
      * @return Funds
      */
-    public function removeFund(MortgageFunds $mfund)
+    public function removeMfund(MortgageFunds $mfund)
     {
         $this->mfund->removeElement($mfund);
 

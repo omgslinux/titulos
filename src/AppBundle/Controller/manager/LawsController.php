@@ -54,8 +54,9 @@ class LawsController extends Controller
             return $this->redirectToRoute('manage_laws_show', array('id' => $law->getId()));
         }
 
-        return $this->render('laws/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'laws' => $law,
+            'action' => 'Crear ley',
             'create_form' => $form->createView(),
         ));
     }
@@ -96,8 +97,8 @@ class LawsController extends Controller
             return $this->redirectToRoute('manage_laws_show', array('id' => $law->getId()));
         }
 
-        return $this->render('laws/edit.html.twig', array(
-            'title' => 'Editar enlace a ley',
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Editar enlace a ley',
             'backlink' => $this->generateUrl('manage_laws_show', array('id' => $law->getId())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),

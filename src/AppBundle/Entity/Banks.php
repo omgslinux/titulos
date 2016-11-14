@@ -265,6 +265,6 @@ class Banks
 
     public function __toString()
     {
-        return $this->getShortname();
+        return $this->getShortname() . ($this->becode?' (' . $this->becode . ')':null);
     }
 }

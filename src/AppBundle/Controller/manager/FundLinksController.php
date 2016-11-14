@@ -38,9 +38,9 @@ class FundLinksController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFund()->getId()));
         }
 
-        return $this->render('funds/links.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'fundlink' => $fundlinks,
-            'title' => 'Editar enlace ',
+            'action' => 'Editar enlace ',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFundid())),
             'backmessage' => 'Volver al fondo ' . $fundlinks->getFundname(),
             'edit_form' => $editForm->createView(),
@@ -63,7 +63,7 @@ class FundLinksController extends Controller
         return $this->render('funds/links.html.twig', array(
             'fundlink' => $fundlinks,
             'filepath' => $filepath,
-            'title' => 'Enlaces en el fondo ',
+            'action' => 'Enlaces en el fondo ',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlinks->getFundid())),
             'backmessage' => 'Volver al fondo ' . $fundlinks->getFundname(),
             'download_form' => $downloadForm->createView()
@@ -168,9 +168,9 @@ class FundLinksController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlinks->getFundid()));
         }
 
-        return $this->render('funds/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'fund' => $fund,
-            'title' => 'Crear enlace ',
+            'action' => 'Crear enlace ',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
             'backmessage' => 'Volver al fondo ' . $fund->getFundname(),
             'create_form' => $form->createView(),

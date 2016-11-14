@@ -37,9 +37,9 @@ class FundLawsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlaw->getFund()->getId()));
         }
 
-        return $this->render('funds/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'fund' => $fundlaw->getFund(),
-            'title' => 'Editar enlace a ley para el fondo',
+            'action' => 'Editar enlace a ley para el fondo',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlaw->getFund()->getId())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),
@@ -69,9 +69,9 @@ class FundLawsController extends Controller
             return $this->redirectToRoute('manage_funds_show', array('id' => $fundlaw->getFund()->getId()));
         }
 
-        return $this->render('funds/edit.html.twig', array(
+        return $this->render('default/edit.html.twig', array(
             'fund' => $fund,
-            'title' => 'Crear enlace a ley ',
+            'action' => 'Crear enlace a ley ',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
@@ -89,7 +89,9 @@ class FundLawsController extends Controller
 
         return $this->render('funds/laws.html.twig', array(
             'fundlaw' => $fundlaw,
-            'title' => 'Ley en el fondo '
+            'action' => 'Ley en el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlaw->getFund()->getId())),
+            'backmessage' => 'Volver al fondo'
         ));
     }
 
