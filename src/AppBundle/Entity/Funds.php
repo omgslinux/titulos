@@ -122,6 +122,8 @@ class Funds
     public function __construct()
     {
          $this->links = new ArrayCollection();
+         $this->banks = new ArrayCollection();
+         $this->laws = new ArrayCollection();
     }
 
 

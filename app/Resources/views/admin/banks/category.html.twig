@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de categorías de bancos</h1>
+    <ul>
+        <li>
+            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+        </li>
+    </ul>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td><a href="{{ path('admin_bankcategories_edit', { 'id': category.id }) }}">{{ category }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_bankcategories_new') }}">Añadir una categoría</a>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+        </li>
+    </ul>
+{% endblock %}

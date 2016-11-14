@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class BanksType extends AbstractType
 {
@@ -19,6 +20,13 @@ class BanksType extends AbstractType
         $builder
             ->add('acronym', TextType::class, array(
                 'label' => 'Abreviatura'
+            ))
+            ->add('becode', TextType::class, array(
+                'label' => 'Código BE'
+            ))
+            ->add('category', EntityType::class, array(
+                'class' => 'AppBundle:BankCategory',
+                'label' => 'Categoría',
             ))
             ->add('shortname', TextType::class, array(
                 'label' => 'Nombre corto'

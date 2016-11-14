@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\Cities;
+use AppBundle\Entity\BankCategory;
 use AppBundle\Repository\BanksRepository;
 
 /**
@@ -23,6 +24,13 @@ class Banks
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=4)
+     */
+    private $becode;
 
     /**
      * @var string
@@ -66,6 +74,13 @@ class Banks
      */
     private $fundbanks;
 
+    /**
+     * @var BankCategory
+     *
+     * @ORM\ManyToOne(targetEntity="BankCategory", inversedBy="banks")
+     */
+    private $category;
+
 
 
     /**
@@ -101,7 +116,6 @@ class Banks
 
         return $this;
     }
-
     /**
      * Set shortname
      *
@@ -124,6 +138,31 @@ class Banks
     public function getShortname()
     {
         return $this->shortname;
+    }
+
+
+    /**
+     * Set becode
+     *
+     * @param string $becode
+     *
+     * @return Banks
+     */
+    public function setBeCode($becode)
+    {
+        $this->becode = $becode;
+
+        return $this;
+    }
+
+    /**
+     * Get becode
+     *
+     * @return string
+     */
+    public function getBeCode()
+    {
+        return $this->becode;
     }
 
     /**
@@ -197,6 +236,31 @@ class Banks
     {
         return $this->city;
     }
+
+    /**
+     * Get category
+     *
+     * @return BankCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set category
+     *
+     * @param BankCategory $category
+     *
+     * @return Banks
+     */
+    public function setCategory(BankCategory $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
 
 
     public function __toString()
