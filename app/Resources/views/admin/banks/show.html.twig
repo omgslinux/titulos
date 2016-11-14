@@ -6,12 +6,12 @@
     <table>
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ bank.id }}</td>
+                <th>Código BE</th>
+                <td>{{ bank.becode }}</td>
             </tr>
             <tr>
-                <th>Acrónimo</th>
-                <td>{{ bank.acronym }}</td>
+                <th>Tipo</th>
+                <td>{{ bank.category }}</td>
             </tr>
             <tr>
                 <th>Shortname</th>
@@ -38,11 +38,6 @@
         </li>
         <li>
             <a href="{{ path('admin_banks_edit', { 'id': bank.id }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Borrar">
-            {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}
