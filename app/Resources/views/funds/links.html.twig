@@ -1,7 +1,7 @@
 {% extends 'custom.html.twig' %}
 
 {% block body %}
-    <h1>{{ title }} {{ fundlink.fund.fundname }}</h1>
+    <h1>{{ action }} {{ fundlink.fund.fundname }}</h1>
 
         {% if edit_form is defined or create_form is defined %}
 
