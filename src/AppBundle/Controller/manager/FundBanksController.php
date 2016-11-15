@@ -109,6 +109,9 @@ class FundBanksController extends Controller
 
         return $this->render('default/edit.html.twig', array(
             'fundbank' => $fundbank,
+            'action' => 'Editar entidad cedente para el fondo ',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundbank->getFundid())),
+            'backmessage' => 'Volver al listado',
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
