@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Roles;
+use AppBundle\Entity\FundBankTasks;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -310,11 +311,11 @@ class Users implements UserInterface
     /**
      * Add task
      *
-     * @param FundBanksTasks $task
+     * @param FundBankTasks $task
      *
      * @return Users
      */
-    public function addTask(FundBanksTasks $task)
+    public function addTask(FundBankTasks $task)
     {
         $this->tasks->add($task);
         $task->setUser($this);
@@ -325,11 +326,11 @@ class Users implements UserInterface
     /**
      * Remove task
      *
-     * @param FundBanksTasks $task
+     * @param FundBankTasks $task
      *
      * @return Users
      */
-    public function removeTask(FundBanksTasks $task)
+    public function removeTask(FundBankTasks $task)
     {
         $this->tasks->removeElement($task);
 
