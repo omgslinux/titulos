@@ -17,7 +17,7 @@
                 <tr>
                     <td><a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a></td>
                     <td>{{ fund.fundmanager }}</td>
-                    <td {% if fund.fundtype == 'Hipotecario' %} class="btn-success">{% else %} class="btn-warning">{% endif %}{{ fund.fundtype }}</td>
+                    <td {% if fund.fundtype == 'Hipotecario' %} class="btn-success">{% else %}{%if fund.fundtype == 'Mixto' %} class="btn-warning">{% else %} class="btn-danger">{% endif %}{% endif %}{{ fund.fundtype }}</td>
                     <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
                     <td>{{ fund.nif }}</td>
                     <td>{{ fund.amount|number_format(2,',','.') }} €</td>

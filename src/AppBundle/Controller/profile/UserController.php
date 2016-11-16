@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\Users;
 
 /**
  * Funds controller.
@@ -23,12 +24,15 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:Users')->findOneBy(array('id', $this->getUser()->getId()));
+        //$em = $this->getDoctrine()->getManager();
+        //$user = $em->getRepository('AppBundle:Users')->findOneBy(array('id', $this->getUser()->getId()));
+        $user = $this->getUser();
 
-        return $this->render('profile/edit.html.twig', array(
+        return $this->render('profile/index.html.twig', array(
             'user' => $user,
-            'action' => 'Editar perfil de usuario'
+            'action' => 'Editando usuario',
+            'backlink' => $this->generateUrl('admin_users_show', array('id' => $user->getId())),
+            'backmessage' => 'Volver al listado',
         ));
     }
 
@@ -42,7 +46,7 @@ class UserController extends Controller
     public function editAction(Request $request)
     {
         //$em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
 
         $deleteForm = $this->createDeleteForm($user);
         $editform = $this->createForm('AppBundle\Form\profile\UserType', $user, array('require_password' => false));
@@ -69,5 +73,21 @@ class UserController extends Controller
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    /**
+     * Creates a form to delete a User entity.
+     *
+     * @param User $fund The User entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(User $user)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('profile_user_delete', array('id' => $user->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

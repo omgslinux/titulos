@@ -159,7 +159,7 @@ class MortgageFunds
      *
      * @return boolean
      */
-    public function getOpenfund()
+    public function isOpenfund()
     {
         return $this->openfund;
     }

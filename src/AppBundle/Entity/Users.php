@@ -73,6 +73,16 @@ class Users implements UserInterface
     private $rol;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundBankTasks", mappedBy="user")
+     */
+    private $tasks;
+
+
+
+
+    /**
      * Get id
      *
      * @return int
@@ -286,6 +296,47 @@ class Users implements UserInterface
     {
         return $this->rol;
     }
+
+    /**
+     * Get banks
+     *
+     * @return ArrayCollection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * Add task
+     *
+     * @param FundBanksTasks $task
+     *
+     * @return Users
+     */
+    public function addTask(FundBanksTasks $task)
+    {
+        $this->tasks->add($task);
+        $task->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param FundBanksTasks $task
+     *
+     * @return Users
+     */
+    public function removeTask(FundBanksTasks $task)
+    {
+        $this->tasks->removeElement($task);
+
+        return $this;
+    }
+
+
 
 
     public function __toString()

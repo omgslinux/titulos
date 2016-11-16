@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Listado de fondos de titulización</h1>
+    <h1>Listado de fondos de titulización ({{ funds|length }})</h1>
     <h2><a href="http://www.cnmv.es/Portal/Consultas/FTA/ListadoGestorasFTA.aspx" target='_blank'>Enlace CNMV a las gestoras</a></h2>
 
     <ul>
@@ -11,13 +11,15 @@
     </ul>
 
     <table class="table table-bordered">
-        <thead>
+        <thead align="center">
             <tr>
                 <th>Gestora</th>
                 <th>Nombre</th>
-                <th>NIF</th>
                 <th>Fecha constitución</th>
-                <th>Estado</th>
+                <th>Cerrado</th>
+                <th>Legible</th>
+                <th>Digitalizable</th>
+                <th>Completado</th>
             </tr>
         </thead>
         <tbody>
@@ -26,11 +28,24 @@
                 <td>{{ fund.fundmanager }}</td>
                 <td><form><button type="submit" formaction="{{ path('manage_funds_show', { 'id': fund.id }) }}"
                 {% if fund.fundtype == 'Hipotecario' %} class="btn btn-block btn-success" title="Fondo hipotecario"
-                {% else %} class="btn btn-block btn-warning" title="Fondo no hipotecario"
+                {% else %}
+                    {% if fund.fundtype == 'Mixto' %} class="btn btn-block btn-warning" title="Fondo mixto"
+                    {% else %} class="btn btn-block btn-danger" title="Fondo no hipotecario"
+                    {% endif %}
                 {% endif %}>{{ fund.fundname }}</button></form></td>
-                <td>{{ fund.nif }}</td>
-                <td>{% if fund.constdate %}{{ fund.constdate|date('d/m/Y') }}{% endif %}</td>
-                <td {% if fund.mfund and fund.fundtype == 'Hipotecario' %}{% set suma = 0 %}{% set sumasec = 0 %}
+                <td {% if fund.constdate|date('d/m/Y') != '01/01/1980' %}>{{ fund.constdate|date('d/m/Y') }}
+                {% else %} class="btn-danger">Revisar
+                {% endif %}</td>
+                <td {% if fund.mfund and fund.mfund.openfund %} class="btn-success" title="Fondo cerrado">✔
+                    {% else %} class="btn-warning" title="Fondo abierto">✘{% endif %}
+                </td>
+                <td {% if fund.mfund and fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
+            {% else %} class="btn-warning" title="Fondo ilegible">✘{% endif %}
+                </td>
+                <td {% if fund.mfund and fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
+                    {% else %} class="btn-warning" title="Fondo no digitalizable">✘{% endif %}
+                </td>
+                <td {% if fund.fundtype != 'No hipotecario' %}{% set suma = 0 %}{% set sumasec = 0 %}
                         {% for bank in fund.banks %}
                             {% set suma = suma + bank.count %}
                             {% set sumasec = sumasec + bank.securities.count %}
@@ -39,7 +54,7 @@
                         {% else %}class="btn-warning">Incompleto
                         {% endif %}
                     {% else %}
-                        {% if fund.fundtype == 'Hipotecario' %}class="btn-danger">Faltan datos
+                        {% if fund.fundtype != 'No hipotecario' %}class="btn-danger">Faltan datos
                         {% else %}class="btn-info">No es hipotecario
                         {% endif %}
                     {% endif %}

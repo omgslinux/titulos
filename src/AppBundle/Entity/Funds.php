@@ -119,6 +119,10 @@ class Funds
      */
     private $laws;
 
+
+
+
+
     public function __construct()
     {
          $this->links = new ArrayCollection();

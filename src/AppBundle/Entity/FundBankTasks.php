@@ -7,7 +7,7 @@ use AppBundle\Entity\Users;
 use AppBundle\Entity\FundBanks;
 
 /**
- * FundTasks
+ * FundBankTasks
  *
  * @ORM\Table(name="fundbanktasks")
  * @ORM\Entity
@@ -33,7 +33,7 @@ class FundBankTasks
     /**
      * @var Users
      *
-     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\ManyToOne(targetEntity="Users", inversedBy="tasks")
      */
     private $user;
 
