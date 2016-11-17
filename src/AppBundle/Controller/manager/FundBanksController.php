@@ -65,7 +65,8 @@ class FundBanksController extends Controller
     {
         //$em = $this->getDoctrine()->getManager();
         //$fundbanks = $em->getRepository('AppBundle:FundBanks')->find($fund);
-        $fundbanks = new FundBanks($fund);
+        $fundbanks = new FundBanks();
+        $fundbanks->setFund($fund);
         $form = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
         $form->handleRequest($request);
 
