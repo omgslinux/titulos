@@ -36,14 +36,26 @@
                 <td {% if fund.constdate|date('d/m/Y') != '01/01/1980' %}>{{ fund.constdate|date('d/m/Y') }}
                 {% else %} class="btn-danger">Revisar
                 {% endif %}</td>
-                <td {% if fund.mfund and fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
-            {% else %} class="btn-success" title="Fondo cerrado">✔{% endif %}
+                <td {% if fund.fundtype != 'No hipotecario' %}
+                        {% if fund.mfund and fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
+                        {% else %} class="btn-success" title="Fondo cerrado">✔
+                        {% endif %}
+                    {% else %}class="btn-info">No es hipotecario
+                    {% endif %}
                 </td>
-                <td {% if fund.mfund and fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
-            {% else %} class="btn-warning" title="Fondo ilegible">✘{% endif %}
+                <td {% if fund.fundtype != 'No hipotecario' %}
+                        {% if fund.mfund and fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
+                        {% else %} class="btn-warning" title="Fondo ilegible">✘
+                        {% endif %}
+                    {% else %}class="btn-info">No es hipotecario
+                    {% endif %}
                 </td>
-                <td {% if fund.mfund and fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
-                    {% else %} class="btn-warning" title="Fondo no digitalizable">✘{% endif %}
+                <td {% if fund.fundtype != 'No hipotecario' %}
+                        {% if fund.mfund and fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
+                        {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                        {% endif %}
+                    {% else %}class="btn-info">No es hipotecario
+                    {% endif %}
                 </td>
                 <td {% if fund.fundtype != 'No hipotecario' %}{% set suma = 0 %}{% set sumasec = 0 %}
                         {% for bank in fund.banks %}
