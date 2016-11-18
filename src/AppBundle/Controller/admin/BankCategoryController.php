@@ -96,7 +96,6 @@ class BankCategoryController extends Controller
         }
 
         return $this->render('default/edit.html.twig', array(
-            'category' => $category,
             'action' => 'Editar categoría ',
             'backlink' => $this->generateUrl('admin_bankcategories_index'),
             'backmessage' => 'Volver al listado',

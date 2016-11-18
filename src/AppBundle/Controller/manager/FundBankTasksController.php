@@ -39,9 +39,8 @@ class FundBankTasksController extends Controller
             return $this->redirectToRoute('manage_funds_banks_show', array('id' => $banktask->getBankid()));
         }
 
-        return $this->render('funds/tasks.html.twig', array(
-            'fundbank' => $fundbank,
-            'action' => 'Crear tarea',
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Crear tarea para la entidad ' . $fundbank->getBank() . '(' . $fundbank->getLoantype() . ')',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundbank->getFund()->getId())),
             'backmessage' => 'Volver al fondo ' . $fundbank->getFund(),
             'create_form' => $createForm->createView(),
@@ -56,7 +55,7 @@ class FundBankTasksController extends Controller
      */
     public function showAction(Request $request, FundBank $fundbank)
     {
-        return $this->render('funds/tasks.html.twig', array(
+        return $this->render('manage/funds/tasks.html.twig', array(
             'action' => 'Listado de tareas',
             'fundbank' => $fundbank,
         ));
@@ -82,9 +81,8 @@ class FundBankTasksController extends Controller
             return $this->redirectToRoute('manage_funds_banks_show', array('id' => $banktasks->getBankid()));
         }
 
-        return $this->render('funds/tasks.html.twig', array(
-            'fundbank' => $banktasks->getFundbank(),
-            'action' => 'Edición de tareas',
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Edición de tareas para la entidad ' . $banktasks->getBankname(),
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $banktasks->getFundbank()->getFund()->getId())),
             'backmessage' => 'Volver al fondo ' . $banktasks->getFundbank()->getFund(),
             'edit_form' => $editform->createView(),

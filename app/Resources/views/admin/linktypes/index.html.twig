@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Lista de tipos de enlace</h1>
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>internal</th>
@@ -15,7 +15,7 @@
         {% for flt in fltype %}
             <tr>
                 <td>{{ flt.internal }}</td>
-                <td><a href="{{ path('manage_linktypes_show', { 'id': flt.id }) }}">{{ flt }}</a></td>
+                <td><a href="{{ path('admin_linktypes_show', { 'id': flt.id }) }}">{{ flt }}</a></td>
                 <td>{{ flt.getSlugger }}</td>
             </tr>
         {% endfor %}
@@ -24,8 +24,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_linktypes_new') }}">Crear un tipo de enlace</a>
+            <a href="{{ path('admin_linktypes_new') }}">Crear un tipo de enlace</a>
         </li>
     </ul>
-    <p><a href="{{ path('manage') }}">Volver al menú de gestión</a></p>
 {% endblock %}

@@ -12,7 +12,7 @@ use AppBundle\Form\FundManagersType;
 /**
  * FundManagers controller.
  *
- * @Route("/manage/fundmanagers/")
+ * @Route("/manage/fundmanagers")
  */
 class FundManagersController extends Controller
 {
@@ -28,7 +28,7 @@ class FundManagersController extends Controller
 
         $fundmanagers = $em->getRepository('AppBundle:FundManagers')->findAll();
 
-        return $this->render('fundmanagers/index.html.twig', array(
+        return $this->render('manage/fundmanagers/index.html.twig', array(
             'fundmanagers' => $fundmanagers,
         ));
     }
@@ -53,7 +53,7 @@ class FundManagersController extends Controller
             return $this->redirectToRoute('manage_fundmanagers_show', array('id' => $fundmanager->getId()));
         }
 
-        return $this->render('fundmanagers/new.html.twig', array(
+        return $this->render('manage/fundmanagers/new.html.twig', array(
             'fundmanager' => $fundmanager,
             'form' => $form->createView(),
         ));
@@ -69,7 +69,7 @@ class FundManagersController extends Controller
     {
         $deleteForm = $this->createDeleteForm($fundmanager);
 
-        return $this->render('fundmanagers/show.html.twig', array(
+        return $this->render('manage/fundmanagers/show.html.twig', array(
             'fundmanager' => $fundmanager,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -95,8 +95,10 @@ class FundManagersController extends Controller
             return $this->redirectToRoute('manage_fundmanagers_show', array('id' => $fundmanager->getId()));
         }
 
-        return $this->render('fundmanagers/edit.html.twig', array(
-            'fundmanager' => $fundmanager,
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Editar sociedad gestora ',
+            'backlink' => $this->generateUrl('manage_fundmanagers_index'),
+            'backmessage' => 'Volver al listado de sociedades gestoras',
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

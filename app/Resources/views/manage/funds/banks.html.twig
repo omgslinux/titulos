@@ -30,8 +30,8 @@
                            {{ form_end(download_form) }}
                            <a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
                        {% endif %}
-                   {% else %}<td  class="btn btn-warning">No hay fichero</td>
-                    <td><a href="{{ path('manage_funds_links_new', { 'id': fundbank.getId }) }}">Crear enlace a CSV</a>
+                   {% else %}<td  class="btn-warning">No hay fichero</td>
+                    <td>Crear enlace a CSV</a>
                    {% endif %}</td>
            </tr>
         </tbody>
@@ -62,7 +62,7 @@
     {% endif %}
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': fundbank.getFundid } ) }}">Volver al fondo</a>
+            <a href="{{ path('manage_funds_show', { 'id': fundbank.getFundid } ) }}">Volver al fondo {{ fundbank.fundname }}</a>
         </li>
     </ul>
 {% endblock %}

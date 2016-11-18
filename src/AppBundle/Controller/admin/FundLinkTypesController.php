@@ -12,7 +12,7 @@ use AppBundle\Form\FundLinkTypesType;
 /**
  * FundLinkTypes controller.
  *
- * @Route("/admin/linktypes/")
+ * @Route("/admin/linktypes")
  */
 class FundLinkTypesController extends Controller
 {
@@ -50,11 +50,13 @@ class FundLinkTypesController extends Controller
             $em->persist($fltype);
             $em->flush();
 
-            return $this->redirectToRoute('manage_linktypes_index');
+            return $this->redirectToRoute('admin_linktypes_index');
         }
 
-        return $this->render('admin/linktypes/edit.html.twig', array(
-            'fltype' => $fltype,
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Crear tipo de enlace ',
+            'backlink' => $this->generateUrl('admin_linktypes_index'),
+            'backmessage' => 'Volver al listado de tipos de enlace',
             'create_form' => $form->createView(),
         ));
     }
@@ -95,8 +97,10 @@ class FundLinkTypesController extends Controller
             return $this->redirectToRoute('admin_linktypes_show', array('id' => $fltype->getId()));
         }
 
-        return $this->render('admin/linktypes/edit.html.twig', array(
-            'fltype' => $fltype,
+        return $this->render('default/edit.html.twig', array(
+            'action' => 'Editando tipo de enlace ',
+            'backlink' => $this->generateUrl('admin_linktypes_index'),
+            'backmessage' => 'Volver al listado',
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

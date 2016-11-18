@@ -87,7 +87,7 @@ class FundLawsController extends Controller
     public function showAction(FundLaws $fundlaw)
     {
 
-        return $this->render('funds/laws.html.twig', array(
+        return $this->render('manage/funds/laws.html.twig', array(
             'fundlaw' => $fundlaw,
             'action' => 'Ley en el fondo ',
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundlaw->getFund()->getId())),

@@ -5,11 +5,11 @@
 
     <p><a href="{{ fundmanager.getCNMVUrl }}" target="_blank">{{ fundmanager.longname }} en la CNMV</a></p>
 
-    <table>
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Shortname</th>
-                <th>Longname</th>
+                <th>Nombre corto</th>
+                <th>Nombre largo</th>
                 <th>Nif</th>
                 <th>Dirección</th>
                 <th>Capital social</th>
@@ -17,7 +17,7 @@
                 <th>Description</th>
             </tr>
             <tr>
-                <td>{{ fundmanager.shortname }}</td>
+                <td><a href="{{ path('manage_fundamanagers_edit', { 'id': fundmanager.id }) }}">{{ fundmanager.shortname }}</a></td>
                 <td>{{ fundmanager.longname }}</td>
                 <td>{{ fundmanager.nif }}</td>
                 <td>{{ fundmanager.address }}</td>
@@ -31,14 +31,6 @@
     <ul>
         <li>
             <a href="{{ path('manage_fundmanagers_index') }}">Volver a la lista</a>
-        </li>
-        <li>
-            <a href="{{ path('manage_fundamanagers_edit', { 'id': fundmanager.id }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Borrar">
-            {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}

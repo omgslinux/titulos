@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="text-center">Datos del fondo {{ fund.fundname }}</h2>
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>Gestora</th>
+                    <th>Tipo fondo</th>
+                    <th>Fecha de constitución</th>
+                    <th>NIF</th>
+                    <th>Cantidad</th>
+                    <th colspan="1">Enlaces CNMV</th>
+                </tr>
+                <tr>
+                    <td><a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a></td>
+                    <td>{{ fund.fundmanager }}</td>
+                    <td {% if fund.fundtype == 'Hipotecario' %} class="btn-success">{% else %}{%if fund.fundtype == 'Mixto' %} class="btn-warning">{% else %} class="btn-danger">{% endif %}{% endif %}{{ fund.fundtype }}</td>
+                    <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
+                    <td>{{ fund.nif }}</td>
+                    <td>{{ fund.amount|number_format(2,',','.') }} €</td>
+                    <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página principal</a></td>
+                </tr>
+                </tbody>
+            </table>
+        <hr>
+    {% if fund.fundtype != 'No hipotecario' %}
+        {% if fund.mfund %}
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>Fecha de liquidación</th>
+                    <th>Fecha de extinción</th>
+                    <th>Num registros</th>
+                    <th>Tipo de fondo</th>
+                    <th>Pag. inicio</th>
+                    <th>Pag. fin</th>
+                    <th>Páginas</th>
+                    <th>Legible</th>
+                    <th>Folleto</th>
+                    <th>Digitalizable</th>
+                </tr>
+                <tr>
+                    <td><a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos</a></td>
+                    <td {% if fund.mfund.liqdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.liqdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
+                    <td {% if fund.mfund.extdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.extdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
+                    <td>{{ fund.mfund.numrecords }}</td>
+                    <td {% if fund.mfund.openfund == 0 %} class="btn-success">Cerrado{% else %} class="btn-warning">Abierto{% endif %}</td>
+                    <td>{{ fund.mfund.loansfirstpage }}</td>
+                    <td>{{ fund.mfund.loanslastpage }}</td>
+                    <td>{{ fund.mfund.fundpages }}</td>
+                    <td {% if fund.mfund.legible %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
+                    <td {% if fund.mfund.brochure %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
+                    <td {% if fund.mfund.digitalizable %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% else %}
+        <p><a href="{{ path('manage_funds_extra_new', { 'id': fund.id }) }}">Añadir datos hipotecarios</a></p>
+        {% endif %}
+        <hr>
+        {% if fund.banks.count %}
+        <table class="table table-striped table-bordered">
+            <tbody>
+               <tr>
+                   <th>Banco</th>
+                   <th>Tipo préstamo</th>
+                   <th>Número préstamos</th>
+               </tr>
+               {% for fundbank in fund.banks %}
+               <div class="row">
+               <tr>
+                   <td><a href="{{ path('manage_funds_banks_show', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
+                   <td>{{ fundbank.loantype }}</td>
+                   <td>{{ fundbank.count }}</td>
+               </tr>
+               </div>
+               {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <p><a href="{{ path('manage_funds_banks_new', { 'id': fund.id }) }}">Añadir entidad cedente</a></p>
+        <hr>
+        {% if fund.links.count %}
+        <table class="table table-bordered">
+            <tbody>
+               <tr>
+                   <th>Tipo</th>
+                   <th colspan="2">Descripción</th>
+               </tr>
+               {% for fundlink in fund.links %}
+               <div class="row">
+               <tr>
+                   <td>{{ fundlink.linktype }}</td>
+                   <td><a href="{{ path('manage_funds_links_show', { 'id': fundlink.id } ) }}">{{ fundlink.description }}</a></td>
+                   <td><a href="{{ fundlink.URL }}" target="_blank">Descarga externa</a></td>
+               </tr>
+               </div>
+               {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <p><a href="{{ path('manage_funds_links_new', { 'id': fund.id }) }}">Añadir enlaces</a></p>
+        <hr>
+        {% if fund.laws.count %}
+        <table class="table table-bordered">
+            <tbody>
+               <tr>
+                   <th>Ley</th>
+                   <th>Notas</th>
+               </tr>
+               {% for fundlaw in fund.laws %}
+               <tr>
+                   <td><a href="{{ path('manage_funds_laws_show', { 'id': fundlaw.id } ) }}">{{ fundlaw.law }}</td>
+                   <td>{{ fundlaw.notes }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <p><a href="{{ path('manage_funds_laws_new', { 'id': fund.id }) }}">Añadir leyes</a></p>
+        <hr>
+    {% else %}
+        <p>El fondo no es hipotecario</p>
+    {% endif %}
+    <p class="lead"><a href="{{ path('manage_funds_index') }}">Volver a la lista de fondos</a></p>
+{% endblock %}

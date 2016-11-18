@@ -19,7 +19,7 @@
                    <td><a href="{{ path('manage_funds_links_edit', { 'id': fundlink.id } ) }}">{{ fundlink.description }}</a></td>
                    <td>{% if filepath.isDocdownloaded(fundlink.getFulldocpath) == false %}{{ form_start(download_form) }}
                                    <input type="submit" value="Descargar">
-                               {{ form_end(download_form) }}{% else %}<a href="{{ asset('fundlink.fund.getDocpath()') }}" target="_blank">Descarga directa</a>
+                               {{ form_end(download_form) }}{% else %}<a href="{{ asset(fundlink.fund.getDocpath() ) }}" target="_blank">Descarga directa</a>
                    {% endif %}</td>
                </tr>
             </tbody>

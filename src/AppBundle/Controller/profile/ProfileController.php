@@ -29,11 +29,9 @@ class ProfileController extends Controller
         //$user = $em->getRepository('AppBundle:Users')->findOneBy(array('id', $this->getUser()->getId()));
         $user = $this->getUser();
 
-        return $this->render('profile/index.html.twig', array(
+        return $this->render('profile/user.html.twig', array(
             'user' => $user,
-            'action' => 'Editando usuario',
-            'backlink' => $this->generateUrl('admin_users_show', array('id' => $user->getId())),
-            'backmessage' => 'Volver al listado',
+            'action' => 'Datos del usuario ' . $user,
         ));
     }
 
@@ -63,11 +61,11 @@ class ProfileController extends Controller
      * @Route("/tasks/{id}/edit", name="profile_tasks_edit")
      * @Method({"GET", "POST"})
      */
-    public function taskeditAction(Request $request, FundBankTasks $fundbanktask)
+    public function taskeditAction(Request $request, FundBankTasks $banktasks)
     {
         //$em = $this->getDoctrine()->getManager();
 
-        $deleteForm = $this->createDeleteForm($banktasks);
+        $deleteForm = $this->createDeleteTaskForm($banktasks);
         $editform = $this->createForm('AppBundle\Form\FundBankTasksType', $banktasks);
         $editform->handleRequest($request);
 
@@ -80,8 +78,7 @@ class ProfileController extends Controller
         }
 
         return $this->render('profile/edit.html.twig', array(
-            'user' => $user,
-            'action' => 'Editando tarea del usuario',
+            'action' => 'Editando tarea ',
             'backlink' => $this->generateUrl('profile_tasks_index'),
             'backmessage' => 'Volver al listado de tareas',
             'edit_form' => $editform->createView(),
@@ -93,13 +90,13 @@ class ProfileController extends Controller
     /**
      * Creates a form to edit a Users entity.
      *
-     * @Route("/user/edit", name="profle_user_edit")
+     * @Route("/user/edit", name="profile_user_edit")
      * @Method({"GET", "POST"})
      */
     public function usereditAction(Request $request)
     {
         //$em = $this->getDoctrine()->getManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         $deleteForm = $this->createDeleteForm($user);
         $editform = $this->createForm('AppBundle\Form\profile\UserType', $user, array('require_password' => false));
@@ -121,8 +118,8 @@ class ProfileController extends Controller
         return $this->render('profile/edit.html.twig', array(
             'user' => $user,
             'action' => 'Editando usuario',
-            'backlink' => $this->generateUrl('admin_users_show', array('id' => $user->getId())),
-            'backmessage' => 'Volver al listado',
+            'backlink' => $this->generateUrl('profile_user_index'),
+            'backmessage' => 'Volver al índice',
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -135,10 +132,68 @@ class ProfileController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(User $user)
+    private function createDeleteForm(Users $user)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('profile_user_delete', array('id' => $user->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+
+    /**
+     * Deletes a FundBankTasks entity.
+     *
+     * @Route("/user/{id}/delete", name="profile_user_delete")
+     * @Method({"GET", "DELETE"})
+     */
+    public function deleteAction(Request $request, Users $user)
+    {
+        $form = $this->createDeleteTaskForm($user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($user);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('logout');
+    }
+
+    /**
+     * Deletes a FundBankTasks entity.
+     *
+     * @Route("/tasks/{id}/delete", name="profile_task_delete")
+     * @Method({"GET", "DELETE"})
+     */
+    public function deleteTaskAction(Request $request, FundBankTasks $banktask)
+    {
+        $form = $this->createDeleteTaskForm($banktask);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($banktask);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('profile_tasks_index');
+    }
+
+
+
+    /**
+     * Creates a form to delete a FundBankTasks entity.
+     *
+     * @param FundBankTasks $banktasks The FundBankTasks entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteTaskForm(FundBankTasks $banktask)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('profile_task_delete', array('id' => $banktask->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

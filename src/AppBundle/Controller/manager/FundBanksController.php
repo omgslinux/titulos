@@ -47,7 +47,7 @@ class FundBanksController extends Controller
             }
         }
 
-        return $this->render('funds/banks.html.twig', array(
+        return $this->render('manage/funds/banks.html.twig', array(
             'fundbank' => $fundbank,
             'filename' => $filename,
             'securitiescount' => $securitiescount,
@@ -80,7 +80,7 @@ class FundBanksController extends Controller
 
         return $this->render('default/edit.html.twig', array(
             'fund' => $fund,
-            'action' => 'Crear entidad cedente para el fondo ',
+            'action' => 'Añadir entidad cedente para el fondo ' . $fund,
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
             'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
@@ -110,7 +110,7 @@ class FundBanksController extends Controller
 
         return $this->render('default/edit.html.twig', array(
             'fundbank' => $fundbank,
-            'action' => 'Editar entidad cedente para el fondo ',
+            'action' => 'Editar entidad cedente para el fondo ' . $fundbank->getFund(),
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundbank->getFundid())),
             'backmessage' => 'Volver al listado',
             'edit_form' => $editform->createView(),

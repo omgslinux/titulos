@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Tipos de enlace</h1>
 
-    <table>
+    <table class="table table-bordered">
         <tbody>
             <tr>
                 <th>Internal</th>
@@ -11,14 +11,14 @@
             </tr>
             <tr>
                 <td>{{ fltype.internal }}</td>
-                <td><a href="{{ path('manage_linktypes_edit', { 'id': fltype.id }) }}">{{ fltype.linktype }}</a></td>
+                <td><a href="{{ path('admin_linktypes_edit', { 'id': fltype.id }) }}">{{ fltype.linktype }}</a></td>
             </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('manage_linktypes_index') }}">Volver a la lista</a>
+            <a href="{{ path('admin_linktypes_index') }}">Volver a la lista</a>
         </li>
     </ul>
 {% endblock %}

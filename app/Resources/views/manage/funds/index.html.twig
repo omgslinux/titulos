@@ -2,13 +2,6 @@
 
 {% block body %}
     <h1>Listado de fondos de titulización ({{ funds|length }})</h1>
-    <h2><a href="http://www.cnmv.es/Portal/Consultas/FTA/ListadoGestorasFTA.aspx" target='_blank'>Enlace CNMV a las gestoras</a></h2>
-
-    <ul>
-        <li>
-            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
-        </li>
-    </ul>
 
     <table class="table table-bordered">
         <thead align="center">
@@ -74,11 +67,6 @@
     <ul>
         <li>
             <a href="{{ path('manage_funds_new') }}">Añadir un fondo</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
         </li>
     </ul>
 

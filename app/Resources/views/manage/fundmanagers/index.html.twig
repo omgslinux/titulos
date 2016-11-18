@@ -2,9 +2,8 @@
 
 {% block body %}
     <h1>Lista de sociedades gestoras</h1>
-    <h2><a href="http://www.cnmv.es/Portal/Consultas/FTA/ListadoGestorasFTA.aspx" target='_blank'>Enlace CNMV</a></h2>
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Nombre corto</th>
@@ -25,12 +24,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('manage_fundmanagers_new') }}">Crear una sociedad nueva</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
+            <a href="{{ path('manage_fundmanagers_new') }}">Crear una sociedad gestora nueva</a>
         </li>
     </ul>
 {% endblock %}

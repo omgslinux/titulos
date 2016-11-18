@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Lista de usuarios</h1>
+    <h1>{{ action }}</h1>
 
     <table class="table table-bordered">
         <thead>
@@ -14,21 +14,14 @@
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
             <tr>
-                <td><a href="{{ path('admin_users_edit', { 'id': user.id } ) }}">{{ user.username }}</a></td>
+                <td><a href="{{ path('profile_user_edit') }}">{{ user.username }}</a></td>
                 <td>{{ user.fullname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.isactive ? 'X' : 'No' }}</td>
                 <td>{{ user.rol }}</td>
             </tr>
-        {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_users_new') }}">Crear un usuario</a>
-        </li>
-    </ul>
 {% endblock %}

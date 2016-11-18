@@ -33,7 +33,7 @@ class FundsController extends Controller
 
         $funds = $em->getRepository('AppBundle:Funds')->findAll();
 
-        return $this->render('funds/index.html.twig', array(
+        return $this->render('manage/funds/index.html.twig', array(
             'funds' => $funds,
         ));
     }
@@ -82,7 +82,7 @@ class FundsController extends Controller
         $filepath->setUrl($fund->getCNMVPDFLink());
 
 
-        return $this->render('funds/show.html.twig', array(
+        return $this->render('manage/funds/show.html.twig', array(
             'fund' => $fund,
             'filepath' => $filepath,
             'delete_form' => $deleteForm->createView(),

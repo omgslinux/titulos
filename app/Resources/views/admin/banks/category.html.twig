@@ -2,13 +2,8 @@
 
 {% block body %}
     <h1>Lista de categorías de bancos</h1>
-    <ul>
-        <li>
-            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
-        </li>
-    </ul>
 
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Descripción</th>
@@ -26,11 +21,6 @@
     <ul>
         <li>
             <a href="{{ path('admin_bankcategories_new') }}">Añadir una categoría</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a href="{{ path('manage') }}">Volver al menú de gestión</a>
         </li>
     </ul>
 {% endblock %}

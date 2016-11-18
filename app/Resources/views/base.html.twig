@@ -12,9 +12,95 @@
         <link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/0b673c62218d8d3175d24dd80131b574?s=32" sizes="16x16" />
     </head>
     <body>
-        <div class="container-fluid">
+
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">Aplicación de titulizaciones</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enlaces<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://pahmadrid.org/kit-de-titulizaciones/" target="_blank">Kit de titulizaciones</a></li>
+                        <li><a href="http://titulizaciones.wordpress.com/" target="_blank">Blog titulizaciones</a></li>
+                        <li><a href="http://tribunalciudadanodejusticia.wordpress.com/" target="_blank">Tribunal Ciudadano de Justicia 15M</a></li>
+                        <li><a href="http://15mparato.wordpress.com/" target="_blank">15MpaRato</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="https://titulizaciones.titanpad.com/actas" target="_blank">Actas titulizaciones</a></li>
+                    </ul>
+                </li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enlaces de ayuda<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="https://docs.google.com/spreadsheets/d/1ZPleE6JWO_sQzjzViKb9SHLdFzUFHGv9g3GV-pphpak/edit" target="_blank">Hoja de cálculo</a></li>
+                      <li><a href="http://www.cnmv.es/Portal/Consultas/FTA/ListadoGestorasFTA.aspx" target='_blank'>Enlace CNMV a las gestoras</a></li>
+                  </ul>
+                </li>
+                {% if is_granted('ROLE_USER') %}
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menú de usuario<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="{{ path('profile_tasks_index') }}">Tareas</a></li>
+                      <li><a href="{{ path('profile_user_index') }}">Perfil</a></li>
+                  </ul>
+                </li>
+                {% endif %}
+            {% if is_granted('ROLE_MANAGER') %}
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gestión<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('manage_funds_index') }}">Fondos</a></li>
+                    <li><a href="{{ path('manage_fundmanagers_index') }}">Gestoras</a></li>
+                    <li><a href="{{ path('manage_laws_index') }}">Leyes</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="https://drive.google.com/drive/folders/0B_Y_bq4UZLQiV3ROeHR3R3RfTjg">Enlace a csv Gdrive</a></li>
+                </ul>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{ path('admin_banks_index') }}">Bancos</a></li>
+                    <li><a href="{{ path('admin_bankcategories_index') }}">Categorías de bancos</a></li>
+                    <li><a href="{{ path('admin_linktypes_index') }}">Tipos de enlace</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{ path('admin_users_index') }}">Usuarios</a></li>
+                  </ul>
+                </li>
+                {% endif %}
+                <li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path('logout') }}">Logout</a></li>
+                {% else %}
+                <a href="{{ path('login') }}">Log in</a></li>
+                {% endif %}
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container">
         {% block body %}{% endblock %}
         </div>
+        <script type="text/javascript" src="{{ asset('shared/js/jquery-3.1.1.min.js') }}">
+        </script>
+    		<script type="text/javascript" src="{{ asset('shared/js/bootstrap.min.js') }}">
+    		</script>
         <!-- Needed for Forms Feature Detection -->
     		<script type="text/javascript" src="{{ asset('shared/js/modernizr.com/Modernizr-2.5.3.forms.js') }}">
     		</script>

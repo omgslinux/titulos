@@ -60,7 +60,7 @@ class FundLinksController extends Controller
         $filepath->setUrl($fundlinks->getUrl());
         $downloadForm = $this->createDownloadForm($fundlinks);
 
-        return $this->render('funds/links.html.twig', array(
+        return $this->render('manage/funds/links.html.twig', array(
             'fundlink' => $fundlinks,
             'filepath' => $filepath,
             'action' => 'Enlaces en el fondo ',
