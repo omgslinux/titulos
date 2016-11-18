@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         {% for fund in funds %}
-            <tr>
+            <tr class="text-center">
                 <td>{{ fund.fundmanager }}</td>
                 <td><form><button type="submit" formaction="{{ path('manage_funds_show', { 'id': fund.id }) }}"
                 {% if fund.fundtype == 'Hipotecario' %} class="btn btn-block btn-success" title="Fondo hipotecario"
@@ -36,28 +36,21 @@
                 <td {% if fund.constdate|date('d/m/Y') != '01/01/1980' %}>{{ fund.constdate|date('d/m/Y') }}
                 {% else %} class="btn-danger">Revisar
                 {% endif %}</td>
-                <td {% if fund.fundtype != 'No hipotecario' %}
-                        {% if fund.mfund %}
-                            {% if fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
-                            {% else %} class="btn-success" title="Fondo cerrado">✔
-                            {% endif %}
-                        {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
+                <td
+                {% if fund.fundtype != 'No hipotecario' %}
+                    {% if fund.mfund %}
+                        {% if fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
+                        {% else %} class="btn-success" title="Fondo cerrado">✔
                         {% endif %}
                         </td>
                         <td
-                        {% if fund.mfund %}
-                            {% if fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
-                            {% else %} class="btn-warning" title="Fondo ilegible">✘
-                            {% endif %}
-                        {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
+                        {% if fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
+                        {% else %} class="btn-warning" title="Fondo ilegible">✘
                         {% endif %}
                         </td>
                         <td
-                        {% if fund.mfund %}
-                            {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
-                            {% else %} class="btn-warning" title="Fondo no digitalizable">✘
-                            {% endif %}
-                        {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
+                        {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
+                        {% else %} class="btn-warning" title="Fondo no digitalizable">✘
                         {% endif %}
                         </td>
                         <td {% set suma = 0 %}{% set sumasec = 0 %}
@@ -68,9 +61,10 @@
                         {% if sumasec == suma and suma != 0 %}class="btn-success">Cargado
                         {% else %}class="btn-warning">Incompleto
                         {% endif %}
-                    {% else %}
-                        colspan="4" class="btn-info">No es hipotecario
+                    {% else %}colspan="4" class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                     {% endif %}
+                {% else %}colspan="4" class="btn-info">No es hipotecario
+                {% endif %}
                 </td>
             </tr>
         {% endfor %}
