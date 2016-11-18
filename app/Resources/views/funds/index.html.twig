@@ -43,30 +43,24 @@
                             {% endif %}
                         {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                         {% endif %}
-                    {% else %}class="btn-info">No es hipotecario
-                    {% endif %}
-                </td>
-                <td {% if fund.fundtype != 'No hipotecario' %}
+                        </td>
+                        <td
                         {% if fund.mfund %}
                             {% if fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
                             {% else %} class="btn-warning" title="Fondo ilegible">✘
                             {% endif %}
                         {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                         {% endif %}
-                    {% else %}class="btn-info">No es hipotecario
-                    {% endif %}
-                </td>
-                <td {% if fund.fundtype != 'No hipotecario' %}
+                        </td>
+                        <td
                         {% if fund.mfund %}
                             {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
                             {% else %} class="btn-warning" title="Fondo no digitalizable">✘
                             {% endif %}
                         {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                         {% endif %}
-                    {% else %}class="btn-info">No es hipotecario
-                    {% endif %}
-                </td>
-                <td {% if fund.fundtype != 'No hipotecario' %}{% set suma = 0 %}{% set sumasec = 0 %}
+                        </td>
+                        <td {% set suma = 0 %}{% set sumasec = 0 %}
                         {% for bank in fund.banks %}
                             {% set suma = suma + bank.count %}
                             {% set sumasec = sumasec + bank.securities.count %}
@@ -75,9 +69,7 @@
                         {% else %}class="btn-warning">Incompleto
                         {% endif %}
                     {% else %}
-                        {% if fund.fundtype != 'No hipotecario' %}class="btn-danger">Faltan datos
-                        {% else %}class="btn-info">No es hipotecario
-                        {% endif %}
+                        colspan="4" class="btn-info">No es hipotecario
                     {% endif %}
                 </td>
             </tr>
