@@ -10,27 +10,31 @@
 
     {{ block('crudform') }}
     {% else %}
-    <table>
+    {% if fundbank.getTasks.count %}
+    <h3>{{ action }}</h3>
+    <table class="table table-bordered">
         <tbody>
-           <tr>
-               <th>Fecha</th>
-               <th>Descripción</th>
-               <th>Terminada</th>
-           </tr>
-           {% for fundbank in fundbanks %}
-           <tr>
-               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
-               <td>{{ fundbank.loantype }}</td>
-               <td>{{ fundbank.count }}</td>
-           </tr>
-           {% endfor %}
+            <tr>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Finalizada</th>
+            </tr>
+            {% for banktask in fundbank.tasks %}
+            <tr>
+                <td><a href="{{ path('manage_fundbanks__tasks_edit', { 'id': banktask.id }) }}">{{ banktask.taskdate|date('d/m/Y') }}</a></td>
+                <td>{{ banktask.shortdescription }}</td>
+                <td>{% if banktask.finished %}X{% else %}No{% endif %}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
-    <p><a href="{{ path('manage_fundbanks_tasks_new', { 'id': fundbank.getBankid }) }}">Añadir tarea</a></p>
+    {% else %}
+        <p>No hay tareas</p>
+    {% endif %}
     {% endif %}
     <ul>
         <li>
-            <a href="{{ path('manage_funds_show', { 'id': fundbank.fund.getId } ) }}">Volver al fondo {{ fundbank.fundname }}</a>
+            <a href="{{ backlink }}">{{ backmessage }}</a>
         </li>
     </ul>
 {% endblock %}

@@ -7,22 +7,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Users;
+use AppBundle\Entity\FundBankTasks;
 
 /**
- * Funds controller.
+ * Profile controller.
  *
- * @Route("/profile/user")
+ * @Route("/profile")
  */
-class UserController extends Controller
+class ProfileController extends Controller
 {
 
     /**
      * Index for User profile
      *
-     * @Route("/", name="profile_user_index")
+     * @Route("/user/", name="profile_user_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
+    public function userAction(Request $request)
     {
         //$em = $this->getDoctrine()->getManager();
         //$user = $em->getRepository('AppBundle:Users')->findOneBy(array('id', $this->getUser()->getId()));
@@ -36,14 +37,66 @@ class UserController extends Controller
         ));
     }
 
+    /**
+     * Index for User profile
+     *
+     * @Route("/tasks/", name="profile_tasks_index")
+     * @Method("GET")
+     */
+    public function tasksAction(Request $request)
+    {
+        //$em = $this->getDoctrine()->getManager();
+        //$user = $em->getRepository('AppBundle:Users')->findOneBy(array('id', $this->getUser()->getId()));
+        $user = $this->getUser();
+
+        return $this->render('profile/tasks.html.twig', array(
+            'user' => $user,
+            'action' => 'Tareas del usuario ' . $user,
+            'backlink' => $this->generateUrl('profile_user_index'),
+            'backmessage' => 'Volver al listado',
+        ));
+    }
 
     /**
      * Creates a form to edit a Users entity.
      *
-     * @Route("/edit", name="profle_user_edit")
+     * @Route("/tasks/{id}/edit", name="profile_tasks_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request)
+    public function taskeditAction(Request $request, FundBankTasks $fundbanktask)
+    {
+        //$em = $this->getDoctrine()->getManager();
+
+        $deleteForm = $this->createDeleteForm($banktasks);
+        $editform = $this->createForm('AppBundle\Form\FundBankTasksType', $banktasks);
+        $editform->handleRequest($request);
+
+        if ($editform->isSubmitted() && $editform->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($banktasks);
+            $em->flush();
+
+            return $this->redirectToRoute('profile_tasks_index');
+        }
+
+        return $this->render('profile/edit.html.twig', array(
+            'user' => $user,
+            'action' => 'Editando tarea del usuario',
+            'backlink' => $this->generateUrl('profile_tasks_index'),
+            'backmessage' => 'Volver al listado de tareas',
+            'edit_form' => $editform->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+
+    /**
+     * Creates a form to edit a Users entity.
+     *
+     * @Route("/user/edit", name="profle_user_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function usereditAction(Request $request)
     {
         //$em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();

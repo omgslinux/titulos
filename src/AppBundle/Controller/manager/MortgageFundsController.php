@@ -40,7 +40,7 @@ class MortgageFundsController extends Controller
         }
 
         return $this->render('default/edit.html.twig', array(
-            'action' => 'Añadir datos adicionales para el fondo ' . $fund,
+            'action' => 'Añadir datos hipotecarios para el fondo ' . $fund,
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fund->getId())),
             'backmessage' => 'Volver al fondo',
             'create_form' => $form->createView(),
@@ -69,7 +69,7 @@ class MortgageFundsController extends Controller
 
         return $this->render('default/edit.html.twig', array(
             'mfund' => $mfund,
-            'action' => 'Datos adicionales del fondo ' . $mfund->getFundname(),
+            'action' => 'Datos hipotecarios del fondo ' . $mfund->getFundname(),
             'backlink' => $this->generateUrl('manage_funds_show', array('id' => $mfund->getId())),
             'backmessage' => 'Volver al fondo',
             'edit_form' => $editform->createView(),

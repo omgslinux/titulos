@@ -26,7 +26,6 @@ class FundBankTasksController extends Controller
      */
     public function newAction(Request $request, FundBanks $fundbank)
     {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $banktask = new FundBankTasks();
         $fundbank->addTask($banktask);
         $createForm = $this->createForm('AppBundle\Form\FundBankTasksType', $banktask);
@@ -43,6 +42,8 @@ class FundBankTasksController extends Controller
         return $this->render('funds/tasks.html.twig', array(
             'fundbank' => $fundbank,
             'action' => 'Crear tarea',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $fundbank->getFund()->getId())),
+            'backmessage' => 'Volver al fondo ' . $fundbank->getFund(),
             'create_form' => $createForm->createView(),
         ));
     }
@@ -55,7 +56,6 @@ class FundBankTasksController extends Controller
      */
     public function showAction(Request $request, FundBank $fundbank)
     {
-
         return $this->render('funds/tasks.html.twig', array(
             'action' => 'Listado de tareas',
             'fundbank' => $fundbank,
@@ -70,7 +70,6 @@ class FundBankTasksController extends Controller
      */
     public function editAction(Request $request, FundBankTasks $banktasks)
     {
-//        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
         $deleteForm = $this->createDeleteForm($banktasks);
         $editform = $this->createForm('AppBundle\Form\FundBankTasksType', $banktasks);
         $editform->handleRequest($request);
@@ -86,6 +85,8 @@ class FundBankTasksController extends Controller
         return $this->render('funds/tasks.html.twig', array(
             'fundbank' => $banktasks->getFundbank(),
             'action' => 'Edición de tareas',
+            'backlink' => $this->generateUrl('manage_funds_show', array('id' => $banktasks->getFundbank()->getFund()->getId())),
+            'backmessage' => 'Volver al fondo ' . $banktasks->getFundbank()->getFund(),
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
