@@ -37,22 +37,31 @@
                 {% else %} class="btn-danger">Revisar
                 {% endif %}</td>
                 <td {% if fund.fundtype != 'No hipotecario' %}
-                        {% if fund.mfund and fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
-                        {% else %} class="btn-success" title="Fondo cerrado">✔
+                        {% if fund.mfund %}
+                            {% if fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
+                            {% else %} class="btn-success" title="Fondo cerrado">✔
+                            {% endif %}
+                        {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                         {% endif %}
                     {% else %}class="btn-info">No es hipotecario
                     {% endif %}
                 </td>
                 <td {% if fund.fundtype != 'No hipotecario' %}
-                        {% if fund.mfund and fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
-                        {% else %} class="btn-warning" title="Fondo ilegible">✘
+                        {% if fund.mfund %}
+                            {% if fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
+                            {% else %} class="btn-warning" title="Fondo ilegible">✘
+                            {% endif %}
+                        {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                         {% endif %}
                     {% else %}class="btn-info">No es hipotecario
                     {% endif %}
                 </td>
                 <td {% if fund.fundtype != 'No hipotecario' %}
-                        {% if fund.mfund and fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
-                        {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                        {% if fund.mfund %}
+                            {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
+                            {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                            {% endif %}
+                        {% else %} class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                         {% endif %}
                     {% else %}class="btn-info">No es hipotecario
                     {% endif %}
