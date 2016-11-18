@@ -36,8 +36,8 @@
                 <td {% if fund.constdate|date('d/m/Y') != '01/01/1980' %}>{{ fund.constdate|date('d/m/Y') }}
                 {% else %} class="btn-danger">Revisar
                 {% endif %}</td>
-                <td {% if fund.mfund and fund.mfund.openfund %} class="btn-success" title="Fondo cerrado">✔
-                    {% else %} class="btn-warning" title="Fondo abierto">✘{% endif %}
+                <td {% if fund.mfund and fund.mfund.openfund %} class="btn-warning" title="Fondo abierto">✘
+            {% else %} class="btn-success" title="Fondo cerrado">✔{% endif %}
                 </td>
                 <td {% if fund.mfund and fund.mfund.legible %} class="btn-success" title="Fondo legible">✔
             {% else %} class="btn-warning" title="Fondo ilegible">✘{% endif %}
