@@ -87,9 +87,9 @@ class Funds
     /**
      * @var string
      *
-     * @ORM\Column(type="string",length=64,nullable=true)
+     * @ORM\Column(type="string",length=16,nullable=true)
      */
-    private $cnmvpdf;
+    private $isin;
 
     /**
      * @var ArrayCollection
@@ -340,27 +340,27 @@ class Funds
     }
 
     /**
-     * Set cnmvpdf
+     * Set isin
      *
-     * @param string $cnmvpdf
+     * @param string $isin
      *
      * @return Funds
      */
-    public function setCNMVPDF($cnmvpdf)
+    public function setIsin($isin)
     {
-        $this->cnmvpdf = $cnmvpdf;
+        $this->isin = $isin;
 
         return $this;
     }
 
     /**
-     * Get cnmvpdf
+     * Get isin
      *
      * @return string
      */
-    public function getCNMVPDF()
+    public function getIsin()
     {
-        return $this->cnmvpdf;
+        return $this->isin;
     }
 
     /**
@@ -526,11 +526,7 @@ class Funds
 
     public function getCNMVPDFLink()
     {
-        if (!empty($this->getCNMVPDF())) {
-            return 'http://www.cnmv.es/Portal/verDoc.axd?t={' . $this->getCNMVPDF() . '}';
-        } else {
             return 'http://www.cnmv.es/Portal/Consultas/Folletos/AnotacionesCuenta.aspx?id=0&nif=' . $this->getNif();
-        }
     }
 
     public function getSlugger()

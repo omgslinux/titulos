@@ -38,10 +38,15 @@ class FundsType extends AbstractType
                 'label' => 'Fecha de constitución',
                 ))
             ->add('amount', MoneyType::class, array('label' => 'Importe del fondo'))
-            ->add('cnmvpdf', TextType::class, array('label' => 'Cadena URL a PDF (entre {})'))
+            ->add('isin', TextType::class, array(
+                'label' => 'Código ISIN',
+                'required' => false
+            ))
             ->add('notes', TextareaType::class, array(
                 'attr' => array( 'cols' => 80),
-                'label' => 'Observaciones'))
+                'label' => 'Observaciones',
+                'required' => false,
+            ))
         ;
     }
 

@@ -12,7 +12,7 @@
                     <th>Fecha de constitución</th>
                     <th>NIF</th>
                     <th>Cantidad</th>
-                    <th colspan="1">Enlaces CNMV</th>
+                    <th colspan="1">Enlace CNMV</th>
                 </tr>
                 <tr>
                     <td><a href="{{ path('manage_funds_edit', { 'id': fund.id }) }}">Editar</a></td>
@@ -21,7 +21,7 @@
                     <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
                     <td>{{ fund.nif }}</td>
                     <td>{{ fund.amount|number_format(2,',','.') }} €</td>
-                    <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página principal</a></td>
+                    <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página del fondo</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -34,26 +34,26 @@
                     <th></th>
                     <th>Fecha de liquidación</th>
                     <th>Fecha de extinción</th>
-                    <th>Num registros</th>
+                    <th>Folleto</th>
                     <th>Tipo de fondo</th>
+                    <th>Num registros</th>
                     <th>Pag. inicio</th>
                     <th>Pag. fin</th>
                     <th>Páginas</th>
                     <th>Legible</th>
-                    <th>Folleto</th>
                     <th>Digitalizable</th>
                 </tr>
                 <tr>
                     <td><a href="{{ path('manage_funds_extra_edit', { 'id': fund.id }) }}">Editar datos</a></td>
                     <td {% if fund.mfund.liqdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.liqdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
                     <td {% if fund.mfund.extdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.extdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
-                    <td>{{ fund.mfund.numrecords }}</td>
+                    <td {% if fund.mfund.brochure %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
                     <td {% if fund.mfund.openfund == 0 %} class="btn-success">Cerrado{% else %} class="btn-warning">Abierto{% endif %}</td>
+                    <td>{{ fund.mfund.numrecords }}</td>
                     <td>{{ fund.mfund.loansfirstpage }}</td>
                     <td>{{ fund.mfund.loanslastpage }}</td>
                     <td>{{ fund.mfund.fundpages }}</td>
                     <td {% if fund.mfund.legible %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
-                    <td {% if fund.mfund.brochure %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
                     <td {% if fund.mfund.digitalizable %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
                 </tr>
             </tbody>

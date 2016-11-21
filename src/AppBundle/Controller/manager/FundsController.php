@@ -75,18 +75,11 @@ class FundsController extends Controller
      */
     public function showAction(Funds $fund)
     {
-        $deleteForm = $this->createDeleteForm($fund);
-        $downloadForm = $this->createDownloadForm($fund);
-
-        $filepath = $this->get('app.filedownload');
-        $filepath->setUrl($fund->getCNMVPDFLink());
-
+        //$deleteForm = $this->createDeleteForm($fund);
 
         return $this->render('manage/funds/show.html.twig', array(
             'fund' => $fund,
-            'filepath' => $filepath,
-            'delete_form' => $deleteForm->createView(),
-            'download_form' => $downloadForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         ));
     }
 

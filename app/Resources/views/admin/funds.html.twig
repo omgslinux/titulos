@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Listado de fondos de titulización ({{ funds|length }})</h1>
 
-    <form name="form">
+    <form name="form" method="POST">
         <button type="submit" formaction="{{ path('admin_funds_downloadall') }}">Descargar todo</button>
     <table class="table table-bordered">
         <thead align="center">

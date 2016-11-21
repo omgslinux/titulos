@@ -89,7 +89,7 @@ class FundsController extends Controller
         $downloadAllForm = $this->createDownloadAllForm();
         $downloadAllForm->handleRequest($request);
 
-//        if ($downloadAllForm->isSubmitted() && $downloadAllForm->isValid()) {
+        if ($downloadAllForm->isSubmitted() && $downloadAllForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $funds = $em->getRepository('AppBundle:Funds')->findAll();
@@ -104,7 +104,7 @@ class FundsController extends Controller
                     }
                 }
             }
-//        }
+        }
         return $this->redirectToRoute('admin_funds_index');
     }
 
