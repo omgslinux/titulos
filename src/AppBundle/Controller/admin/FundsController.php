@@ -48,14 +48,14 @@ class FundsController extends Controller
 
 //        die(print_r($request->request->get('form'), true));
 
-        if ($downloadForm->isSubmitted() && $downloadForm->isValid()) {
+//        if ($downloadForm->isSubmitted() && $downloadForm->isValid()) {
             $filepath = $this->get('app.filedownload');
             $cnmv = $this->get('app.cnmvlinks');
-            $cmnv->setNIF($fund->getNif());
+            $cnmv->setNIF($fund->getNif());
             $cnmv->setPath($fund->getFulldocpath($linktype));
             $cnmv->getFileByLinktype($linktype);
-            die("fund: $fund, id: " . $fund->getId() . ", linktype: $linktype");
-        }
+            //die("fund: $fund, id: " . $fund->getId() . ", linktype: $linktype");
+//        }
         return $this->redirectToRoute('admin_funds_index');
     }
 
@@ -89,23 +89,22 @@ class FundsController extends Controller
         $downloadAllForm = $this->createDownloadAllForm();
         $downloadAllForm->handleRequest($request);
 
-        if ($downloadAllForm->isSubmitted() && $downloadAllForm->isValid()) {
+//        if ($downloadAllForm->isSubmitted() && $downloadAllForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $funds = $em->getRepository('AppBundle:Funds')->findAll();
-            $filepath = $this->get('app.filedownload');
             $cnmv = $this->get('app.cnmvlinks');
             $linktypes=array(1,2);
             foreach ($funds as $fund) {
                 $cnmv->setNIF($fund->getNif());
                 foreach ($linktypes as $linktype) {
-                    $cnmv->setPath($fund->getFulldocpath($linktype));
-                    if (!$filepath->isDocdownloaded($fund->getFulldocpath($linktype))) {
+                    //$cnmv->setFilepath($fund->getFulldocpath($linktype));
+                    if (!$cnmv->isDocdownloaded($fund->getFulldocpath($linktype))) {
                         $cnmv->getFileByLinktype($linktype);
                     }
                 }
             }
-        }
+//        }
         return $this->redirectToRoute('admin_funds_index');
     }
 
