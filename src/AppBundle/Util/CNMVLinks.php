@@ -10,6 +10,7 @@ class CNMVLinks
     private $URLBASE='http://www.cnmv.es/Portal/Consultas/Folletos/';
     private $NIF='V85166619';
     private $html;
+    private $filepath;
 
     public function __construct($NIFS = false)
     {
@@ -24,6 +25,21 @@ class CNMVLinks
                 $this->downloadAll($NIFS);
             }
         }
+    }
+
+    public function setFilepath($filepath)
+    {
+        $this->filepath = $filepath;
+    }
+
+    public function getFilepath()
+    {
+        return $this->filepath;
+    }
+
+    public function setNIF($nif)
+    {
+        $this->NIF = $nif;
     }
 
     public function downloadAll($NIF)
@@ -71,6 +87,20 @@ class CNMVLinks
         system("curl -v -l --url $URL -o $pdf");
     }
 
+    public function getFileByLinktype($linktype)
+    {
+        switch ($linktype) {
+            case '1':
+                $this->getConstPDF();
+                break;
+            case '2':
+                $this->getBrochurePDF();
+                break;
+            default:
+                # code...
+                break;
+        }
+    }
     /*
     include 'src/AppBundle/Util/FileDownload.php';
     $f=new AppBundle\Util\FileDownload();
@@ -90,7 +120,7 @@ class CNMVLinks
         $htmlconst=system("echo '$this->html'|grep 'verDoc.axd'|grep 'document'");
         $pdfurl=$this->getPDFURL($htmlconst);
         print "Escritura: ($pdfurl)\n";
-        $this->getPDF($pdfurl, $this->NIF."-const.pdf");
+        $this->getPDF($pdfurl, ($this->filepath?$this->filepath:$this->NIF."-const.pdf"));
     }
 
     public function getBrochurePDF()
@@ -103,6 +133,6 @@ class CNMVLinks
         //$htmlconst=system("echo '$this->html'|grep 'verDoc.axd'");
         $pdfurl=$this->getPDFURL(system("echo '$this->html'|grep 'verDoc.axd'"));
         print "Folleto: ($pdfurl)\n";
-        $this->getPDF($pdfurl, $this->NIF."-broch.pdf");
+        $this->getPDF($pdfurl, ($this->filepath?$this->filepath:$this->NIF."-broch.pdf"));
     }
 }
