@@ -71,11 +71,11 @@ class FileDownload
         } else {
             $this->path = $path;
         }
-        echo "basedir: " . $this->basedir . "\n";
-        echo "path: " . $path . "\n";
-        echo "rootdir: " . $this->rootdir . "\n";
-        echo "getFullbase: " . $this->getFullbase() . "\n";
-        echo "getFulldir: " . $this->getFulldir() . "\n";
+        echo "basedir: " . $this->basedir . "<br>\n";
+        echo "path: " . $path . "<br>\n";
+        echo "rootdir: " . $this->rootdir . "<br>\n";
+        echo "getFullbase: " . $this->getFullbase() . "<br>\n";
+        echo "getFulldir: " . $this->getFulldir() . "<br>\n";
         // print getcwd();
 
         if (!is_dir($this->getFulldir())) {
@@ -93,7 +93,7 @@ class FileDownload
         } else {
             $url = $this->url['server'];
         }
-        echo "curl -v -k --url $url -o ". $this->getFullbase() . '/' . $path . "\n";
+        echo "curl -v -k --url $url -o ". $this->getFullbase() . '/' . $path . "<br>\n";
         system("curl -v -k --url $url -o ". $this->getFullbase() . '/' . $path);
     }
 

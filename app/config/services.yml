@@ -11,6 +11,8 @@ services:
         class: AppBundle\Util\FileDownload
         calls:
             - [setRootdir , ["%kernel.root_dir%"]]
+    filedownload:
+        alias: app.filedownload
     app.Slugger:
         class: AppBundle\Util\Slugger
     app.readcsv:
@@ -19,3 +21,4 @@ services:
             - [setRootdir , ["%kernel.root_dir%"]]
     app.cnmvlinks:
         class: AppBundle\Util\CNMVLinks
+        arguments: ['@filedownload']
