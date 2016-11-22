@@ -29,27 +29,34 @@ class FundBanksController extends Controller
      */
     public function showAction(Request $request, FundBanks $fundbank)
     {
-        $filename = false;
-        $form = false;
-        $securitiescount=false;
+        $loadSecurityForm = $this->createLoadSecurityForm($fundbank);
+        $form = $loadSecurityForm->createView();
+        $csvfilename=false;
+        $filepath = $this->get('app.filedownload');
+
+        $securitiescount = count($fundbank->getSecurities());
+        $filename = $fundbank->getDocpath(7) . '/' . $fundbank->getLoadFilename() . '.csv';
+        $exists = $filepath->isDocdownloaded($filename);
+
         foreach ($fundbank->getFund()->getLinks() as $fundlink) {
             if ($fundlink->getLinktypeid() == 7) {
-                $filepath = $this->get('app.filedownload');
-                // $filename = $fundlink->getFulldocpath(7,$fundbank->getLoadFilename());
-                $filename = $fundlink->getFullcleancsvpath($fundbank->getLoadFilename());
-                if (!$filepath->isDocdownloaded($filename)) {
-                    $filename = false;
+                $csvfilename = $fundlink->getFullcleancsvpath($fundbank->getLoadFilename());
+                if ($filepath->isDocdownloaded($csvfilename)) {
+                    if ($securitiescount<=1) {
+                        $filename = $csvfilename;
+                    }
                 }
-                $loadSecurityForm = $this->createLoadSecurityForm($fundbank);
-                $form = $loadSecurityForm->createView();
-
-                $securitiescount = count($fundbank->getSecurities());
             }
         }
+            // $filename = $fundlink->getFulldocpath(7,$fundbank->getLoadFilename());
+            // $filename = $fundlink->getFullcleancsvpath($fundbank->getLoadFilename());
+
 
         return $this->render('manage/funds/banks.html.twig', array(
             'fundbank' => $fundbank,
             'filename' => $filename,
+            'csvfilename' => $csvfilename,
+            'exists' => $exists,
             'securitiescount' => $securitiescount,
             'download_form' => $form
         ));

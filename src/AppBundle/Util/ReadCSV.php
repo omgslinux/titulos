@@ -8,8 +8,14 @@ class ReadCSV extends ContainerAwareLoader
 {
     private $rootdir;
     private $url=array();
-    private $basedir; //='../web/pdf/';
+    private $basedir='../web/pdf/';
     private $path;
+    private $container;
+
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
 
     public function setRootdir($rootdir)
     {
@@ -19,7 +25,7 @@ class ReadCSV extends ContainerAwareLoader
     public function getBaseDir()
     {
         if (empty($this->basedir)) {
-            $this->setBasedir($this->getParameter('pdf_rootdir'));
+            $this->setBasedir($this->container->getParameter('pdf_rootdir'));
         }
 
         return $this->basedir;
@@ -42,7 +48,7 @@ class ReadCSV extends ContainerAwareLoader
 
     public function getFullbase()
     {
-        return $this->rootdir . '/' . $this->basedir;
+        return $this->rootdir . '/' . $this->getBaseDir();
     }
 
     public function getFulldir()

@@ -15,8 +15,11 @@ services:
         alias: app.filedownload
     app.Slugger:
         class: AppBundle\Util\Slugger
+    slugger:
+        alias: app.Slugger
     app.readcsv:
         class: AppBundle\Util\ReadCSV
+        arguments: ['@service_container']
         calls:
             - [setRootdir , ["%kernel.root_dir%"]]
     app.cnmvlinks:

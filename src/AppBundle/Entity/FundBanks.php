@@ -132,9 +132,14 @@ class FundBanks
         }
     }
 
+    public function getDocpath($linktype)
+    {
+        return $this->getFund()->getDocpath($linktype);
+    }
+
     public function getLoadFilename()
     {
-        return Slugger::getSlug($this->getBankfilename().'_'.$this->getLoanTypeAbbreviation());
+        return Slugger::getSlug($this->getBankname() . '_' . $this->getLoanTypeAbbreviation());
     }
 
     public function getLoanTypeAbbreviation()
@@ -280,5 +285,10 @@ class FundBanks
         $security->setFundbank($this);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getFundname() . '/' . $this->getBankname() . '('. $this->getLoantype() .')';
     }
 }

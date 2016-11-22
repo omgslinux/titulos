@@ -15,24 +15,27 @@
                 <th>Entidad</th>
                 <th>Tipo préstamo</th>
                 <th>Número préstamos</th>
-                <th>Estado</th>
+                <th>Enlace</th>
                 <th>Acción</th>
            </tr>
            <tr>
                <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
                <td>{{ fundbank.loantype }}</td>
                <td>{{ fundbank.count }}</td>
-               {% if filename %}<td  class="btn-success">X</td>
-                        {% if securitiescount %}<td class="btn-success">{{ securitiescount }}
-                        {% else %}<td class="btn-warning">{{ form_start(download_form) }}
-                               <input type="submit" class="btn-success" value="Cargar">
-                               <input name="filename" type="hidden" value="{{ filename|url_encode }}">
-                           {{ form_end(download_form) }}
-                           <a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
-                       {% endif %}
-                   {% else %}<td  class="btn-warning">No hay fichero</td>
-                    <td>Crear enlace a CSV</a>
-                   {% endif %}</td>
+               <td class="{% if csvfilename %}btn-success">X{% else %}btn-warning">No hay enlace{% endif %}</td>
+                {% if exists %}
+                    {% if securitiescount %}<td class="btn-success">{{ securitiescount }}
+                    {% else %}<td>
+                        {{ form_start(download_form) }}
+                        <input type="submit" class="btn btn-info" value="Cargar">
+                        <input name="filename" type="hidden" value="{{ filename|url_encode }}">
+                        {{ form_end(download_form) }}
+                        <a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
+                    {% endif %}
+               {% else %}
+                    <td title="{{ filename|url_encode }}">Crear enlace a CSV</a>
+               {% endif %}
+                </td>
            </tr>
         </tbody>
     </table>
