@@ -85,11 +85,13 @@
             {% if missing > 0 %}
                 <p class="warning"><a href="{{ path('manage_funds_banks_new', { 'id': fund.id }) }}">Añadir entidad cedente (faltan {{ missing }} préstamos)</a></p>
             {% else %}
+                <table class="table"><tr><td
                 {% if missing == 0 %}
-                    <p class="success">Entidades cedentes completadas</p>
+                    class="btn-success">Entidades cedentes completadas
                 {% else %}
-                    <p class="danger">Sobran {{ missing * -1 }} préstamos</p>
+                    class="btn-danger">Sobran {{ missing * -1 }} préstamos
                 {% endif %}
+            </td></tr></table>
             {% endif %}
             <hr>
             {% if fund.links.count %}
