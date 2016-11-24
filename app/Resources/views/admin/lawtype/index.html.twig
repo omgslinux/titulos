@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de tipos de leyes</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Abreviatura</th>
+                <th>Descripción larga</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lt in lawtypes %}
+            <tr>
+                <td>{{ lt.type }}</td>
+                <td><a href="{{ path('admin_lawtypes_show', { 'id': lt.id }) }}">{{ lt.longdesc }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_lawtypes_new') }}">Crear un tipo de ley</a>
+        </li>
+    </ul>
+{% endblock %}

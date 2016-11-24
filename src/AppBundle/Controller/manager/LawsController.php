@@ -57,6 +57,8 @@ class LawsController extends Controller
         return $this->render('default/edit.html.twig', array(
             'laws' => $law,
             'action' => 'Crear ley',
+            'backlink' => $this->generateUrl('manage_laws_index'),
+            'backmessage' => 'Volver al listado',
             'create_form' => $form->createView(),
         ));
     }

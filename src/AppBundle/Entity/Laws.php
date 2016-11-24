@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\Cities;
+use AppBundle\Entity\LawType;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Laws
@@ -36,6 +38,20 @@ class Laws
      * @ORM\Column(type="date")
      */
     private $lawdate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date")
+     */
+    private $releasedate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date")
+     */
+    private $legalsincedate;
 
     /**
      * @var string
@@ -71,6 +87,13 @@ class Laws
      * @ORM\Column(type="text")
      */
     private $analysis;
+
+    /**
+     * @var LawTypes
+     *
+     * @ORM\ManyToOne(targetEntity="LawType", inversedBy="laws")
+     */
+    private $lawtype;
 
 
 
@@ -129,6 +152,54 @@ class Laws
     public function setLawdate($lawdate)
     {
         $this->lawdate = $lawdate;
+
+        return $this;
+    }
+
+    /**
+     * Get releasedate
+     *
+     * @return \DateTime
+     */
+    public function getReleaseDate()
+    {
+        return $this->releasedate;
+    }
+
+    /**
+     * Set releasedate
+     *
+     * @param \DateTime $releasedate
+     *
+     * @return Laws
+     */
+    public function setReleaseDate($releasedate)
+    {
+        $this->releasedate = $releasedate;
+
+        return $this;
+    }
+
+    /**
+     * Get legalsincedate
+     *
+     * @return \DateTime
+     */
+    public function getLegalSinceDate()
+    {
+        return $this->legalsincedate;
+    }
+
+    /**
+     * Set legalsincedate
+     *
+     * @param \DateTime $legalsincedate
+     *
+     * @return Laws
+     */
+    public function setLegalSinceDate($legalsincedate)
+    {
+        $this->legalsincedate = $legalsincedate;
 
         return $this;
     }
@@ -252,6 +323,31 @@ class Laws
     {
         return $this->analysis;
     }
+
+    /**
+     * Set lawtype
+     *
+     * @param LawType $lawtype
+     *
+     * @return Laws
+     */
+    public function setLawtype(LawType $lawtype = null)
+    {
+        $this->lawtype = $lawtype;
+
+        return $this;
+    }
+
+    /**
+     * Get lawtype
+     *
+     * @return Laws
+     */
+    public function getLawtype()
+    {
+        return $this->lawtype;
+    }
+
 
 
     public function __toString()
