@@ -28,7 +28,7 @@ class LawsType extends AbstractType
             ->add('number', IntegerType::class, array ('label' => 'Número de la ley'))
             ->add('lawdate', DateType::class, array(
                 'widget' => 'single_text',
-                'label' => 'Fecha de la ley',
+                'label' => 'Fecha de disposición',
                 'years' => range(1980, date('Y'))))
             ->add('releasedate', DateType::class, array(
                 'widget' => 'single_text',
@@ -40,7 +40,10 @@ class LawsType extends AbstractType
                 'years' => range(1980, date('Y'))))
             ->add('shortname', TextType::class, array('label' => 'Descripción corta'))
             ->add('longname', TextType::class, array('label' => 'Descripción larga'))
-            ->add('notes', TextType::class, array('label' => 'Observaciones'))
+            ->add('notes', TextType::class, array(
+                'label' => 'Observaciones',
+                'required' => true
+            ))
             ->add('boe', UrlType::class, array('label' => 'URL BOE'))
             ->add('contents', TextareaType::class, array('label' => 'Contenido',
                 'attr' => array('cols' => 80, 'rows' => 15)

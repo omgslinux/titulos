@@ -74,7 +74,7 @@ class LawsController extends Controller
         $deleteForm = $this->createDeleteForm($law);
 
         return $this->render('laws/show.html.twig', array(
-            'laws' => $law,
+            'law' => $law,
             'delete_form' => $deleteForm->createView(),
         ));
     }

@@ -104,6 +104,13 @@ class Laws
 
 
 
+    public function __construct()
+    {
+        $this->setReleaseDate('1980-01-01');
+        $this->setLawdate('1980-01-01');
+        $this->setLegalSinceDate('1980-01-01');
+        $this->setBOE('http://boe.es/buscar/doc.php?id=BOE');
+    }
 
     /**
      * Get id

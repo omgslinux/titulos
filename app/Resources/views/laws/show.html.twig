@@ -6,12 +6,22 @@
     <table class="table table-bordered">
         <tbody>
             <tr>
+                <th>Tipo</th>
                 <th>Ley</th>
+                <th>Nombre largo</th>
+                <th>Fecha disposición</th>
+                <th>Entrada en vigor</th>
+                <th>BOE</th>
                 <th>Observaciones</th>
             </tr>
             <tr>
-                <td><a href="{{ path('manage_laws_edit', { 'id': laws.id }) }}">Ley {{ laws.number }}/{{ laws.lawdate|date('Y') }} de {{ laws.lawdate|date('d') }} de {{ laws.lawdate|date('F') }}, {{ laws.shortname }}</a></td>
-                <td>{{ laws.notes }}</td>
+                <td>{{ law.lawtype }}</td>
+                <td><a href="{{ path('manage_laws_edit', { 'id': law.id }) }}">{{ law.number }}/{{ law.lawdate|date('Y') }}</a></td>
+                <td>{{ law.longname }}</td>
+                <td>{{ law.lawdate|date('d/m/Y') }}</td>
+                <td>{{ law.legalsincedate|date('d/m/Y') }}</td>
+                <td><a href="{{ law.boe }}" target="_blank">Enlace BOE</td>
+                <td>{{ law.notes }}</td>
             </tr>
         </tbody>
     </table>
