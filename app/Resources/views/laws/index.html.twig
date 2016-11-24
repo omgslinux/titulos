@@ -7,14 +7,18 @@
         <thead>
             <tr>
                 <th>Número</th>
+                <th>Fecha disposición</th>
+                <th>Entrada en vigor</th>
                 <th>Descripción</th>
             </tr>
         </thead>
         <tbody>
         {% for law in laws %}
             <tr>
-                <td>{{ law }}</td>
-                <td><a href="{{ path('manage_laws_show', { 'id': law.id }) }}">{{ law.shortname }}</a></td>
+                <td><a href="{{ path('manage_laws_show', { 'id': law.id }) }}">{{ law.number }}/{{ law.lawdate|date('d/m/Y')}}</a></td>
+                <td>{{ law.lawdate|date('d/m/Y') }}</td>
+                <td>{{ law.legalsincedate|date('d/m/Y') }}</td>
+                <td>{{ law.shortname }}</td>
             </tr>
         {% endfor %}
         </tbody>
