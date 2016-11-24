@@ -77,6 +77,13 @@ class Laws
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=128)
+     */
+    private $boe;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="text")
      */
     private $contents;
@@ -274,6 +281,30 @@ class Laws
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * Set boe
+     *
+     * @param text $boe
+     *
+     * @return Laws
+     */
+    public function setBOE($boe)
+    {
+        $this->boe = $boe;
+
+        return $this;
+    }
+
+    /**
+     * Get boe
+     *
+     * @return text
+     */
+    public function getBOE()
+    {
+        return $this->boe;
     }
 
     /**
