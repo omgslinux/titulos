@@ -43,14 +43,28 @@ class SearchController extends Controller
 
         if ($request->isMethod(Request::METHOD_POST)) {
             $selectedBankId = $request->request->get('banks', null);
-            // Salen duplicados en la siguiente línea.
-            $fundbank = $em->getRepository('AppBundle:FundBanks')->findby(array('bank' => $selectedBankId));
+            $qbFunds = $em->createQueryBuilder();
+            $qbFunds
+                ->select('DISTINCT IDENTITY(b.fund) AS id')
+                ->from('AppBundle:FundBanks', 'b')
+                ->join('AppBundle:MortgageFunds', 'm', 'WITH', 'b.fund=m.fund')
+                ->where('b.bank = :selected')
+                ->setParameter('selected', $selectedBankId)
+                ->OrderBy('b.fund')
+            ;
+            $queryFunds = $qbFunds->getQuery();
+            $fundarray = $queryFunds->getResult();
+            $fundids = [];
+            foreach ($fundarray as $key => $value) {
+                $fundids[]=$value['id'];
+            }
+            $funds = $em->getRepository('AppBundle:Funds')->findby(array('id'=>$fundids));
         }
 
         return $this->render('search/funds/bybank.html.twig', array(
-            'action' => 'Editando tarea ',
+            'action' => 'Búsqueda de fondos por entidad cedente',
             'fundbanks' => $fundbanks,
-            'fundbank' => $fundbank,
+            'funds' => $funds,
             'selectedBankId' => $selectedBankId,
             'backlink' => $this->generateUrl('profile_tasks_index'),
             'backmessage' => 'Volver al listado de tareas',
