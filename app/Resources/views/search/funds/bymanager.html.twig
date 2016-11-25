@@ -5,18 +5,18 @@
 
     <form class="form-inline" method='POST'>
         <div class="form-group">
-            <label for="banks">Elige entidad:</label>
-            <select id="banks" name="banks" class="form-control">
-                {% for bank in fundbanks %}
-                    {% set selected = (bank.id == selectedBankId) ? ' selected' %}
-                    <option value="{{ bank.id }}"{{ selected }}>{{ bank.shortname }}</option>
+            <label for="fundmanagers">Elige gestora:</label>
+            <select id="fundmanagers" name="fundamanagers" class="form-control">
+                {% for fundmanager in fundmanagers %}
+                    {% set selected = (fundmanager.id == selectedId) ? ' selected' %}
+                    <option value="{{ fundmanager.id }}"{{ selected }}>{{ fundmanager.longname }}</option>
                 {% endfor %}
             </select>
             <button type="submit" class="btn btn-info">Buscar</button>
         </div>
     </form>
 
-    {% if fundbanks|length > 0 %}{% set loancount = 0 %}
+    {% if fundmanagers|length > 0 %}{% set loancount = 0 %}
     <h1>Total de fondos encontrados: {{ funds|length }}</h1>
         {% for fund in funds %}
             <h2 class="text-center">Datos del fondo {{ fund.fundname }}</h2>
@@ -24,7 +24,6 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th>Gestora</th>
                         <th>Tipo fondo</th>
                         <th>Fecha de constitución</th>
                         <th>NIF</th>
@@ -37,52 +36,22 @@
                         <th>Digitalizable</th>
                     </tr>
                     <tr>
-                        <td>{{ fund.fundmanager }}</td>
                         <td {% if fund.fundtype == 'Hipotecario' %} class="btn-success">{% else %}{%if fund.fundtype == 'Mixto' %} class="btn-warning">{% else %} class="btn-danger">{% endif %}{% endif %}{{ fund.fundtype }}</td>
                         <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
                         <td>{{ fund.nif }}</td>
                         <td>{{ fund.amount|number_format(2,',','.') }} €</td>
                         <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página principal</a></td>
+                        {% if fund.mfund %}
                         <td {% if fund.mfund.liqdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.liqdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
                         <td {% if fund.mfund.extdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.extdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
                         <td>{{ fund.mfund.numrecords }}</td>
                         <td {% if fund.mfund.openfund == 0 %} class="btn-success">Cerrado{% else %} class="btn-warning">Abierto{% endif %}</td>
                         <td {% if fund.mfund.digitalizable %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
+                        {% endif %}
                     </tr>
                 </tbody>
             </table>
-            {% if fund.fundtype != 'No hipotecario' %}
-                {% if fund.banks.count %}
-                    <table class="table table-striped table-bordered">
-                        <tbody>
-                           <tr>
-                               <th>Banco</th>
-                               <th>Tipo préstamo</th>
-                               <th>Número préstamos</th>
-                           </tr>
-                           {% set fundcount = 0 %}{% for fundfundbank in fund.banks %}
-                            {% set bankclass = "danger" %}
-                            {% if fundfundbank.bank.id == selectedBankId %}
-                            {% set bankclass = "btn-success"%}
-                            {% set fundcount = fundcount + fundfundbank.count %}
-                            {% endif %}
-                                <div class="row">
-                                    <tr class="{{ bankclass }}">
-                                        <td>{{ fundfundbank.bank }}</td>
-                                        <td>{{ fundfundbank.loantype }}</td>
-                                        <td>{{ fundfundbank.count }}</td>
-                                    </tr>
-                                </div>
-                           {% endfor %}{% set loancount = loancount + fundcount %}
-                        </tbody>
-                    </table>
-                {% endif %}
-                <p>Préstamos de la entidad en el fondo: {{ fundcount }}</p>
-            {% else %}
-                <p>El fondo no es hipotecario</p>
-            {% endif %}
             <hr>
         {% endfor %}
-            <p>Total préstamos de la entidad: {{ loancount }}</p>
     {% endif %}
 {% endblock %}
