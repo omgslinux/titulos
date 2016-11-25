@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\Cities;
+use AppBundle\Entity\FundBanks;
 use AppBundle\Entity\BankCategory;
 use AppBundle\Repository\BanksRepository;
 
@@ -61,7 +62,7 @@ class Banks
     private $address;
 
     /**
-     * @var \Cities
+     * @var Cities
      *
      * @ORM\ManyToOne(targetEntity="Cities")
      */
@@ -235,6 +236,45 @@ class Banks
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Get fundbanks
+     *
+     * @return ArrayCollection
+     */
+    public function getFundbanks()
+    {
+        return $this->fundbanks;
+    }
+
+    /**
+     * Add fundbank
+     *
+     * @param FundBanks $fundbank
+     *
+     * @return Banks
+     */
+    public function addFundbank(FundBanks $fundbank)
+    {
+        $this->fundbanks->add($fundbank);
+        $fundbank->setBank($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove fundbank
+     *
+     * @param FundBanks $fundbank
+     *
+     * @return Banks
+     */
+    public function removeFundbank(FundBanks $fundbank)
+    {
+        $this->fundbanks->removeElement($fundbank);
+
+        return $this;
     }
 
     /**
