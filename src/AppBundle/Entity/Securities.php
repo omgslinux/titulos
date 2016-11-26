@@ -70,6 +70,13 @@ class Securities
      *
      * @ORM\Column(type="string", length=8, nullable=true)
      */
+    private $regnum;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="string", length=8, nullable=true)
+     */
     private $volume;
 
     /**
@@ -260,6 +267,30 @@ class Securities
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Set regnum
+     *
+     * @param string $regnum
+     *
+     * @return Securities
+     */
+    public function setRegnum($regnum)
+    {
+        $this->regnum = $regnum;
+
+        return $this;
+    }
+
+    /**
+     * Get regnum
+     *
+     * @return string
+     */
+    public function getRegnum()
+    {
+        return $this->regnum;
     }
 
     /**

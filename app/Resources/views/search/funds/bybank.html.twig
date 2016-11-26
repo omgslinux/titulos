@@ -16,7 +16,7 @@
         </div>
     </form>
 
-    {% if fundbanks|length > 0 %}{% set loancount = 0 %}
+    {% if funds|length > 0 %}{% set loancount = 0 %}
     <h1>Total de fondos encontrados: {{ funds|length }}</h1>
         {% for fund in funds %}
             <h2 class="text-center">Datos del fondo {{ fund.fundname }}</h2>

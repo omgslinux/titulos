@@ -16,38 +16,28 @@
         </div>
     </form>
 
-    {% if fundmanagers|length > 0 %}{% set loancount = 0 %}
+    {% if funds|length > 0 %}{% set loancount = 0 %}
     <h1>Total de fondos encontrados: {{ funds|length }}</h1>
         {% for fund in funds %}
-            <h2 class="text-center">Datos del fondo {{ fund.fundname }}</h2>
+            <h2 class="text-center">Datos básicos {{ fund.fundname }}</h2>
 
             <table class="table table-bordered">
                 <tbody>
                     <tr>
+                        <th>Nombre corto</th>
                         <th>Tipo fondo</th>
                         <th>Fecha de constitución</th>
                         <th>NIF</th>
                         <th>Cantidad</th>
                         <th colspan="1">Enlaces CNMV</th>
-                        <th>Fecha de liquidación</th>
-                        <th>Fecha de extinción</th>
-                        <th>Num registros</th>
-                        <th>Tipo de fondo</th>
-                        <th>Digitalizable</th>
                     </tr>
                     <tr>
+                        <td><a href="{{ path('search_funds', { 'id': fund.id }) }}">{{ fund }}</a></td>
                         <td {% if fund.fundtype == 'Hipotecario' %} class="btn-success">{% else %}{%if fund.fundtype == 'Mixto' %} class="btn-warning">{% else %} class="btn-danger">{% endif %}{% endif %}{{ fund.fundtype }}</td>
                         <td>{% if fund.constdate|date('d/m/Y') != '01/01/1980' %}{{ fund.constdate|date('d/m/Y') }}{% else %}✘{% endif %}</td>
                         <td>{{ fund.nif }}</td>
                         <td>{{ fund.amount|number_format(2,',','.') }} €</td>
                         <td><a href="{{ fund.getCNMVLink }}" target="_blank">Página principal</a></td>
-                        {% if fund.mfund %}
-                        <td {% if fund.mfund.liqdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.liqdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
-                        <td {% if fund.mfund.extdate|date('d/m/Y') != '01/01/1980' %} class="btn-success">{{ fund.mfund.extdate|date('d/m/Y') }}{% else %} class="btn-warning">✘{% endif %}</td>
-                        <td>{{ fund.mfund.numrecords }}</td>
-                        <td {% if fund.mfund.openfund == 0 %} class="btn-success">Cerrado{% else %} class="btn-warning">Abierto{% endif %}</td>
-                        <td {% if fund.mfund.digitalizable %} class="btn-success">✔{% else %} class="btn-danger">✘{% endif %}</td>
-                        {% endif %}
                     </tr>
                 </tbody>
             </table>

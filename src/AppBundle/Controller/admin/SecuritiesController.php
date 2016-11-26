@@ -209,6 +209,7 @@ class SecuritiesController extends Controller
                     'mappedBy' => 'id'
                 )
             ),
+            'regnum' => true,
             'volume' => true,
             'book' => true,
             'folio' => true,
