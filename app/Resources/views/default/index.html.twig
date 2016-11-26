@@ -6,9 +6,12 @@
     </div>
 
     <div id="next">
+        <h2>¿Deseas colaborar?</h2>
+        <p>Visita la <a href="https://titulizaciones.wordpress.com/acerca-de/" target="_blank">página de contacto del grupo de titulizaciones</a></p>
+
         <h2>¿Deseas buscar tu hipoteca?</h2>
         <p>
-            Tenemos un buscador de hipotecas
+            Tenemos un <a href="{{ path('search_funds_byloan') }}">buscador de hipotecas</a>
             que está en construcción. Mientras tanto, utiliza el <a href="/app/">anterior</a>. Cómo buscar:
             <ul>
                 <li>Busca en el desplegable tu entidad y selecciónala. Si no está en la listada, puedes ayudarnos a completarla</li>
@@ -16,6 +19,11 @@
                 <li>Introduce la fecha del préstamo. Esto sirve tanto para descartar fondos en los que buscar,
                 así como dotar de mayor exactitud a la búsqueda</li>
             </ul>
+            <p>También tenemos:
+                <ul>
+                    <li>Un <a href="{{ path('search_funds_bybank') }}">buscador de fondos según la entidad cedente</a></li>
+                    <li>Un <a href="{{ path('search_funds_bymanager') }}">buscar de fondos según la entidad gestora</li>
+                </ul>
         </p>
     </div>
 {% endblock %}
