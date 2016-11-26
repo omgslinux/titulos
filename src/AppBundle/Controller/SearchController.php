@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\Laws;
 use AppBundle\Entity\Funds;
 
 /**
@@ -167,17 +168,49 @@ class SearchController extends Controller
             'backmessage' => 'Volver al listado de tareas',
         ));
     }
+
     /**
-     * Creates a form to edit a FundBanks entity.
+     * Creates a form to show a Funds entity.
      *
      * @Route("/funds/{id}", name="search_funds")
      * @Method({"GET"})
      */
-    public function showAction(Request $request, Funds $fund)
+    public function searchFundAction(Request $request, Funds $fund)
     {
 
         return $this->render('search/funds/show.html.twig', array(
             'fund' => $fund,
+        ));
+    }
+
+    /**
+     * Creates a form to show Laws entities.
+     *
+     * @Route("/laws/", name="search_laws_index")
+     * @Method({"GET"})
+     */
+    public function searchLawsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $laws = $em->getRepository('AppBundle:Laws')->findAll();
+
+        return $this->render('search/laws/index.html.twig', array(
+            'laws' => $laws,
+        ));
+    }
+
+    /**
+     * Creates a form to show Laws entities.
+     *
+     * @Route("/laws/{id}", name="search_laws_show")
+     * @Method({"GET"})
+     */
+    public function showLawsAction(Request $request, Laws $law)
+    {
+
+        return $this->render('search/laws/show.html.twig', array(
+            'law' => $law,
         ));
     }
 }

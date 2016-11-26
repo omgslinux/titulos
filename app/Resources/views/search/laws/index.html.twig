@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de leyes</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Fecha disposición</th>
+                <th>Entrada en vigor</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for law in laws %}
+            <tr>
+                <td><a href="{{ path('search_laws_show', { 'id': law.id }) }}">{{ law.number }}/{{ law.lawdate|date('Y')}}</a></td>
+                <td>{{ law.lawdate|date('d/m/Y') }}</td>
+                <td>{{ law.legalsincedate|date('d/m/Y') }}</td>
+                <td>{{ law.shortname }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
