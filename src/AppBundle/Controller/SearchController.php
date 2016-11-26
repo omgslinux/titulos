@@ -193,7 +193,7 @@ class SearchController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $laws = $em->getRepository('AppBundle:Laws')->findAll();
+        $laws = $em->getRepository('AppBundle:Laws')->findBy(array(), array('lawdate' => 'ASC'));
 
         return $this->render('search/laws/index.html.twig', array(
             'laws' => $laws,
