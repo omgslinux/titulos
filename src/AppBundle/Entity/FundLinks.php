@@ -171,9 +171,14 @@ class FundLinks
         return $this->fund->getId();
     }
 
-    public function getLinktypeid()
+    public function getLinkTypeId()
     {
         return $this->getLinktype()->getId();
+    }
+
+    public function getLinkInternal()
+    {
+        return $this->getLinktype()->getInternal();
     }
 
     public function getFundname()
