@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Listado de PDF</h1>
+    <h2>PDFs de los fondos de la gestora <a href="{{ fundmanager.url }}" target="_blank">{{ fundmanager }}</a></h1>
 
     <table class="table table-bordered">
         <thead align="center">
@@ -27,19 +27,22 @@
                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
                         No hay fichero
                         {% else %}
-                            <a href="{{ asset('pdf') }}{{ asset(fund.getFulldocpath()) }}" target="_blank">Descarga directa</a>
+                            <a href="{{ asset(fund.getFulldocpath()) }}" target="_blank">Descarga escritura</a>
                         {% endif %}
                     </td>
                     <td>{% if filepath.isDocdownloaded(fund.getFulldocpath(2)) == false %}
                         No hay fichero
                         {% else %}
-                            <a href="{{ asset('pdf') }}{{ asset(fund.getFulldocpath(2)) }}" target="_blank">Descarga directa</a>
+                            <a href="{{ asset(fund.getFulldocpath(2)) }}" target="_blank">Descarga folleto</a>
                         {% endif %}
                     </td>
                     {% if fund.mfund %}
                     <td
                         {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
                         {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                            {% if filepath.isDocdownloaded(fund.getFulldocpath(3))  %}
+                                <a href="{{ asset(fund.getFulldocpath(3)) }}" target="_blank">Descarga anexos</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td {% set suma = 0 %}{% set sumasec = 0 %}
@@ -49,7 +52,7 @@
                         {% endfor %}
                         {% if sumasec == suma and suma != 0 %}class="btn-success">Cargado
                         {% else %}class="btn-warning">Incompleto
-                        {% endif %}
+                        {% endif %} ({{ sumasec }} de {{ suma }})
                     </td>
                     {% else %}<td colspan="2" class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                     {% endif %}

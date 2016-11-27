@@ -51,9 +51,14 @@ class FundManagers
     protected $regdate;
 
     /**
-    * @ORM\Column(type="string")
+    * @ORM\Column(type="text")
     */
     protected $description;
+
+    /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    protected $url;
 
     /**
      * @var ArrayCollection
@@ -141,11 +146,29 @@ class FundManagers
     {
         return $this->regdate;
     }
+
     public function setDescription($description)
     {
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setURL($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getURL()
+    {
+        return $this->url;
     }
 
     /**
@@ -185,12 +208,6 @@ class FundManagers
         $this->funds->removeElement($fund);
 
         return $this;
-    }
-
-
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     public function getCNMVUrl()

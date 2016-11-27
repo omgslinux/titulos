@@ -33,7 +33,7 @@ class FundLinks
     /**
      * @var FundLinkTypes
      *
-     * @ORM\ManyToOne(targetEntity="FundLinkTypes")
+     * @ORM\ManyToOne(targetEntity="FundLinkTypes", inversedBy="links")
      */
     private $linktype;
 

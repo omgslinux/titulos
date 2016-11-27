@@ -117,7 +117,10 @@ class FundLinksController extends Controller
     private function createDownloadForm(FundLinks $fundlink)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('manage_funds_links_download', array('id' => $fundlink->getId())))
+            ->setAction($this->generateUrl('admin_funds_download', array(
+                'id' => $fundlink->getFund()->getId(),
+                'linktype' => $fundlink->getLinktype()->getId()
+                )))
             ->setMethod('POST')
             ->getForm()
         ;

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Funds;
+use AppBundle\Entity\FundLinks;
 
 /**
  * Funds controller.
@@ -46,16 +47,26 @@ class FundsController extends Controller
         $downloadForm = $this->createDownloadForm($fund, $linktype);
         $downloadForm->handleRequest($request);
 
-//        die(print_r($request->request->get('form'), true));
 
-//        if ($downloadForm->isSubmitted() && $downloadForm->isValid()) {
-            $filepath = $this->get('app.filedownload');
+        if ($linktype<3) {
             $cnmv = $this->get('app.cnmvlinks');
             $cnmv->setNIF($fund->getNif());
             $cnmv->setPath($fund->getFulldocpath($linktype));
             $cnmv->getFileByLinktype($linktype);
+        } else {
+            $em = $this->getDoctrine()->getManager();
+            $fundlink = $em->getRepository('AppBundle:FundLinks')->findOneBy(array(
+                'linktype' => $linktype,
+                'fund' => $fund
+            ));
+            $filepath = $this->get('app.filedownload');
+            $filepath->setUrl($fundlink->getUrl());
+            if (!$filepath->isDocdownloaded($fundlink->getFulldocpath($linktype))) {
+                $filepath->getFile();
+            }
+            //die("fund: $fund, path: " . $fundlink->getFulldocpath($linktype) . ", linktype: $linktype");
+        }
             //die("fund: $fund, id: " . $fund->getId() . ", linktype: $linktype");
-//        }
         return $this->redirectToRoute('admin_funds_index');
     }
 

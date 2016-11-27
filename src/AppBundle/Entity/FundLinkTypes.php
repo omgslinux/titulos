@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Util\Slugger;
+use AppBundle\Entity\FundLinkTypes;
 
 /**
  * FundLinkTypes
@@ -35,6 +36,14 @@ class FundLinkTypes
      * @ORM\Column(type="string", length=100, nullable=false)
      */
     private $linktype;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="FundLinks", mappedBy="linktype")
+     */
+    private $links;
+
 
 
     /**
@@ -94,6 +103,46 @@ class FundLinkTypes
     {
         return $this->linktype;
     }
+
+    /**
+     * Get links
+     *
+     * @return ArrayCollection
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
+
+    /**
+     * Add link
+     *
+     * @param FundLinks $link
+     *
+     * @return FundLinkTypes
+     */
+    public function addLink(FundLinks $link)
+    {
+        $this->links->add($link);
+        $fundlink->setFund($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove link
+     *
+     * @param FundLinks $link
+     *
+     * @return FundLinkTypes
+     */
+    public function removeLink(FundLinks $link)
+    {
+        $this->links->removeElement($link);
+
+        return $this;
+    }
+
 
     public function getSlugger()
     {

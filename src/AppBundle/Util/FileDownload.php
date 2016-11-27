@@ -10,7 +10,7 @@ class FileDownload
     private $ch;
     private $rootdir;
     private $url=array();
-    private $basedir='../web/pdf/';
+    private $basedir='../web/';
     private $path;
 
     public function setRootdir($rootdir)

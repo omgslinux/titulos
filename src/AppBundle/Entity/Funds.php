@@ -413,30 +413,30 @@ class Funds
     }
 
     /**
-     * Add links
+     * Add link
      *
-     * @param FundLinks $fundlink
+     * @param FundLinks $link
      *
      * @return Funds
      */
-    public function addLink(FundLinks $fundlink)
+    public function addLink(FundLinks $link)
     {
-        $this->links->add($fundlink);
+        $this->links->add($link);
         $fundlink->setFund($this);
 
         return $this;
     }
 
     /**
-     * Remove links
+     * Remove link
      *
-     * @param FundLinks $fundlink
+     * @param FundLinks $link
      *
      * @return Funds
      */
-    public function removeLink(FundLinks $fundlink)
+    public function removeLink(FundLinks $link)
     {
-        $this->links->removeElement($fundlink);
+        $this->links->removeElement($link);
 
         return $this;
     }
@@ -547,7 +547,7 @@ class Funds
 
     public function getFulldocpath($linktype = 1)
     {
-        return $this->getDocpath($linktype) . '/' . $this->getSlugger() . '.pdf';
+        return 'pdf/' . $this->getDocpath($linktype) . '/' . $this->getSlugger() . '.pdf';
     }
 
 

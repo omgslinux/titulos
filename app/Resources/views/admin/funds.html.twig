@@ -44,6 +44,11 @@
                     <td
                         {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
                         {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                            {% if filepath.isDocdownloaded(fund.getFulldocpath(3)) == false %}
+                                <button type="submit" class="btn btn-info" formaction="{{ path('admin_funds_download', {'id': fund.id , 'linktype': 3 } ) }}">Descargar</button>
+                            {% else %}
+                                <a href="{{ asset('pdf') }}{{ asset(fund.getFulldocpath(3)) }}" target="_blank">Descarga anexos</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td {% set suma = 0 %}{% set sumasec = 0 %}
