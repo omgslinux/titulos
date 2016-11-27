@@ -64,7 +64,7 @@ class FundsController extends Controller
             if (!$filepath->isDocdownloaded($fundlink->getFulldocpath($linktype))) {
                 $filepath->getFile();
             }
-            //die("fund: $fund, path: " . $fundlink->getFulldocpath($linktype) . ", linktype: $linktype");
+            //dump($fund, $fundlink);
         }
             //die("fund: $fund, id: " . $fund->getId() . ", linktype: $linktype");
         return $this->redirectToRoute('admin_funds_index');

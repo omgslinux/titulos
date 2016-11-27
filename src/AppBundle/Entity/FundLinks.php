@@ -227,7 +227,7 @@ class FundLinks
                 break;
         }
         $filename = $this->getSlugger($filename);// . $suffix;
-        return $this->getDocpath($linktype) . '/' . $filename . $extension;
+        return 'pdf/' . $this->getDocpath($linktype) . '/' . $filename . $extension;
     }
 
     /*
