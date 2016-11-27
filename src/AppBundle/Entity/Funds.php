@@ -422,7 +422,7 @@ class Funds
     public function addLink(FundLinks $link)
     {
         $this->links->add($link);
-        $fundlink->setFund($this);
+        $link->setFund($this);
 
         return $this;
     }
