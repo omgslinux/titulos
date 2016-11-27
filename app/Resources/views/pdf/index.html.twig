@@ -1,35 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Listado de PDF</h1>
+    <h1>Elige gestora</h1>
 
-    {% for fund in funds %}
-        {% for links in fund.links %}
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Gestora</th>
-                    <th>Fondo</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for fundlink in fund.links %}
-                <tr>
-                    <td>{{ fund.fundmanager }}</td>
-                    <td>{{ fund }}</td>
-                    <td><a href="{{ path('admin_bankcategories_edit', { 'id': category.id }) }}">{{ category }}</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre corto</th>
+                <th>Nombre largo</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fundmanager in fundmanagers %}
+            <tr>
+                <td><a href="{{ path('pdf_funds', { 'id': fundmanager.id }) }}">{{ fundmanager.shortname }}</a></td>
+                <td>{{ fundmanager.longname }}</td>
+                <td>{{ fundmanager.description }}</td>
+            </tr>
         {% endfor %}
-    {% else %}<p>No hay enlaces</p>
-    {% endif %}
+        </tbody>
+    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_bankcategories_new') }}">Añadir una categoría</a>
-        </li>
-    </ul>
 {% endblock %}

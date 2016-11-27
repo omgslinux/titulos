@@ -21,7 +21,7 @@ class FundManagers
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=32)
+    * @ORM\Column(type="string", unique=true, length=32)
     */
     protected $shortname;
 

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Listado de PDF</h1>
+
+    <table class="table table-bordered">
+        <thead align="center">
+            <tr>
+                <th>Nombre</th>
+                <th>Escritura constitución</th>
+                <th>Folleto</th>
+                <th>Digitalizable</th>
+                <th>Completado</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fund in fundmanager.funds %}
+            <tr class="text-center">
+                <td
+                {% if fund.fundtype == 'Hipotecario' %} class="btn-success" title="Fondo hipotecario"
+                {% else %}
+                    {% if fund.fundtype == 'Mixto' %} class="btn-warning" title="Fondo mixto"
+                    {% else %} class="btn-danger" title="Fondo no hipotecario"
+                    {% endif %}
+                {% endif %}>{{ fund.fundname }}</td>
+                {% if fund.fundtype != 'No hipotecario' %}
+                    {% if fund.mfund %}
+                   <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
+                        No hay fichero
+                        {% else %}
+                            <a href="{{ asset('pdf') }}{{ asset(fund.getFulldocpath()) }}" target="_blank">Descarga directa</a>
+                        {% endif %}
+                    </td>
+                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath(2)) == false %}
+                        No hay fichero
+                        {% else %}
+                            <a href="{{ asset('pdf') }}{{ asset(fund.getFulldocpath(2)) }}" target="_blank">Descarga directa</a>
+                        {% endif %}
+                    </td>
+                    <td
+                        {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
+                        {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                        {% endif %}
+                    </td>
+                    <td {% set suma = 0 %}{% set sumasec = 0 %}
+                        {% for bank in fund.banks %}
+                            {% set suma = suma + bank.count %}
+                            {% set sumasec = sumasec + bank.securities.count %}
+                        {% endfor %}
+                        {% if sumasec == suma and suma != 0 %}class="btn-success">Cargado
+                        {% else %}class="btn-warning">Incompleto
+                        {% endif %}
+                    </td>
+                    {% else %}<td colspan="4" class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
+                    {% endif %}
+                {% else %}<td colspan="4" class="btn-info">No es hipotecario
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ path('pdf_index') }}">Volver al listado de gestoras</a></p>
+{% endblock %}
