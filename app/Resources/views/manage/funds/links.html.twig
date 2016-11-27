@@ -21,7 +21,7 @@
                             {{ form_start(download_form) }}<input type="submit" value="Descargar">
                             {{ form_end(download_form) }}
                         {% else %}
-                            <a href="{{ asset('pdf') }}{{ asset(fundlink.fund.getFulldocpath()) }}" target="_blank">Descarga directa</a>
+                            <a href="{{ asset(fundlink.fund.getFulldocpath()) }}" target="_blank">Descarga directa</a>
                         {% endif %}
                     </td>
                </tr>

@@ -2,7 +2,14 @@
 
 {% block body %}
     <h2>PDFs de los fondos de la gestora <a href="{{ fundmanager.url }}" target="_blank">{{ fundmanager }}</a></h1>
-
+<style>
+.btn-success a {
+  color: white;
+}
+a.unlink:hover {
+  color: inherit;
+}
+</style>
     <table class="table table-bordered">
         <thead align="center">
             <tr>
@@ -16,13 +23,19 @@
         <tbody>
         {% for fund in fundmanager.funds %}
             <tr class="text-center">
-                <td
-                {% if fund.fundtype == 'Hipotecario' %} class="btn-success" title="Fondo hipotecario"
+                {% if fund.fundtype == 'Hipotecario' %}{% set class="btn-success" %}{% set title="Fondo hipotecario" %}
                 {% else %}
-                    {% if fund.fundtype == 'Mixto' %} class="btn-warning" title="Fondo mixto"
-                    {% else %} class="btn-danger" title="Fondo no hipotecario"
+                    {% if fund.fundtype == 'Mixto' %}{% set class="btn-warning" %}{% set title="Fondo mixto" %}
+                    {% else %}{% set class="btn-danger" %}{% set title="Fondo no hipotecario" %}
                     {% endif %}
-                {% endif %}>{{ fund.fundname }}</td>
+                {% endif %}
+                <td class="{{ class }}" title="{{ title }}">
+                {% if is_granted('ROLE_MANAGER') %}
+                    <a href="{{ path('manage_funds_show', { 'id': fund.id }) }}" target="_blank">{{ fund.fundname }}</a>
+                {% else %}
+                    {{ fund.fundname }}
+                {% endif %}
+                </td>
                 {% if fund.fundtype != 'No hipotecario' %}
                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
                         No hay fichero
