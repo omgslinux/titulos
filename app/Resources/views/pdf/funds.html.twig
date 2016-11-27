@@ -24,7 +24,6 @@
                     {% endif %}
                 {% endif %}>{{ fund.fundname }}</td>
                 {% if fund.fundtype != 'No hipotecario' %}
-                    {% if fund.mfund %}
                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
                         No hay fichero
                         {% else %}
@@ -37,6 +36,7 @@
                             <a href="{{ asset('pdf') }}{{ asset(fund.getFulldocpath(2)) }}" target="_blank">Descarga directa</a>
                         {% endif %}
                     </td>
+                    {% if fund.mfund %}
                     <td
                         {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
                         {% else %} class="btn-warning" title="Fondo no digitalizable">✘
@@ -51,9 +51,9 @@
                         {% else %}class="btn-warning">Incompleto
                         {% endif %}
                     </td>
-                    {% else %}<td colspan="4" class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
+                    {% else %}<td colspan="2" class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
                     {% endif %}
-                {% else %}<td colspan="4" class="btn-info">No es hipotecario
+                {% else %}<td colspan="2" class="btn-info">No es hipotecario
                 {% endif %}
                 </td>
             </tr>
