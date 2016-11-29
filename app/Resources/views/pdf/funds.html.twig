@@ -14,6 +14,7 @@ a.unlink:hover {
         <thead align="center">
             <tr>
                 <th>Nombre</th>
+                <th>Fecha constitución</th>
                 <th>Escritura constitución</th>
                 <th>Folleto</th>
                 <th>Digitalizable</th>
@@ -36,6 +37,7 @@ a.unlink:hover {
                     {{ fund.fundname }}
                 {% endif %}
                 </td>
+                <td>{{ fund.constdate|date('d/m/Y') }}</td>
                 {% if fund.fundtype != 'No hipotecario' %}
                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
                         No hay fichero
