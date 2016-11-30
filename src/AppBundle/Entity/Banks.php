@@ -72,6 +72,7 @@ class Banks
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="FundBanks", mappedBy="bank")
+     * @ORM\OrderBy({"bank" = "ASC"})
      */
     private $fundbanks;
 

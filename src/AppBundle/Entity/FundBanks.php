@@ -40,7 +40,6 @@ class FundBanks
      * @var Banks
      *
      * @ORM\ManyToOne(targetEntity="Banks", inversedBy="fundbanks")
-     * @ORM\OrderBy({"shortname" = "ASC"})
      */
     private $bank;
 
