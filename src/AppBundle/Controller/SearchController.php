@@ -256,7 +256,7 @@ class SearchController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
-            dump($data);
+            //dump($data);
             $eurdata = array(
                 '01/01/1999'  =>  '3,069',
                 '01/02/1999'  =>  '3,030',
