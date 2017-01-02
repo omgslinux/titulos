@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+th { text-align: center; }
+</style>
+{{ form_start(form) }}
+<h2>Introduce los datos del préstamo:</h2>
+<ol>
+    <li>En la primera página de la escritura:
+        <ul>
+            <li><label>Fecha del préstamo:</label>
+            <input id="form_mortgagedate" name="form[mortgagedate]" size="10" type="date"
+            value="{% if form.vars.value.mortgagedate is defined %}{{ form.vars.value.mortgagedate|date('Y-m-d') }}{% endif %}">
+            {#}{{ form_widget(form.mortgagedate) }} #}
+        </li>
+        </ul>
+    </li>
+    <li>En la cláusula primera:
+        <ul>
+            <li><label>Importe del préstamo:</label>
+            <input name="form[amount]" size="8" type="text"
+             value={% if form.vars.value.amount is defined%}{{ form.vars.value.amount }}{% endif %}>€</li>
+        </ul>
+    </li>
+    <li>En la cláusula segunda:
+        <ul>
+            <li><label>Amortización: &nbsp;</label>
+            <input name="form[payments]" size="2" type="text"
+             value={% if form.vars.value.payments is defined%}{{ form.vars.value.payments }}{% endif %}> meses.</li>
+        </ul>
+    </li>
+    <li>Interés nominal, en la cláusula tercera:
+        <ul>
+            <li><label>Interés inicial:&nbsp;</label>
+            <input name="form[interest]" size="3" type="text"
+             value={% if form.vars.value.interest is defined%}{{ form.vars.value.interest }}{% endif %}>&nbsp;%</li>
+            <li><label>Duración:&nbsp;</label>
+            <input name="form[months]" size="3" type="text"
+             value={% if form.vars.value.months is defined%}{{ form.vars.value.months }}{% endif %}> meses.</li>
+        </ul>
+    </li>
+    <li>Interés variable, en la cláusula 3bis:
+        <ul>
+            <li><label>Diferencial: Euribor +&nbsp;</label>
+            <input name="form[differential]" size="3" type="text"
+            value={% if form.vars.value.differential is defined%}{{ form.vars.value.differential }}{% endif %}>%</li>
+            <li><label>Revisión cada&nbsp;</label>
+            <input name="form[revisions]" size="2" type="text"
+            value={% if form.vars.value.revisions is defined%}{{ form.vars.value.revisions }}{% endif %}>&nbsp;meses</li>
+            <li><label>Suelo (si existe):&nbsp;</label>
+            <input name="form[floor]" size="4" type="text" value={% if form.vars.value.floor is defined %}{{ form.vars.value.floor }}{% endif %}>&nbsp;%.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><input class="btn btn-success" type="submit" name="form[submit]" value="Calcular"></p>
+{{ form_row(form._token) }}
+</form>
+{% if data %}
+<hr>
+<h3>Desglose para amortizar {{ data.amount|number_format(2,',','.') }}€ en {{ payments|length }} pagos desde {{ data.mortgagedate|date('d/m/Y') }} con suelo del {{ data.floor }}%</h3>
+<table class="table table-bordered">
+    <tr>
+        <th rowspan=2>Pago</th>
+        <th rowspan=2>Fecha pago</th>
+        <th rowspan=2>Euribor</th>
+        <th colspan=5>Sin suelo</th>
+        <th colspan=5>Con suelo</th>
+        <th colspan=2>Diferencia</th>
+     </tr>
+     <tr>
+        <th>Eurdif</th>
+        <th>Cuota</th>
+        <th>Interés</th>
+        <th>Capital</th>
+        <th>Saldo</th>
+        <th>Interés</th>
+        <th>Cuota</th>
+        <th>Interés</th>
+        <th>Capital</th>
+        <th>Saldo</th>
+        <th>Plazo</th>
+        <th>Total</th>
+     </tr>
+    {% for payment in payments %}
+    <tr>
+        <td>{{ payment.payment }}</td>
+        <td>{{ payment.mortgagedate }}</td>
+        <td>{{ payment.euribor|number_format(2) }}%</td>
+        <td>{{ payment.eurdif|number_format(2) }}%</td>
+        <td>{{ payment.cuota|number_format(2) }}€</td>
+        <td>{{ (payment.interesam / 100)|number_format(2) }}€</td>
+        <td>{{ payment.capitalam|number_format(2) }}€</td>
+        <td>{{ payment.remaining|number_format(2) }}€</td>
+        <td>{{ payment.interes1|number_format(2) }}%</td>
+        <td>{{ payment.cuota1|number_format(2) }}€</td>
+        <td>{{ payment.interesam1|number_format(2) }}€</td>
+        <td>{{ payment.capitalam1|number_format(2) }}€</td>
+        <td>{{ payment.remaining1|number_format(2) }}€</td>
+        <td>{{ payment.difference|number_format(2) }}€</td>
+        <td>{{ payment.total|number_format(2) }}€</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
