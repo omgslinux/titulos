@@ -480,7 +480,6 @@ class SearchController extends Controller
             $remaining=$remaining1=$data['amount'];
             $diferenciatotal=0;
             for ($payment=1; $payment<=$data['payments']; $payment++) {
-                $mortgagedate = $mortgagedate->add(new \DateInterval('P1M'));
                 //$fechapago->modify('+1 month');
                 $comment="";
                 if ($payment<=$data['months']) {
@@ -529,6 +528,7 @@ class SearchController extends Controller
                     'total' => $diferenciatotal,
                     'comment' => $comment,
                 );
+                $mortgagedate = $mortgagedate->add(new \DateInterval('P1M'));
             }
         }
 
@@ -539,7 +539,4 @@ class SearchController extends Controller
             'data' => $data,
         ));
     }
-
-
-
 }
