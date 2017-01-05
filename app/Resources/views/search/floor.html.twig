@@ -89,25 +89,29 @@ th { text-align: center; }
         <th>Plazo</th>
         <th>Total</th>
      </tr>
-    {% for payment in payments %}
+     {% set tquota = 0 %}{% set tquota1 = 0 %}
+    {% for payment in payments %}{% set tquota = tquota + payment.cuota %}{% set tquota1 = tquota1 + payment.cuota1 %}
     <tr>
         <td>{{ payment.payment }}</td>
         <td>{{ payment.mortgagedate }}</td>
-        <td>{{ payment.euribor|number_format(3) }}%</td>
-        <td>{{ payment.eurdif|number_format(3) }}%</td>
-        <td>{{ payment.cuota|number_format(2) }}€</td>
-        <td>{{ (payment.interesam / 100)|number_format(2) }}€</td>
-        <td>{{ payment.capitalam|number_format(2) }}€</td>
-        <td>{{ payment.remaining|number_format(2) }}€</td>
-        <td>{{ payment.interes1|number_format(2) }}%</td>
-        <td>{{ payment.cuota1|number_format(2) }}€</td>
-        <td>{{ payment.interesam1|number_format(2) }}€</td>
-        <td>{{ payment.capitalam1|number_format(2) }}€</td>
-        <td>{{ payment.remaining1|number_format(2) }}€</td>
-        <td>{{ payment.difference|number_format(2) }}€</td>
-        <td>{{ payment.total|number_format(2) }}€</td>
+        <td>{{ payment.euribor|number_format(3,',','.') }}%</td>
+        <td>{{ payment.eurdif|number_format(3,',','.') }}%</td>
+        <td>{{ payment.cuota|number_format(2,',','.') }}€</td>
+        <td>{{ (payment.interesam / 100)|number_format(2,',','.') }}€</td>
+        <td>{{ payment.capitalam|number_format(2,',','.') }}€</td>
+        <td>{{ payment.remaining|number_format(2,',','.') }}€</td>
+        <td>{{ payment.interes1|number_format(2,',','.') }}%</td>
+        <td>{{ payment.cuota1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.interesam1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.capitalam1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.remaining1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.difference|number_format(2,',','.') }}€</td>
+        <td>{{ payment.total|number_format(2,',','.') }}€</td>
     </tr>
     {% endfor %}
 </table>
+<p>Media: {{ (form.vars.value.amount / form.vars.value.payments)|number_format(2,',','.') }}€.
+    Total sin suelo: {{ tquota|number_format(2) }}€ ({{ ( tquota / form.vars.value.payments)|number_format(2) }})€.
+    Total con suelo: {{ tquota1|number_format(2) }}€ ({{ (tquota1 / form.vars.value.payments)|number_format(2) }})€</p>
 {% endif %}
 {% endblock %}

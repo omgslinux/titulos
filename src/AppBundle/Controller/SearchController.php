@@ -489,8 +489,8 @@ class SearchController extends Controller
                     $euribordate = new \DateTime('01/' . $mortgagedate->format('m/Y'));
                 } else {
                     if (($payment - $data['months']) % $data['revisions'] == 1) {
-                        $euribordate = new \DateTime('01/' . $mortgagedate->format('m/Y'));
-                        if ($data['reference'] >0){
+                        $euribordate = new \DateTime($mortgagedate->format('Y/m/'). '01');
+                        if ($data['reference'] >0) {
                             $euribordate->modify('-' . $data['reference']. 'months');
                         }
                         //$euribordate='01/' . $mortgagedate->format('m/Y');
