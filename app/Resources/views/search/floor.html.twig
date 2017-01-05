@@ -44,6 +44,13 @@ th { text-align: center; }
             <li><label>Diferencial: Euribor +&nbsp;</label>
             <input name="form[differential]" size="3" type="text"
             value={% if form.vars.value.differential is defined%}{{ form.vars.value.differential }}{% endif %}>%</li>
+            <li><label>Mes de referencia Euribor:</label>&nbsp;<select name="form[reference]">
+                <option value="0">Mismo mes</option>
+                {% for option in 1..12 %}
+                <option value="{{ option }}" {% if form.vars.value.reference is defined %}{% if form.vars.value.reference == option %}selected{% endif %}{% endif %}>{{ option }} mes{% if option > 1 %}es{% endif %} antes</option>
+                {% endfor %}
+                </select>
+            </li>
             <li><label>Revisión cada&nbsp;</label>
             <input name="form[revisions]" size="2" type="text"
             value={% if form.vars.value.revisions is defined%}{{ form.vars.value.revisions }}{% endif %}>&nbsp;meses</li>
@@ -86,8 +93,8 @@ th { text-align: center; }
     <tr>
         <td>{{ payment.payment }}</td>
         <td>{{ payment.mortgagedate }}</td>
-        <td>{{ payment.euribor|number_format(2) }}%</td>
-        <td>{{ payment.eurdif|number_format(2) }}%</td>
+        <td>{{ payment.euribor|number_format(3) }}%</td>
+        <td>{{ payment.eurdif|number_format(3) }}%</td>
         <td>{{ payment.cuota|number_format(2) }}€</td>
         <td>{{ (payment.interesam / 100)|number_format(2) }}€</td>
         <td>{{ payment.capitalam|number_format(2) }}€</td>

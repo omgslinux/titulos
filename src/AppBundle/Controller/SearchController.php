@@ -243,6 +243,7 @@ class SearchController extends Controller
             ->add('interest', NumberType::class)
             ->add('months', IntegerType::class)
             ->add('differential', NumberType::class)
+            ->add('reference', NumberType::class)
             ->add('revisions', IntegerType::class)
             ->add('floor', NumberType::class)
             ->add('submit', SubmitType::class)
@@ -485,11 +486,16 @@ class SearchController extends Controller
                 if ($payment<=$data['months']) {
                     $euribor = $eurdif = $data['interest'];
                     $comment="Interes fijo";
+                    $euribordate = new \DateTime('01/' . $mortgagedate->format('m/Y'));
                 } else {
                     if (($payment - $data['months']) % $data['revisions'] == 1) {
-                        $euribordate='01/' . $mortgagedate->format('m/Y');
-                        if (!empty($eurdata[$euribordate])) {
-                            $euribor = str_replace(',', '.', $eurdata[$euribordate]);
+                        $euribordate = new \DateTime('01/' . $mortgagedate->format('m/Y'));
+                        if ($data['reference'] >0){
+                            $euribordate->modify('-' . $data['reference']. 'months');
+                        }
+                        //$euribordate='01/' . $mortgagedate->format('m/Y');
+                        if (!empty($eurdata[$euribordate->format('d/m/Y')])) {
+                            $euribor = str_replace(',', '.', $eurdata[$euribordate->format('d/m/Y')]);
                             $eurdif= $euribor + $data['differential'];
                         }
                     }
@@ -513,6 +519,7 @@ class SearchController extends Controller
                 $payments[$payment]=array(
                     'payment' => $payment,
                     'mortgagedate' => $mortgagedate->format('d/m/Y'),
+                    'euribordate' => $euribordate->format('d/m/Y'),
                     'euribor' => $euribor,
                     'eurdif' => $eurdif,
                     'cuota' => $cuota,
