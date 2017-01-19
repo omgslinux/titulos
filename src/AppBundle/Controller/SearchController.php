@@ -505,10 +505,9 @@ class SearchController extends Controller
                 $interesam = $eurdif * $remaining / 1200;
                 $capitalam = $cuota - $interesam;
                 $remaining = $remaining - $capitalam;
-                if ($eurdif < $data['floor']) {
+                $interes1 = $eurdif;
+                if ($data['months']<$payment && $eurdif < $data['floor']) {
                     $interes1 = $data['floor'];
-                } else {
-                    $interes1 = $eurdif;
                 }
                 $cuota1 = ($data['amount'])/((1-(1+($interes1/1200))**-$data['payments'])/($interes1/1200));
                 $interesam1 = $interes1 * $remaining1 / 1200;
