@@ -119,7 +119,8 @@ class CNMVLinks
         $URLPARAMS='id=0&nif=' . $this->NIF;
         $URL=$this->URLBASE . 'AnotacionesCuenta.aspx?'. $this->geturl($URLPARAMS);
         $this->getURLContents($URL);
-        $htmlconst=system("echo '$this->html'|grep 'verDoc.axd'|grep 'document'");
+        //$htmlconst=system("echo '$this->html'|grep 'verDoc.axd'|grep 'document'");
+        $htmlconst=substr($this->html, stripos($this->html, 'verDoc.axd')-60,250);
         $pdfurl=$this->getPDFURL($htmlconst);
         print "Escritura: ($pdfurl)\n";
         $this->file->getFile();
@@ -134,7 +135,9 @@ class CNMVLinks
         //$URL = $this->URLBASE . 'FolletosEmisionOPV.aspx?'. $this->geturl($URLPARAMS);
         $this->getURLContents($this->URLBASE . 'FolletosEmisionOPV.aspx?'. $this->geturl($URLPARAMS));
         //$htmlconst=system("echo '$this->html'|grep 'verDoc.axd'");
-        $pdfurl=$this->getPDFURL(system("echo '$this->html'|grep 'verDoc.axd'"));
+        $htmlconst=substr($this->html, stripos($this->html, 'verDoc.axd')-60,250);
+        //$pdfurl=$this->getPDFURL(system("echo '$this->html'|grep 'verDoc.axd'"));
+        $pdfurl=$this->getPDFURL($htmlconst);
         print "Folleto: ($pdfurl)\n";
         $this->file->getFile();
         //$this->getPDF($pdfurl, ($this->getPath()?$this->getPath():$this->NIF."-broch.pdf"));
