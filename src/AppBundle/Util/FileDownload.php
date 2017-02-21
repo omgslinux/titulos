@@ -64,6 +64,13 @@ class FileDownload
         }
     }
 
+    public function getDocURL($path)
+    {
+        $fullpath=$this->getFullbase() . $path;
+        $docURL=substr($fullpath, strpos($fullpath,'/web/')+strlen('/web/'));
+        return $docURL;
+    }
+
     public function getFile($path = false)
     {
         if ($path===false) {
