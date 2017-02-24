@@ -17,6 +17,7 @@
             </tr>
         </thead>
         <tbody>
+        {% dump(filepath.getDocURL()) %}
         {% for fund in funds %}
             <tr class="text-center">
                 <td>{{ fund.fundmanager }}</td>
@@ -32,13 +33,13 @@
                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
                         <button type="submit" class="btn btn-info" formaction="{{ path('admin_funds_download', {'id': fund.id , 'linktype': 1 } ) }}">Descargar</button>
                         {% else %}
-                            <a href="{{ asset(filepath.getDocURL(fund.getFulldocpath)) }}" target="_blank">Descarga directa</a>
+                            <a href="{{ asset(fund.getFulldocpath()) }}" target="_blank">Descarga directa</a>
                         {% endif %}
                     </td>
                     <td>{% if filepath.isDocdownloaded(fund.getFulldocpath(2)) == false %}
                         <button type="submit" class="btn btn-info" formaction="{{ path('admin_funds_download', {'id': fund.id , 'linktype': 2 } ) }}">Descargar</button>
                         {% else %}
-                            <a href="{{ asset(filepath.getDocURL(fund.getFulldocpath(2))) }}" target="_blank">Descarga directa</a>
+                            <a href="{{ asset(fund.getFulldocpath(2)) }}" target="_blank">Descarga directa</a>
                         {% endif %}
                     </td>
                     <td
