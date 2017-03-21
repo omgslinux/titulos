@@ -106,9 +106,9 @@ class Laws
 
     public function __construct()
     {
-        $this->setReleaseDate('1980-01-01');
-        $this->setLawdate('1980-01-01');
-        $this->setLegalSinceDate('1980-01-01');
+        //$this->setReleaseDate('1980-01-01');
+        //$this->setLawdate('1980-01-01');
+        //$this->setLegalSinceDate('1980-01-01');
         $this->setBOE('http://boe.es/buscar/doc.php?id=BOE');
     }
 
@@ -153,6 +153,9 @@ class Laws
      */
     public function getLawdate()
     {
+        if (empty($this->lawdate)) {
+            $this->lawdate = new \DateTime('1980-01-01');
+        }
         return $this->lawdate;
     }
 
@@ -177,6 +180,9 @@ class Laws
      */
     public function getReleaseDate()
     {
+      if (empty($this->releasedate)) {
+          $this->releasedate = new \DateTime('1980-01-01');
+      }
         return $this->releasedate;
     }
 
@@ -201,6 +207,9 @@ class Laws
      */
     public function getLegalSinceDate()
     {
+      if (empty($this->legalsincedate)) {
+          $this->legalsincedate = new \DateTime('1980-01-01');
+      }
         return $this->legalsincedate;
     }
 
