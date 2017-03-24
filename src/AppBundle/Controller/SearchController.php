@@ -475,11 +475,14 @@ class SearchController extends Controller
                 '01/10/2016'  =>  '-0,069',
                 '01/11/2016'  =>  '-0,074',
                 '01/12/2016'  =>  '-0,080',
+                '01/01/2017'  =>  '-0,095',
+                '01/02/2017'  =>  '-0,106',
             );
 
-            $mortgagedate=new \DateTime($data['mortgagedate']->format('d/m/Y'));
+            $mortgagedate=new \DateTime($data['mortgagedate']->format('Y/m/d'));
             $remaining=$remaining1=$data['amount'];
             $diferenciatotal=0;
+//            for ($payment=1; $payment<=$data['payments']; $payment++) {
             for ($payment=1; $payment<=$data['payments']; $payment++) {
                 //$fechapago->modify('+1 month');
                 $comment="";
@@ -497,6 +500,8 @@ class SearchController extends Controller
                         if (!empty($eurdata[$euribordate->format('d/m/Y')])) {
                             $euribor = str_replace(',', '.', $eurdata[$euribordate->format('d/m/Y')]);
                             $eurdif= $euribor + $data['differential'];
+                        } else {
+                          break;
                         }
                     }
                     $comment="Euribor $euribor ($eurdif)";
@@ -541,6 +546,7 @@ class SearchController extends Controller
         return $this->render('search/floor.html.twig', array(
             'title' => 'Cálculo de las claúsulas suelo',
             'payments' => $payments,
+            'payment0' => $payment-1,
             'form' => $form->createView(),
             'data' => $data,
         ));

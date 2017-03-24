@@ -64,10 +64,11 @@ class FileDownload
         }
     }
 
-    public function getDocURL($path)
+    public function getDocURL($path=false)
     {
         $fullpath=$this->getFullbase() . $path;
-        $docURL=substr($fullpath, strpos($fullpath,'/web/')+strlen('/web/'));
+        //$docURL=substr($fullpath, strpos($fullpath,'/web/')+strlen('/web/'));
+        $docURL=substr($fullpath, strpos($fullpath,$this->getFullbase())); // . $this->getRequest()->getBasePath()));
         return $docURL;
     }
 
