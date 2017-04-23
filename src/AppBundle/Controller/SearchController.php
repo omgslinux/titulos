@@ -299,7 +299,7 @@ class SearchController extends Controller
                 //dump($ratedif);
                 //if ($ratedif!==false) {
                   $ratedata=$mortgage->getRateData($ratedif);
-                  dump($ratedata);
+                  //dump($ratedata);
 
                   $refund=$mortgage->getRefund($mortgagedate,$enddate,$ratedata['interesam1'], $ratedata['interesam']);
                   $diferenciatotal = $diferenciatotal + $ratedata['difference'];
@@ -313,13 +313,13 @@ class SearchController extends Controller
                       'comment' => $comment,
                   );
                   $payments[$payment]=$paytemp + $ratedata;
-                  dump($payments[$payment]);
+                  //dump($payments[$payment]);
                   $mortgagedate = $mortgagedate->add(new \DateInterval('P1M'));
                 //}
             }
         }
 
-        dump($payments);
+        //dump($payments);
 
         return $this->render('search/floor.html.twig', array(
             'title' => 'Cálculo de las claúsulas suelo',

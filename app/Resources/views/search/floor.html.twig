@@ -81,13 +81,13 @@ que la entidad está obligada a dar al hipotecado.</p>
     <tr>
         <th rowspan=2>Pago</th>
         <th rowspan=2>Fecha pago</th>
-        <th rowspan=2>{% if data.interesttype == 0 %}Euribor{% else %}IRPH{% endif %}</th>
+        <th rowspan=2>{% if data.interesttype == 0 %}{% set title='Euribor' %}{% else %}{% set title='IRPH' %}{% endif %}{{ title }}</th>
         <th colspan=5>Sin suelo</th>
         <th colspan=5>Con suelo</th>
         <th colspan=2>Devolución</th>
      </tr>
      <tr>
-        <th>Eurdif</th>
+        <th>Difer.</th>
         <th>Cuota</th>
         <th>Interés</th>
         <th>Capital</th>
