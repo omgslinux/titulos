@@ -246,6 +246,12 @@ class SearchController extends Controller
                     'IRPH' => 1,
                   ))
               )
+            ->add('refundtype', ChoiceType::class, array(
+                'choices'  => array(
+                    'Legal' => 0,
+                    'judicial' => 1,
+                  ))
+              )
             ->add('interest', NumberType::class)
             ->add('months', IntegerType::class)
             ->add('differential', NumberType::class)

@@ -143,11 +143,15 @@ class MortgageRefunds extends ContainerAwareLoader
             foreach ($this->rates as $xdate => $rate) {
                 $date=new \DateTime($xdate);
                 if ($startdate->format('Ym') <= $date->format('Ym') && $enddate >= $date) {
+                    $legalinterest=$rate['legalinterest'];
+                    if ($this->formdata['refundtype']===1) {
+                        $legalinterest=$rate['legalinterest'] + 2;
+                    }
                     $days=$date->format('t') - round(($startdate->format('U')-$date->format('U'))/(3600*24));
-                    $paymentrefund=$difference * $days * (($rate['legalinterest']/1200) / ($date->format('L')+365));
+                    $paymentrefund=$difference * $days * (($legalinterest/1200) / ($date->format('L')+365));
                     $totalrefund += $paymentrefund;
                     //dump("xdate: ".$xdate, "startdate: ". $startdate->format('Ym'));
-                    //dump("legalinterest: ". $rate['legalinterest']);
+                    //dump("legalinterest: ". $legalinterest);
                     //dump("date (L): " . $date->format('L'), "days: " . $days, $paymentrefund, $totalrefund);
                 }
             }
