@@ -25,3 +25,6 @@ services:
     app.cnmvlinks:
         class: AppBundle\Util\CNMVLinks
         arguments: ['@filedownload']
+    app.mortgagerefunds:
+        class: AppBundle\Util\MortgageRefunds
+        arguments: ['@service_container']

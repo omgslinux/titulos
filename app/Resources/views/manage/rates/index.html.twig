@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Listado de tipos de interés ({{ rates|length }})</h1>
+
+    <table class="table table-bordered">
+        <thead align="center">
+            <tr>
+                <th>Fecha</th>
+                <th>Euribor</th>
+                <th>IRPH</th>
+                <th>Legal</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rate in rates %}
+            <tr class="text-center">
+                <td><a href="{{ path('manage_rates_show', { 'id': rate.id }) }}">{{ rate.interestdate|date('d/m/Y') }}</a></td>
+                <td>{{ rate.euribor }}%</td>
+                <td>{{ rate.irph }}%</td>
+                <td>{{ rate.legalinterest }}%</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_rates_new') }}">Añadir una fecha de tipo de interés</a>
+        </li>
+    </ul>
+
+{% endblock %}
