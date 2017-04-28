@@ -66,19 +66,17 @@ th { text-align: center; }
             <li><label>Suelo (si existe):&nbsp;</label>
             <input name="form[floor]" size="4" type="text" value={% if form.vars.value.floor is defined %}{{ form.vars.value.floor }}{% endif %}>&nbsp;%.</li>
         </ul>
-        <ul>
-            <li><label>Tipo devolución:</label>
-              <select name="form[refundtype]">
-                <option value="0">Legal</option>
-                <option value="1"
-                  {% if form.vars.value.refundtype is defined %}
-                    {% if form.vars.value.refundtype == 1 %}selected{% endif %}
-                  {% endif %}
-                >Judicial</option>
-              </select>
-            </li>
-        </ul>
-    </li>
+      </li>
+      <li>Elige <label>tipo de devolución de intereses:</label>
+        <select name="form[refundtype]">
+          <option value="0">Interés legal</option>
+          <option value="1"
+            {% if form.vars.value.refundtype is defined %}
+              {% if form.vars.value.refundtype == 1 %}selected{% endif %}
+            {% endif %}
+          >Interés judicial (legal + 2%)</option>
+        </select>
+      </li>
 </ol>
 
 <p><input class="btn btn-success" type="submit" name="form[submit]" value="Calcular"></p>

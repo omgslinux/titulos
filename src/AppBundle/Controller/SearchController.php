@@ -325,8 +325,6 @@ class SearchController extends Controller
             }
         }
 
-        //dump($payments);
-
         return $this->render('search/floor.html.twig', array(
             'title' => 'Cálculo de las claúsulas suelo',
             'payments' => $payments,
