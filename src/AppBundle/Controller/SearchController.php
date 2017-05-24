@@ -285,6 +285,7 @@ class SearchController extends Controller
             //dump($enddate);
             //dump($mortgagedate);
             $ratedif=0;
+            $mortgagedate = $mortgagedate->add(new \DateInterval('P1M'));
             for ($payment=1;$mortgagedate<=$enddate; $payment++) {
                 $interes1=$ratedif=$mortgage->getRatebase($payment,$ratedif);
                 if ($ratedif!==$data['interest']) {
@@ -304,7 +305,7 @@ class SearchController extends Controller
                 }
                 //dump($ratedif);
                 //if ($ratedif!==false) {
-                  $ratedata=$mortgage->getRateData($ratedif);
+                  $ratedata=$mortgage->getRateData($ratedif, $payment);
                   //dump($ratedata);
 
                   $refund=$mortgage->getRefund($mortgagedate,$enddate,$ratedata['interesam1'], $ratedata['interesam']);
