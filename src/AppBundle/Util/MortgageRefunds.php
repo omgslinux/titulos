@@ -12,6 +12,7 @@ class MortgageRefunds extends ContainerAwareLoader
 {
 
     private $rates=array();
+    private $refunds=array();
     private $container;
     private $payments=array();
     private $formdata=array();
@@ -103,16 +104,28 @@ class MortgageRefunds extends ContainerAwareLoader
         $interestrates = $em->getRepository('AppBundle:InterestRates')->findAll();
 
         // Dump into array for faster access
+        $legal=0;
         foreach ($interestrates as $rate) {
+            $ratedate=$rate->getInterestDate()->format($this->datepattern);
             if ($mortgagedate->format('Y/m') <= $rate->getInterestDate()->format('Y/m')) {
-                $this->rates[$rate->getInterestDate()->format($this->datepattern)]=array(
+                $this->rates[$ratedate]=array(
                   'euribor' => $rate->getEuribor(),
                   'irph'    => $rate->getIRPH(),
-                  'legalinterest' => $rate->getLegalInterest(),
                 );
             }
+            if (count($this->refunds)) {
+                if ($legal != $rate->getLegalInterest()) {
+                    $legal=$rate->getLegalInterest();
+                    $this->refunds[$ratedate]=array('legalinterest' => $legal);
+                    //'legalinterest' => $rate->getLegalInterest(),
+                }
+            } else {
+                $legal=$rate->getLegalInterest();
+                $this->refunds[$ratedate]=array('legalinterest' => $legal);
+            }
         }
-        //dump($this->rates);
+        krsort($this->refunds);
+        //dump($this->refunds);
     }
 
     private function getInterestRate($date)
@@ -129,20 +142,28 @@ class MortgageRefunds extends ContainerAwareLoader
         $totalrefund=$paymentrefund=0;
         if ($interesam1>$interesam) {
             $difference=$interesam1-$interesam;
-            //dump($startdate, $enddate, $difference);
-            foreach ($this->rates as $xdate => $rate) {
+            //dump("startdate: ". $startdate->format('Y/m/d') .", enddate: " .$enddate->format('Y/m/d') .", difference: $difference");
+            foreach ($this->refunds as $xdate => $rate) {
                 $date=new \DateTime($xdate);
-                if ($startdate->format('Ym') <= $date->format('Ym') && $enddate >= $date) {
+                if ($startdate->format('Ymd')<$enddate->format('Ymd')) {
                     $legalinterest=$rate['legalinterest'];
                     if ($this->formdata['refundtype']===1) {
                         $legalinterest=$rate['legalinterest'] + 2;
                     }
-                    $days=$date->format('t') - round(($startdate->format('U')-$date->format('U'))/(3600*24));
-                    $paymentrefund=$difference * $days * (($legalinterest/1200) / ($date->format('L')+365));
+                    $dailyinterest=$legalinterest/36500;
+                    if ($startdate->format('Y/m/d')<$xdate) {
+                        $days=round(($enddate->format('U') - $date->format('U'))/(3600*24));
+                    } else {
+                        $days=round(($enddate->format('U') - $startdate->format('U'))/(3600*24));
+                    }
+                    $paymentrefund=$difference * $days * $dailyinterest;
                     $totalrefund += $paymentrefund;
-                    //dump("xdate: ".$xdate, "startdate: ". $startdate->format('Ym'));
-                    //dump("legalinterest: ". $legalinterest);
-                    //dump("date (L): " . $date->format('L'), "days: " . $days, $paymentrefund, $totalrefund);
+                    /*
+                    dump("xdate: ".$xdate. ", enddate: ". $enddate->format('Ymd') . ", legalinterest: ". $legalinterest.
+                      ", date (L): " . $date->format('L'). ", days: $days, dailyinterest: $dailyinterest, ".
+                      "paymentrefund: $paymentrefund , totalrefund: ". $totalrefund);
+                      */
+                    $enddate=$date;
                 }
             }
         }
@@ -150,5 +171,4 @@ class MortgageRefunds extends ContainerAwareLoader
         return $totalrefund;
 
     }
-
 }

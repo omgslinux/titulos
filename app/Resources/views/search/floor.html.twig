@@ -107,7 +107,7 @@ que la entidad está obligada a dar al hipotecado.</p>
         <th>Interés</th>
         <th>Capital</th>
         <th>Saldo</th>
-        <th>Cuota</th>
+        <th>Diferencia</th>
         <th>Intereses</th>
      </tr>
      {% set tquota = 0 %}{% set tquota1 = 0 %}{% set tamort = 0 %}{% set tamort1 = 0 %}{% set trefund = 0 %}
@@ -127,7 +127,7 @@ que la entidad está obligada a dar al hipotecado.</p>
         <td>{{ payment.interesam1|number_format(2,',','.') }}€</td>
         <td>{{ payment.capitalam1|number_format(2,',','.') }}€</td>
         <td>{{ payment.remaining1|number_format(2,',','.') }}€</td>
-        <td>{{ (payment.cuota1 - payment.cuota)|number_format(2,',','.') }}€</td>
+        <td>{{ (payment.interesam1 - payment.interesam)|number_format(2,',','.') }}€</td>
         <td>{{ payment.refund|number_format(2,',','.') }}€</td>
     </tr>
     {% endfor %}
