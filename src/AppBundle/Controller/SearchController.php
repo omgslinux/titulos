@@ -254,6 +254,7 @@ class SearchController extends Controller
               )
             ->add('interest', NumberType::class)
             ->add('months', IntegerType::class)
+            ->add('carencia', IntegerType::class)
             ->add('differential', NumberType::class)
             ->add('reference', NumberType::class)
             ->add('revisions', IntegerType::class)

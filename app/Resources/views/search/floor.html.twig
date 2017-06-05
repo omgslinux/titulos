@@ -37,6 +37,9 @@ th { text-align: center; }
             <li><label>Duración:&nbsp;</label>
             <input name="form[months]" size="3" type="text"
              value={% if form.vars.value.months is defined%}{{ form.vars.value.months }}{% endif %}> meses.</li>
+            <li><label>Meses carencia:&nbsp;</label>
+            <input name="form[carencia]" size="2" type="text"
+             value={% if form.vars.value.carencia is defined%}{{ form.vars.value.carencia }}{% endif %}> meses.</li>
         </ul>
     </li>
     <li>Interés variable, en la cláusula 3bis:

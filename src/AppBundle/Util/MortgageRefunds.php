@@ -60,24 +60,28 @@ class MortgageRefunds extends ContainerAwareLoader
 
     public function getCuota($amount,$interest,$payments)
     {
-        $cuota=$amount/((1-(1+($interest/1200))**-($payments+1))/($interest/1200));
+        $cuota=$amount/((1-(1+($interest/1200))**-($this->formdata['payments']-$payments))/($interest/1200));
         //dump("amount=$amount, interest=$interest, payments=$payments, cuota=$cuota");
         return $cuota;
     }
 
     public function getRateData(float $ratedif, $payment)
     {
-        $cuota = $this->getCuota($this->remaining['nofloor'],$ratedif,$this->formdata['payments']-$payment);
+        $cuota = $this->getCuota($this->remaining['nofloor'],$ratedif,$payment);
         $interesam = $ratedif * $this->remaining['nofloor'] / 1200;
-        $capitalam = $cuota - $interesam;
-        $this->remaining['nofloor'] -= $capitalam;
         $interes1 = $ratedif;
         if ($ratedif!==$this->formdata['interest'] && $ratedif < $this->formdata['floor']) {
             $interes1 = $this->formdata['floor'];
         }
-        $cuota1 = $this->getCuota($this->remaining['floor'],$interes1,$this->formdata['payments']-$payment);
+        $cuota1 = $this->getCuota($this->remaining['floor'],$interes1,$payment);
         $interesam1 = $interes1 * $this->remaining['floor'] / 1200;
-        $capitalam1 = $cuota1 - $interesam1;
+        if ($this->formdata['carencia']<$payment) {
+          $capitalam1 = $cuota1 - $interesam1;
+          $capitalam = $cuota - $interesam;
+        } else {
+          $capitalam=$capitalam1=0;
+        }
+        $this->remaining['nofloor'] -= $capitalam;
         $this->remaining['floor'] -= $capitalam1;
         $difference = ($capitalam1 - $capitalam) + ($interesam1 - $interesam);
         return array(
