@@ -70,6 +70,10 @@ th { text-align: center; }
             <input name="form[floor]" size="4" type="text" value={% if form.vars.value.floor is defined %}{{ form.vars.value.floor }}{% endif %}>&nbsp;%.</li>
         </ul>
       </li>
+      <li><label>Último pago:</label>
+      <input id="form_lastpaid" name="form[lastpaid]" size="10" type="date"
+      value="{% if form.vars.value.lastpaid is defined %}{{ form.vars.value.lastpaid|date('Y-m-d') }}{% endif %}">
+      </li>
       <li>Elige <label>tipo de devolución de intereses:</label>
         <select name="form[refundtype]">
           <option value="0">Interés legal</option>
@@ -113,9 +117,10 @@ que la entidad está obligada a dar al hipotecado.</p>
         <th>Diferencia</th>
         <th>Intereses</th>
      </tr>
-     {% set tquota = 0 %}{% set tquota1 = 0 %}{% set tamort = 0 %}{% set tamort1 = 0 %}{% set trefund = 0 %}
+     {% set tquota = 0 %}{% set tquota1 = 0 %}{% set tamort = 0 %}{% set tamort1 = 0 %}{% set tdiff=0 %}{% set trefund = 0 %}
     {% for payment in payments %}{% set tquota = tquota + payment.cuota %}{% set tquota1 = tquota1 + payment.cuota1 %}
-    {% set tamort = tamort + payment.capitalam %}{% set tamort1 = tamort1 + payment.capitalam1 %}{% set trefund = trefund + payment.refund %}
+    {% set tamort = tamort + payment.capitalam %}{% set tamort1 = tamort1 + payment.capitalam1 %}
+    {% set tdiff = tdiff + payment.difference %}{% set trefund = trefund + payment.refund %}
     <tr>
         <td>{{ payment.payment }}</td>
         <td>{{ payment.mortgagedate }}</td>
@@ -130,7 +135,7 @@ que la entidad está obligada a dar al hipotecado.</p>
         <td>{{ payment.interesam1|number_format(2,',','.') }}€</td>
         <td>{{ payment.capitalam1|number_format(2,',','.') }}€</td>
         <td>{{ payment.remaining1|number_format(2,',','.') }}€</td>
-        <td>{{ (payment.interesam1 - payment.interesam)|number_format(2,',','.') }}€</td>
+        <td>{{ (payment.difference)|number_format(2,',','.') }}€</td>
         <td>{{ payment.refund|number_format(2,',','.') }}€</td>
     </tr>
     {% endfor %}
@@ -154,7 +159,7 @@ que la entidad está obligada a dar al hipotecado.</p>
      </tr>
      <tr>
       <td colspan=4>Diferencia total cláusula suelo:</td>
-      <td align=right>{% set diffquota = tquota1 - tquota %}{{ diffquota|number_format(2,',','.') }} €</td>
+      <td align=right>{{ tdiff|number_format(2,',','.') }} €</td>
      </tr>
      <tr>
       <td colspan=4>Intereses cláusula suelo:</td>
@@ -162,7 +167,7 @@ que la entidad está obligada a dar al hipotecado.</p>
      </tr>
      <tr>
       <td colspan=4>Total a devolver:</td>
-      <td align=right>{{ (diffquota + trefund)|number_format(2,',','.') }} €</td>
+      <td align=right>{{ (tdiff + trefund)|number_format(2,',','.') }} €</td>
      </tr>
      <tr>
       <td colspan=4>Nueva cantidad a amortizar:</td>

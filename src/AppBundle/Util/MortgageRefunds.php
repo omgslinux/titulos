@@ -58,32 +58,47 @@ class MortgageRefunds extends ContainerAwareLoader
         return $ratedif;
     }
 
+    public function getRateDate($payment)
+    {
+        $rateDate=new \DateTime($this->formdata['mortgagedate']->format('Y/m/d'));
+        $rateDate=$rateDate->add(new \DateInterval('P'. $payment . 'M'));
+        return $rateDate;
+    }
+
     public function getCuota($amount,$interest,$payments)
     {
-        $cuota=$amount/((1-(1+($interest/1200))**-($this->formdata['payments']-$payments))/($interest/1200));
+        $cuota=$amount/((1-(1+($interest/1200))**-($this->formdata['payments']-$payments+$this->formdata['carencia']))/($interest/1200));
         //dump("amount=$amount, interest=$interest, payments=$payments, cuota=$cuota");
         return $cuota;
     }
 
     public function getRateData(float $ratedif, $payment)
     {
-        $cuota = $this->getCuota($this->remaining['nofloor'],$ratedif,$payment);
-        $interesam = $ratedif * $this->remaining['nofloor'] / 1200;
         $interes1 = $ratedif;
         if ($ratedif!==$this->formdata['interest'] && $ratedif < $this->formdata['floor']) {
             $interes1 = $this->formdata['floor'];
         }
-        $cuota1 = $this->getCuota($this->remaining['floor'],$interes1,$payment);
+        $interesam = $ratedif * $this->remaining['nofloor'] / 1200;
         $interesam1 = $interes1 * $this->remaining['floor'] / 1200;
         if ($this->formdata['carencia']<$payment) {
+          $cuota = $this->getCuota($this->remaining['nofloor'],$ratedif,$payment);
+          $cuota1 = $this->getCuota($this->remaining['floor'],$interes1,$payment);
           $capitalam1 = $cuota1 - $interesam1;
           $capitalam = $cuota - $interesam;
         } else {
           $capitalam=$capitalam1=0;
+          $cuota=$interesam;
+          $cuota1=$interesam1;
         }
         $this->remaining['nofloor'] -= $capitalam;
         $this->remaining['floor'] -= $capitalam1;
-        $difference = ($capitalam1 - $capitalam) + ($interesam1 - $interesam);
+        $rateDate=$this->getRateDate($payment);
+        $difference=0;
+        if ($this->formdata['lastpaid']>=$rateDate) {
+            //$difference = ($capitalam1 - $capitalam) + ($interesam1 - $interesam);
+            $difference = ($interesam1 - $interesam);
+            dump($rateDate);
+        }
         return array(
             'cuota' => $cuota,
             'interesam' => $interesam,
@@ -141,11 +156,10 @@ class MortgageRefunds extends ContainerAwareLoader
         }
     }
 
-    public function getRefund($startdate, $enddate, $interesam1, $interesam)
+    public function getRefund($startdate, $enddate, $difference)
     {
         $totalrefund=$paymentrefund=0;
-        if ($interesam1>$interesam) {
-            $difference=$interesam1-$interesam;
+        if ($difference>0) {
             //dump("startdate: ". $startdate->format('Y/m/d') .", enddate: " .$enddate->format('Y/m/d') .", difference: $difference");
             foreach ($this->refunds as $xdate => $rate) {
                 $date=new \DateTime($xdate);

@@ -238,6 +238,13 @@ class SearchController extends Controller
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd'
             ))
+            ->add('lastpaid', DateType::class, array(
+                'attr' => array(
+                    'width' => 10,
+                ),
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd'
+            ))
             ->add('amount', MoneyType::class)
             ->add('payments', IntegerType::class)
             ->add('interesttype', ChoiceType::class, array(
@@ -287,7 +294,7 @@ class SearchController extends Controller
             //dump($mortgagedate);
             $ratedif=0;
             $mortgagedate = $mortgagedate->add(new \DateInterval('P1M'));
-            for ($payment=1;$mortgagedate<=$enddate; $payment++) {
+            for ($payment=1;$mortgagedate<=$data['lastpaid']; $payment++) {
                 $interes1=$ratedif=$mortgage->getRatebase($payment,$ratedif);
                 if ($ratedif!==$data['interest']) {
                     if ($data['interesttype']===0) {
@@ -309,7 +316,8 @@ class SearchController extends Controller
                   $ratedata=$mortgage->getRateData($ratedif, $payment);
                   //dump($ratedata);
 
-                  $refund=$mortgage->getRefund($mortgagedate,$enddate,$ratedata['interesam1'], $ratedata['interesam']);
+//                  $refund=$mortgage->getRefund($mortgagedate,$enddate,$ratedata['interesam1'], $ratedata['interesam']);
+                  $refund=$mortgage->getRefund($mortgagedate,$enddate,$ratedata['difference']);
                   $diferenciatotal = $diferenciatotal + $ratedata['difference'];
                   $paytemp=array(
                       'payment' => $payment,
