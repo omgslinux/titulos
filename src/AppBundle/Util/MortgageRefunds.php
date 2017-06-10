@@ -97,7 +97,7 @@ class MortgageRefunds extends ContainerAwareLoader
         if ($this->formdata['lastpaid']>=$rateDate) {
             //$difference = ($capitalam1 - $capitalam) + ($interesam1 - $interesam);
             $difference = ($interesam1 - $interesam);
-            dump($rateDate);
+            //dump($rateDate);
         }
         return array(
             'cuota' => $cuota,
