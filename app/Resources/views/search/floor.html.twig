@@ -159,7 +159,7 @@ que la entidad está obligada a dar al hipotecado.</p>
      </tr>
      <tr>
       <td colspan=4>Diferencia total cláusula suelo:</td>
-      <td align=right>{{ tdiff|number_format(2,',','.') }} €</td>
+      <td align=right>{{ (tquota1 - tquota)|number_format(2,',','.') }} €</td>
      </tr>
      <tr>
       <td colspan=4>Intereses cláusula suelo:</td>
@@ -167,7 +167,7 @@ que la entidad está obligada a dar al hipotecado.</p>
      </tr>
      <tr>
       <td colspan=4>Total a devolver:</td>
-      <td align=right>{{ (tdiff + trefund)|number_format(2,',','.') }} €</td>
+      <td align=right>{{ (tquota1 - tquota + trefund)|number_format(2,',','.') }} €</td>
      </tr>
      <tr>
       <td colspan=4>Nueva cantidad a amortizar:</td>
