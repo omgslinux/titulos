@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>PDFs de los fondos de la gestora <a href="{{ fundmanager.url }}" target="_blank">{{ fundmanager }}</a></h1>
+<style>
+.btn-success a {
+  color: white;
+}
+a.unlink:hover {
+  color: inherit;
+}
+</style>
+    <table class="table table-bordered">
+        <thead align="center">
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha constitución</th>
+                <th>Escritura constitución</th>
+                <th>Folleto</th>
+                <th>Digitalizable</th>
+                <th>Completado</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fund in fundmanager.funds %}
+            <tr class="text-center">
+                {% if fund.fundtype == 'Hipotecario' %}{% set class="btn-success" %}{% set title="Fondo hipotecario" %}
+                {% else %}
+                    {% if fund.fundtype == 'Mixto' %}{% set class="btn-warning" %}{% set title="Fondo mixto" %}
+                    {% else %}{% set class="btn-danger" %}{% set title="Fondo no hipotecario" %}
+                    {% endif %}
+                {% endif %}
+                <td class="{{ class }}" title="{{ title }}">
+                {% if is_granted('ROLE_MANAGER') %}
+                    <a href="{{ path('manage_funds_show', { 'id': fund.id }) }}" target="_blank">{{ fund.fundname }}</a>
+                {% else %}
+                    {{ fund.fundname }}
+                {% endif %}
+                </td>
+                <td>{{ fund.constdate|date('d/m/Y') }}</td>
+                {% if fund.fundtype != 'No hipotecario' %}
+                   <td>{% if filepath.isDocdownloaded(fund.getFulldocpath) == false %}
+                        No hay fichero
+                        {% else %}
+                            <a href="{{ asset(fund.getFulldocpath()) }}" target="_blank">Descarga escritura</a>
+                        {% endif %}
+                    </td>
+                    <td>{% if filepath.isDocdownloaded(fund.getFulldocpath(2)) == false %}
+                        No hay fichero
+                        {% else %}
+                            <a href="{{ asset(fund.getFulldocpath(2)) }}" target="_blank">Descarga folleto</a>
+                        {% endif %}
+                    </td>
+                    {% if fund.mfund %}
+                    <td
+                        {% if fund.mfund.digitalizable %} class="btn-success" title="Fondo digitalizable">✔
+                        {% else %} class="btn-warning" title="Fondo no digitalizable">✘
+                            {% if filepath.isDocdownloaded(fund.getFulldocpath(3))  %}
+                                <a href="{{ asset(fund.getFulldocpath(3)) }}" target="_blank">Descarga anexos</a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td {% set suma = 0 %}{% set sumasec = 0 %}
+                        {% for bank in fund.banks %}
+                            {% set suma = suma + bank.count %}
+                            {% set sumasec = sumasec + bank.securities.count %}
+                        {% endfor %}
+                        {% if sumasec == suma and suma != 0 %}class="btn-success">Cargado
+                        {% else %}class="btn-warning">Incompleto
+                        {% endif %} ({{ sumasec }} de {{ suma }})
+                    </td>
+                    {% else %}<td colspan="2" class="btn-danger" title="Faltan datos">Faltan datos hipotecarios
+                    {% endif %}
+                {% else %}<td colspan="2" class="btn-info">No es hipotecario
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ path('pdf_index') }}">Volver al listado de gestoras</a></p>
+{% endblock %}

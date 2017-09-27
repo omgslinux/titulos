@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ver ley</h1>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Tipo</th>
+                <th>Ley</th>
+                <th>Nombre largo</th>
+                <th>Fecha disposición</th>
+                <th>Entrada en vigor</th>
+                <th>BOE</th>
+                <th>Observaciones</th>
+            </tr>
+            <tr>
+                <td>{{ law.lawtype }}</td>
+                <td><a href="{{ path('manage_laws_edit', { 'id': law.id }) }}">{{ law.number }}/{{ law.lawdate|date('Y') }}</a></td>
+                <td>{{ law.longname }}</td>
+                <td>{{ law.lawdate|date('d/m/Y') }}</td>
+                <td>{{ law.legalsincedate|date('d/m/Y') }}</td>
+                <td><a href="{{ law.boe }}" target="_blank">Enlace BOE</td>
+                <td>{{ law.notes }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Texto</th>
+            </tr>
+            <tr>
+                <td>{{ law.contents|raw }}</td>
+            </tr>
+            <tr>
+                <th>Análisis</th>
+            </tr>
+            <tr>
+                <td>{{ law.analysis|raw }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_laws_index') }}">Volver a la lista</a>
+        </li>
+    </ul>
+{% endblock %}

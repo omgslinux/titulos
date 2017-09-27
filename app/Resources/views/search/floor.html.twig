@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+th { text-align: center; }
+</style>
+{{ form_start(form) }}
+<h2>Introduce los datos del préstamo:</h2>
+<ol>
+    <li>En la primera página de la escritura:
+        <ul>
+            <li><label>Fecha del préstamo:</label>
+            <input id="form_mortgagedate" name="form[mortgagedate]" size="10" type="date"
+            value="{% if form.vars.value.mortgagedate is defined %}{{ form.vars.value.mortgagedate|date('Y-m-d') }}{% endif %}">
+            {#}{{ form_widget(form.mortgagedate) }} #}
+        </li>
+        </ul>
+    </li>
+    <li>En la cláusula primera:
+        <ul>
+            <li><label>Importe del préstamo:</label>
+            <input name="form[amount]" size="8" type="text"
+             value={% if form.vars.value.amount is defined%}{{ form.vars.value.amount }}{% endif %}>&nbsp;€</li>
+        </ul>
+    </li>
+    <li>En la cláusula segunda:
+        <ul>
+            <li><label>Amortización: &nbsp;</label>
+            <input name="form[payments]" size="2" type="text"
+             value={% if form.vars.value.payments is defined%}{{ form.vars.value.payments }}{% endif %}> meses.</li>
+        </ul>
+    </li>
+    <li>Interés nominal, en la cláusula tercera:
+        <ul>
+            <li><label>Interés inicial:&nbsp;</label>
+            <input name="form[interest]" size="3" type="text"
+             value={% if form.vars.value.interest is defined%}{{ form.vars.value.interest }}{% endif %}>&nbsp;%</li>
+            <li><label>Duración:&nbsp;</label>
+            <input name="form[months]" size="3" type="text"
+             value={% if form.vars.value.months is defined%}{{ form.vars.value.months }}{% endif %}> meses.</li>
+            <li><label>Meses carencia:&nbsp;</label>
+            <input name="form[carencia]" size="2" type="text"
+             value={% if form.vars.value.carencia is defined%}{{ form.vars.value.carencia }}{% endif %}> meses.</li>
+        </ul>
+    </li>
+    <li>Interés variable, en la cláusula 3bis:
+        <ul>
+            <li><label>Diferencial:</label>
+              <select name="form[interesttype]">
+                <option value="0">Euribor</option>
+                <option value="1"
+                  {% if form.vars.value.interesttype is defined %}
+                    {% if form.vars.value.interesttype == 1 %}selected{% endif %}
+                  {% endif %}
+                >IRPH</option>
+              </select>
+              &nbsp;+&nbsp;
+            <input name="form[differential]" size="3" type="text"
+            value={% if form.vars.value.differential is defined%}{{ form.vars.value.differential }}{% endif %}>&nbsp;%</li>
+            <li><label>Mes de referencia:</label>&nbsp;<select name="form[reference]">
+                <option value="0">Mismo mes</option>
+                {% for option in 1..12 %}
+                <option value="{{ option }}" {% if form.vars.value.reference is defined %}{% if form.vars.value.reference == option %}selected{% endif %}{% endif %}>{{ option }} mes{% if option > 1 %}es{% endif %} antes</option>
+                {% endfor %}
+                </select>
+            </li>
+            <li><label>Revisión cada&nbsp;</label>
+            <input name="form[revisions]" size="2" type="text"
+            value={% if form.vars.value.revisions is defined%}{{ form.vars.value.revisions }}{% endif %}>&nbsp;meses</li>
+            <li><label>Suelo (si existe):&nbsp;</label>
+            <input name="form[floor]" size="4" type="text" value={% if form.vars.value.floor is defined %}{{ form.vars.value.floor }}{% endif %}>&nbsp;%.</li>
+        </ul>
+      </li>
+      <li><label>Último pago:</label>
+      <input id="form_lastpaid" name="form[lastpaid]" size="10" type="date"
+      value="{% if form.vars.value.lastpaid is defined %}{{ form.vars.value.lastpaid|date('Y-m-d') }}{% endif %}">
+      </li>
+      <li>Elige <label>tipo de devolución de intereses:</label>
+        <select name="form[refundtype]">
+          <option value="0">Interés legal</option>
+          <option value="1"
+            {% if form.vars.value.refundtype is defined %}
+              {% if form.vars.value.refundtype == 1 %}selected{% endif %}
+            {% endif %}
+          >Interés judicial (legal + 2%)</option>
+        </select>
+      </li>
+</ol>
+
+<p><input class="btn btn-success" type="submit" name="form[submit]" value="Calcular"></p>
+{{ form_row(form._token) }}
+</form>
+{% if data %}
+<hr>
+<h3>Desglose para amortizar {{ data.amount|number_format(2,',','.') }}€ en {{ payments|length }} pagos desde {{ data.mortgagedate|date('d/m/Y') }} con suelo del {{ data.floor }}%</h3>
+<p>Los plazos expuestos a continuación tienen como objetivo compararse con el <strong>cuadro de amortización del préstamo</strong>
+que la entidad está obligada a dar al hipotecado.</p>
+<table class="table table-bordered">
+    <tr>
+        <th rowspan=2>Pago</th>
+        <th rowspan=2>Fecha pago</th>
+        <th rowspan=2>{% if data.interesttype == 0 %}{% set title='Euribor' %}{% else %}{% set title='IRPH' %}{% endif %}{{ title }}</th>
+        <th colspan=5>Sin suelo</th>
+        <th colspan=5>Con suelo</th>
+        <th colspan=2>Devolución</th>
+     </tr>
+     <tr>
+        <th>Difer.</th>
+        <th>Cuota</th>
+        <th>Interés</th>
+        <th>Capital</th>
+        <th>Saldo</th>
+        <th>Interés</th>
+        <th>Cuota</th>
+        <th>Interés</th>
+        <th>Capital</th>
+        <th>Saldo</th>
+        <th>Diferencia</th>
+        <th>Intereses</th>
+     </tr>
+     {% set tquota = 0 %}{% set tquota1 = 0 %}{% set tamort = 0 %}{% set tamort1 = 0 %}{% set tdiff=0 %}{% set trefund = 0 %}
+    {% for payment in payments %}{% set tquota = tquota + payment.cuota %}{% set tquota1 = tquota1 + payment.cuota1 %}
+    {% set tamort = tamort + payment.capitalam %}{% set tamort1 = tamort1 + payment.capitalam1 %}
+    {% set tdiff = tdiff + payment.difference %}{% set trefund = trefund + payment.refund %}
+    <tr>
+        <td>{{ payment.payment }}</td>
+        <td>{{ payment.mortgagedate }}</td>
+        <td>{{ payment.ratebase|number_format(3,',','.') }}%</td>
+        <td>{{ payment.ratedif|number_format(3,',','.') }}%</td>
+        <td>{{ payment.cuota|number_format(2,',','.') }}€</td>
+        <td>{{ (payment.interesam)|number_format(2,',','.') }}€</td>
+        <td>{{ payment.capitalam|number_format(2,',','.') }}€</td>
+        <td>{{ payment.remaining|number_format(2,',','.') }}€</td>
+        <td>{{ payment.interes1|number_format(3,',','.') }}%</td>
+        <td>{{ payment.cuota1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.interesam1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.capitalam1|number_format(2,',','.') }}€</td>
+        <td>{{ payment.remaining1|number_format(2,',','.') }}€</td>
+        <td>{{ (payment.difference)|number_format(2,',','.') }}€</td>
+        <td>{{ payment.refund|number_format(2,',','.') }}€</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Media teórica</th>
+    <th>Cuota media sin suelo</th>
+    <th>Amortización media sin suelo</th>
+    <th>Cuota media con suelo</th>
+    <th>Amortización media con suelo</th>
+  </tr>
+  <tr align="center">
+      <td>{{ form.vars.value.amount|number_format(2,',','.') }}€ / {{ form.vars.value.payments }} =
+       {{ (form.vars.value.amount / form.vars.value.payments)|number_format(2,',','.') }}€.</td>
+       <td>{{ tquota|number_format(2,',','.') }}€ / {{ payment0 }} = {{ ( tquota / payment0)|number_format(2,',','.') }}€</td>
+       <td>{{ tamort|number_format(2,',','.') }}€ / {{ payment0 }} = {{ ( tamort / payment0)|number_format(2,',','.') }}€</td>
+       <td>{{ tquota1|number_format(2,',','.') }}€ / {{ payment0 }} = {{ (tquota1 / payment0)|number_format(2,',','.') }}€</td>
+       <td>{{ tamort1|number_format(2,',','.') }}€ / {{ payment0 }} = {{ ( tamort1 / payment0)|number_format(2,',','.') }}€</td>
+     </tr>
+     <tr>
+      <td colspan=4>Diferencia total cláusula suelo:</td>
+      <td align=right>{{ (tquota1 - tquota)|number_format(2,',','.') }} €</td>
+     </tr>
+     <tr>
+      <td colspan=4>Intereses cláusula suelo:</td>
+      <td align=right>{{ trefund|number_format(2,',','.') }} €</td>
+     </tr>
+     <tr>
+      <td colspan=4>Total a devolver:</td>
+      <td align=right>{{ (tquota1 - tquota + trefund)|number_format(2,',','.') }} €</td>
+     </tr>
+     <tr>
+      <td colspan=4>Nueva cantidad a amortizar:</td>
+      <td align=right>{{ (data.amount - tamort)|number_format(2,',','.') }} €</td>
+     </tr>
+   </table>
+{% endif %}
+{% endblock %}

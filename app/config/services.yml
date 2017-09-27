@@ -1,0 +1,30 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.filedownload:
+        class: AppBundle\Util\FileDownload
+        calls:
+            - [setRootdir , ["%kernel.root_dir%"]]
+    filedownload:
+        alias: app.filedownload
+    app.Slugger:
+        class: AppBundle\Util\Slugger
+    slugger:
+        alias: app.Slugger
+    app.readcsv:
+        class: AppBundle\Util\ReadCSV
+        arguments: ['@service_container']
+        calls:
+            - [setRootdir , ["%kernel.root_dir%"]]
+    app.cnmvlinks:
+        class: AppBundle\Util\CNMVLinks
+        arguments: ['@filedownload']
+    app.mortgagerefunds:
+        class: AppBundle\Util\MortgageRefunds
+        arguments: ['@service_container']

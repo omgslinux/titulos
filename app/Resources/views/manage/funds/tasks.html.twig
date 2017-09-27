@@ -1,0 +1,40 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+
+<h1>Tareas en el fondo {{ fundbank.fundname }}</h1>
+<h2>Entidad {{ fundbank.getBankname }}</h2>
+
+    {% if edit_form is defined or create_form is defined %}
+    <h2>{{ action }} para la entidad {{ fundbank.getBankname }}</h2>
+
+    {{ block('crudform') }}
+    {% else %}
+    {% if fundbank.getTasks.count %}
+    <h3>{{ action }}</h3>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Finalizada</th>
+            </tr>
+            {% for banktask in fundbank.tasks %}
+            <tr>
+                <td><a href="{{ path('manage_fundbanks__tasks_edit', { 'id': banktask.id }) }}">{{ banktask.taskdate|date('d/m/Y') }}</a></td>
+                <td>{{ banktask.shortdescription }}</td>
+                <td>{% if banktask.finished %}X{% else %}No{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay tareas</p>
+    {% endif %}
+    {% endif %}
+    <ul>
+        <li>
+            <a href="{{ backlink }}">{{ backmessage }}</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+    <h1>{{ action }}</h1>
+
+{{ user }}
+    <ul>
+        <li>
+            <a href="{{ backlink }}">{{ backmessage }}</a>
+        </li>
+    </ul>
+{% endblock %}

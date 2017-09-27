@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ action }}</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre completo</th>
+                <th>Correo</th>
+                <th>Activo</th>
+                <th>Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="{{ path('profile_user_edit') }}">{{ user.username }}</a></td>
+                <td>{{ user.fullname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.isactive ? 'X' : 'No' }}</td>
+                <td>{{ user.rol }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

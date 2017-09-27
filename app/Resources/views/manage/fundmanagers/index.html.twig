@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de sociedades gestoras</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre corto</th>
+                <th>Nombre largo</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fundmanager in fundmanagers %}
+            <tr>
+                <td><a href="{{ path('manage_fundmanagers_show', { 'id': fundmanager.id }) }}">{{ fundmanager.shortname }}</a></td>
+                <td>{{ fundmanager.longname }}</td>
+                <td>{{ fundmanager.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_fundmanagers_new') }}">Crear una sociedad gestora nueva</a>
+        </li>
+    </ul>
+{% endblock %}

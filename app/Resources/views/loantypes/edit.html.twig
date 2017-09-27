@@ -1,0 +1,12 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+    <h1>Editar tipos de préstamos</h1>
+
+    {{ block('crudform') }}
+    <ul>
+        <li>
+            <a href="{{ path('manage_loans_types_index') }}">Volver a la lista</a>
+        </li>
+    </ul>
+{% endblock %}

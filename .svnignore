@@ -14,6 +14,3 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/web/pdf/
-!/web/pdf/*
-/sql/

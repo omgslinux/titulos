@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Securities list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fundid</th>
+                <th>Credito</th>
+                <th>Loantypeid</th>
+                <th>Bankid</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Municipioid</th>
+                <th>Loanamount</th>
+                <th>Registration</th>
+                <th>Volume</th>
+                <th>Book</th>
+                <th>Folio</th>
+                <th>Building</th>
+                <th>Page</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for security in securities %}
+            <tr>
+                <td><a href="{{ path('manage_securities_show', { 'id': security.id }) }}">{{ security.id }}</a></td>
+                <td>{{ security.fundId }}</td>
+                <td>{{ security.credito }}</td>
+                <td>{{ security.loantypeId }}</td>
+                <td>{{ security.bankId }}</td>
+                <td>{% if security.date %}{{ security.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ security.duration }}</td>
+                <td>{{ security.municipioId }}</td>
+                <td>{{ security.loanamount }}</td>
+                <td>{{ security.registration }}</td>
+                <td>{{ security.volume }}</td>
+                <td>{{ security.book }}</td>
+                <td>{{ security.folio }}</td>
+                <td>{{ security.building }}</td>
+                <td>{{ security.page }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('manage_securities_show', { 'id': security.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('manage_securities_edit', { 'id': security.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_securities_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

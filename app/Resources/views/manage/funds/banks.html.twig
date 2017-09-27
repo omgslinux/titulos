@@ -1,0 +1,71 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+
+<h1>Fondo {{ fundbank.fund }}</h1>
+
+    {% if edit_form is defined or create_form is defined %}
+
+    {{ block('crudform') }}
+    {% else %}
+    <h2>Datos de la entidad {{ fundbank.getBank }}</h2>
+    <table class="table table-bordered">
+        <tbody>
+           <tr>
+                <th>Entidad</th>
+                <th>Tipo préstamo</th>
+                <th>Número préstamos</th>
+                <th>Enlace</th>
+                <th>Acción</th>
+           </tr>
+           <tr>
+               <td><a href="{{ path('manage_funds_banks_edit', { 'id': fundbank.id } ) }}">{{ fundbank.bank }}</a></td>
+               <td>{{ fundbank.loantype }}</td>
+               <td>{{ fundbank.count }}</td>
+               <td class="{% if csvfilename %}btn-success">X{% else %}btn-warning">No hay enlace{% endif %}</td>
+                {% if exists %}
+                    {% if securitiescount %}<td class="btn-success">{{ securitiescount }}
+                    {% else %}<td>
+                        {{ form_start(download_form) }}
+                        <input type="submit" class="btn btn-info" value="Cargar">
+                        <input name="filename" type="hidden" value="{{ filename|url_encode }}">
+                        {{ form_end(download_form) }}
+                        <a href="{{ path('manage_securities_load', { 'id': fundbank.id, 'filename': (filename|url_encode) }) }}">Cargar</a>
+                    {% endif %}
+               {% else %}
+                    <td title="{{ filename|url_encode }}">Crear enlace a CSV</a>
+               {% endif %}
+                </td>
+           </tr>
+        </tbody>
+    </table>
+    {% if fundbank.getTasks.count %}
+    <h3>Tareas</h3>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Finalizada</th>
+            </tr>
+            {% for banktask in fundbank.tasks %}
+            <tr>
+                <td><a href="{{ path('manage_fundbanks__tasks_edit', { 'id': banktask.id }) }}">{{ banktask.taskdate|date('d/m/Y') }}</a></td>
+                <td>{{ banktask.shortdescription }}</td>
+                <td>{% if banktask.finished %}X{% else %}No{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay tareas</p>
+    {% endif %}
+    <p><a href="{{ path('manage_fundbanks_tasks_new', { 'id': fundbank.id }) }}">Añadir tarea</a></p>
+
+    {% endif %}
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_show', { 'id': fundbank.getFundid } ) }}">Volver al fondo {{ fundbank.fundname }}</a>
+        </li>
+    </ul>
+{% endblock %}

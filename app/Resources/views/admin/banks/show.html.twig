@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mostrar banco {{ bank.shortname }}</h1>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Código BE</th>
+                <td>{{ bank.becode }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ bank.category }}</td>
+            </tr>
+            <tr>
+                <th>Shortname</th>
+                <td>{{ bank.shortname }}</td>
+            </tr>
+            <tr>
+                <th>Longname</th>
+                <td>{{ bank.longname }}</td>
+            </tr>
+            <tr>
+                <th>Dirección</th>
+                <td>{{ bank.address }}</td>
+            </tr>
+            <tr>
+                <th>Ciudad</th>
+                <td>{{ bank.city }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_banks_index') }}">Volver a la lista</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_banks_edit', { 'id': bank.id }) }}">Editar</a>
+        </li>
+    </ul>
+{% endblock %}

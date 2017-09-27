@@ -1,0 +1,12 @@
+{% extends 'custom.html.twig' %}
+
+{% block body %}
+    <h1>Datos hipotecarios del fondo {{ mfund.getFundname }}</h1>
+
+{{ block('crudform') }}
+    <ul>
+        <li>
+            <a href="{{ path('manage_funds_show', { 'id': mfund.id }) }}">Volver al fondo</a>
+        </li>
+    </ul>
+{% endblock %}

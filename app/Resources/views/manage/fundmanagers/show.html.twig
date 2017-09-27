@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Gestora {{ fundmanager.shortname }}</h1>
+
+    <p><a href="{{ fundmanager.getCNMVUrl }}" target="_blank">{{ fundmanager.longname }} en la CNMV</a></p>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Nombre corto</th>
+                <th>Nombre largo</th>
+                <th>Nif</th>
+                <th>Dirección</th>
+                <th>Capital social</th>
+                <th>Fecha de registro</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><a href="{{ path('manage_fundamanagers_edit', { 'id': fundmanager.id }) }}">{{ fundmanager.shortname }}</a></td>
+                <td>{{ fundmanager.longname }}</td>
+                <td>{{ fundmanager.nif }}</td>
+                <td>{{ fundmanager.address }}</td>
+                <td>{{ fundmanager.capitalsocial|number_format(2,',') }}€</td>
+                <td>{{ fundmanager.regdate|date('d/m/Y') }}</td>
+                <td>{{ fundmanager.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('manage_fundmanagers_index') }}">Volver a la lista</a>
+        </li>
+    </ul>
+{% endblock %}

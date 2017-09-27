@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Elige gestora</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre corto</th>
+                <th>Nombre largo</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fundmanager in fundmanagers %}
+            <tr>
+                <td><a href="{{ path('pdf_funds', { 'id': fundmanager.id }) }}">{{ fundmanager.shortname }}</a></td>
+                <td>{{ fundmanager.longname }}</td>
+                <td>{{ fundmanager.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

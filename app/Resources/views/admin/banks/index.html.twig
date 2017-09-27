@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de bancos</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Cod BE</th>
+                <th>Acrónimo</th>
+                <th>Shortname</th>
+                <th>Longname</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bank in banks %}
+            <tr>
+                <td>{{ bank.becode }}</td>
+                <td>{{ bank.acronym }}</td>
+                <td><a href="{{ path('admin_banks_show', { 'id': bank.id }) }}">{{ bank.shortname }}</a></td>
+                <td>{{ bank.longname }}</td>
+                <td>{{ bank.address }}</td>
+                <td>{{ bank.city }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_banks_new') }}">Añadir un banco</a>
+        </li>
+    </ul>
+{% endblock %}

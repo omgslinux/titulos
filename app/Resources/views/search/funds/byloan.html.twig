@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ action }}</h1>
+
+    <form class="form-inline" method='POST'>
+        <div class="form-group">
+            <label for="banks">Elige entidad:</label>
+            <select id="banks" name="banks" class="form-control">
+                {% for bank in fundbanks %}
+                    {% set selected = (bank.id == selectedBankId) ? ' selected' %}
+                    <option value="{{ bank.id }}"{{ selected }}>{{ bank.shortname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br><br>
+
+        <div class="form-group">
+            <label for="startdate">Introduce fecha del préstamo</label>
+            <input type="date" name="startdate" value="{{ startdate }}" />
+            <label for="amount">Introduce cantidad del préstamo:</label>
+            <div class="input-group">
+                <input type="text" size="10" id="amount" name="amount" placeholder="0,00" class="text-right" class="form-control" value="{{ amount }}" />
+                <span class="input-group-addon" id="basic-addon2">€</span>
+            </div>
+            <button class="btn btn-info">
+                Buscar cantidad <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </div>
+    </form>
+
+    {% if securities !=null %}
+    <h1>Total de préstamos encontrados para {{ amount }} € y fecha {{ startdate|date('d/m/Y') }}: {{ securities|length }}</h1>
+        {% for security in securities %}
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Fondo</th>
+                        <th>Página</th>
+                        <th>Nº Crédito</th>
+                        <th>Entidad cedente</th>
+                        <th>Fecha</th>
+                        <th>Amortización</th>
+                        <th>Registro</th>
+                        <th>Tomo</th>
+                        <th>Libro</th>
+                        <th>Folio</th>
+                        <th>Finca</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="{{ path('search_funds', { 'id': security.fundbank.fund.id } ) }}">{{ security.fundbank.fundname }}</td>
+                        <td>{{ security.page }}</td>
+                        <td>{{ security.creditnumber }}</td>
+                        <td>{{ security.fundbank }}</td>
+                        <td>{{ security.startdate is not null ? (security.startdate | date('d/m/Y')) }}</td>
+                        <td>{{ security.duration }} meses</td>
+                        <td>{{ security.regnum }}</td>
+                        <td>{{ security.volume }}</td>
+                        <td>{{ security.book }}</td>
+                        <td>{{ security.folio }}</td>
+                        <td>{{ security.building }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

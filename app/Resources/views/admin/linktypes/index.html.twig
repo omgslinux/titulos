@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista de tipos de enlace</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>internal</th>
+                <th>Tipo de enlace</th>
+                <th>Slug</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for flt in fltype %}
+            <tr>
+                <td>{{ flt.internal }}</td>
+                <td><a href="{{ path('admin_linktypes_show', { 'id': flt.id }) }}">{{ flt }}</a></td>
+                <td>{{ flt.getSlugger }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_linktypes_new') }}">Crear un tipo de enlace</a>
+        </li>
+    </ul>
+{% endblock %}
