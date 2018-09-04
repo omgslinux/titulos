@@ -30,11 +30,11 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "symfony/translation": "^3.1",
         "symfony/config": "^3.1",
-        "swiftmailer/swiftmailer": "^6.1"
+        "swiftmailer/swiftmailer": "^6.1",
+        "symfony/phpunit-bridge": "^4.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "3.*"
     },
     "scripts": {
