@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLinks;
 
@@ -19,8 +18,8 @@ class FundsController extends Controller
     /**
      * Lists all Funds entities.
      *
-     * @Route("/", name="admin_funds_index")
-     * @Method({"GET", "POST"})
+     * @Route("/", name="admin_funds_index",
+     * methods={"GET", "POST"})
      */
     public function indexAction(Request $request)
     {
@@ -39,8 +38,8 @@ class FundsController extends Controller
     /**
      * Displays a form to download a file.
      *
-     * @Route("/{id}/{linktype}/download", name="admin_funds_download")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/{linktype}/download", name="admin_funds_download",
+     * methods={"GET", "POST"})
      */
     public function downloadAction(Request $request, Funds $fund, $linktype)
     {
@@ -92,8 +91,8 @@ class FundsController extends Controller
     /**
      * Displays a form to download a file.
      *
-     * @Route("/downloadall", name="admin_funds_downloadall")
-     * @Method({"GET", "POST"})
+     * @Route("/downloadall", name="admin_funds_downloadall",
+     * methods={"GET", "POST"})
      */
     public function downloadAllAction(Request $request)
     {

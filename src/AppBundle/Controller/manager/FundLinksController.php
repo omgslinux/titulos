@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLinks;
 use AppBundle\Form\FundLinksType;
@@ -21,8 +20,8 @@ class FundLinksController extends Controller
     /**
      * Creates a form to edit a FundLinks entity.
      *
-     * @Route("/links/{id}/edit", name="manage_funds_links_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/links/{id}/edit", name="manage_funds_links_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, FundLinks $fundlinks)
     {
@@ -51,8 +50,8 @@ class FundLinksController extends Controller
     /**
      * Finds and displays a FundLinks entity.
      *
-     * @Route("/links/{id}", name="manage_funds_links_show")
-     * @Method("GET")
+     * @Route("/links/{id}", name="manage_funds_links_show",
+     * methods={"GET"})
      */
     public function showAction(FundLinks $fundlinks)
     {
@@ -73,8 +72,8 @@ class FundLinksController extends Controller
     /**
      * Deletes a FundLinks entity.
      *
-     * @Route("/links/{id}", name="manage_funds_links_delete")
-     * @Method("DELETE")
+     * @Route("/links/{id}", name="manage_funds_links_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, FundLinks $fundlinks)
     {
@@ -130,8 +129,8 @@ class FundLinksController extends Controller
     /**
      * Displays a form to download a file.
      *
-     * @Route("/links/{id}/download", name="manage_funds_links_download")
-     * @Method({"GET", "POST"})
+     * @Route("/links/{id}/download", name="manage_funds_links_download",
+     * methods={"GET", "POST"})
      */
     public function downloadAction(Request $request, FundLinks $fundlink)
     {
@@ -153,8 +152,8 @@ class FundLinksController extends Controller
     /**
      * Creates a new FundLinks entity.
      *
-     * @Route("/{id}/links/new", name="manage_funds_links_new")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/links/new", name="manage_funds_links_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request, Funds $fund)
     {

@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLaws;
 
@@ -20,8 +19,8 @@ class FundLawsController extends Controller
     /**
      * Creates a form to edit a FundLaws entity.
      *
-     * @Route("/laws/{id}/edit", name="manage_funds_laws_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/laws/{id}/edit", name="manage_funds_laws_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, FundLaws $fundlaw)
     {
@@ -50,12 +49,11 @@ class FundLawsController extends Controller
     /**
      * Creates a new FundLaws entity.
      *
-     * @Route("/{id}/laws/new", name="manage_funds_laws_new")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/laws/new", name="manage_funds_laws_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request, Funds $fund)
     {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $fundlaw = new FundLaws();
         $fundlaw->setFund($fund);
         $form = $this->createForm('AppBundle\Form\FundLawsType', $fundlaw);
@@ -81,8 +79,8 @@ class FundLawsController extends Controller
     /**
      * Finds and displays a FundLaws entity.
      *
-     * @Route("/laws/{id}", name="manage_funds_laws_show")
-     * @Method("GET")
+     * @Route("/laws/{id}", name="manage_funds_laws_show",
+     * methods={"GET"})
      */
     public function showAction(FundLaws $fundlaw)
     {
@@ -98,8 +96,8 @@ class FundLawsController extends Controller
     /**
      * Deletes a FundLaws entity.
      *
-     * @Route("/laws/{id}", name="manage_funds_laws_delete")
-     * @Method("DELETE")
+     * @Route("/laws/{id}", name="manage_funds_laws_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, FundLaws $fundlaw)
     {

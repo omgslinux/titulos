@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Securities;
 use AppBundle\Entity\Cities;
 use AppBundle\Form\SecuritiesType;
@@ -21,8 +20,8 @@ class SecuritiesController extends Controller
     /**
      * Lists all Securities entities.
      *
-     * @Route("/", name="manage_securities_index")
-     * @Method("GET")
+     * @Route("/", name="manage_securities_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -38,8 +37,8 @@ class SecuritiesController extends Controller
     /**
      * Creates a new Securities entity.
      *
-     * @Route("/new", name="manage_securities_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="manage_securities_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -64,8 +63,8 @@ class SecuritiesController extends Controller
     /**
      * Finds and displays a Securities entity.
      *
-     * @Route("search/", name="manage_securities_search")
-     * @Method("GET")
+     * @Route("search/", name="manage_securities_search",
+     * methods={"GET"})
      */
     public function searchAction(Securities $security)
     {
@@ -79,8 +78,8 @@ class SecuritiesController extends Controller
     /**
      * Finds and displays a Securities entity.
      *
-     * @Route("/{id}", name="manage_securities_show")
-     * @Method("GET")
+     * @Route("/{id}", name="manage_securities_show",
+     * methods={"GET"})
      */
     public function showAction(Securities $security)
     {
@@ -95,8 +94,8 @@ class SecuritiesController extends Controller
     /**
      * Displays a form to edit an existing Securities entity.
      *
-     * @Route("/{id}/edit", name="manage_securities_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="manage_securities_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, Securities $security)
     {
@@ -122,8 +121,8 @@ class SecuritiesController extends Controller
     /**
      * Deletes a Securities entity.
      *
-     * @Route("/{id}", name="manage_securities_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="manage_securities_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, Securities $security)
     {
@@ -174,8 +173,8 @@ class SecuritiesController extends Controller
     /**
      * Loads the contents of a csv file into Securities from a FundBanks entity
      *
-     * @Route("/{id}/load", name="manage_securities_load")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/load", name="manage_securities_load",
+     * methods={"GET", "POST"})
      */
     public function loadAction(Request $request, FundBanks $fundbank)
     {

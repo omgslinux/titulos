@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Banks;
 
 /**
@@ -18,8 +17,8 @@ class BanksController extends Controller
     /**
      * Lists all Banks entities.
      *
-     * @Route("/", name="admin_banks_index")
-     * @Method("GET")
+     * @Route("/", name="admin_banks_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -35,8 +34,8 @@ class BanksController extends Controller
     /**
      * Creates a new Banks entity.
      *
-     * @Route("/new", name="admin_banks_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_banks_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -64,8 +63,8 @@ class BanksController extends Controller
     /**
      * Finds and displays a Banks entity.
      *
-     * @Route("/{id}", name="admin_banks_show")
-     * @Method("GET")
+     * @Route("/{id}", name="admin_banks_show",
+     * methods={"GET"})
      */
     public function showAction(Banks $bank)
     {
@@ -87,8 +86,8 @@ class BanksController extends Controller
     /**
      * Displays a form to edit an existing Banks entity.
      *
-     * @Route("/{id}/edit", name="admin_banks_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="admin_banks_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, Banks $bank)
     {
@@ -117,8 +116,8 @@ class BanksController extends Controller
     /**
      * Deletes a Banks entity.
      *
-     * @Route("/{id}", name="admin_banks_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_banks_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, Banks $bank)
     {

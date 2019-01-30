@@ -4,8 +4,7 @@ namespace AppBundle\Controller\profile;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Users;
 use AppBundle\Entity\FundBankTasks;
 
@@ -20,8 +19,8 @@ class ProfileController extends Controller
     /**
      * Index for User profile
      *
-     * @Route("/user/", name="profile_user_index")
-     * @Method("GET")
+     * @Route("/user/", name="profile_user_index",
+     * methods={"GET"})
      */
     public function userAction(Request $request)
     {
@@ -38,8 +37,8 @@ class ProfileController extends Controller
     /**
      * Index for User profile
      *
-     * @Route("/tasks/", name="profile_tasks_index")
-     * @Method("GET")
+     * @Route("/tasks/", name="profile_tasks_index",
+     * methods={"GET"})
      */
     public function tasksAction(Request $request)
     {
@@ -58,12 +57,11 @@ class ProfileController extends Controller
     /**
      * Creates a form to edit a Users entity.
      *
-     * @Route("/tasks/{id}/edit", name="profile_tasks_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/tasks/{id}/edit", name="profile_tasks_edit",
+     * methods={"GET", "POST"})
      */
     public function taskeditAction(Request $request, FundBankTasks $banktasks)
     {
-        //$em = $this->getDoctrine()->getManager();
 
         $deleteForm = $this->createDeleteTaskForm($banktasks);
         $editform = $this->createForm('AppBundle\Form\FundBankTasksType', $banktasks);
@@ -90,12 +88,11 @@ class ProfileController extends Controller
     /**
      * Creates a form to edit a Users entity.
      *
-     * @Route("/user/edit", name="profile_user_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/user/edit", name="profile_user_edit",
+     * methods={"GET", "POST"})
      */
     public function usereditAction(Request $request)
     {
-        //$em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
         $deleteForm = $this->createDeleteForm($user);
@@ -144,8 +141,8 @@ class ProfileController extends Controller
     /**
      * Deletes a FundBankTasks entity.
      *
-     * @Route("/user/{id}/delete", name="profile_user_delete")
-     * @Method({"GET", "DELETE"})
+     * @Route("/user/{id}/delete", name="profile_user_delete",
+     * methods={"GET", "DELETE"})
      */
     public function deleteAction(Request $request, Users $user)
     {
@@ -164,8 +161,8 @@ class ProfileController extends Controller
     /**
      * Deletes a FundBankTasks entity.
      *
-     * @Route("/tasks/{id}/delete", name="profile_task_delete")
-     * @Method({"GET", "DELETE"})
+     * @Route("/tasks/{id}/delete", name="profile_task_delete",
+     * methods={"GET", "DELETE"})
      */
     public function deleteTaskAction(Request $request, FundBankTasks $banktask)
     {

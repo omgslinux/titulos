@@ -20,8 +20,8 @@ class LawsController extends Controller
     /**
      * Lists all Laws entities.
      *
-     * @Route("/", name="manage_laws_index")
-     * @Method("GET")
+     * @Route("/", name="manage_laws_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -37,8 +37,8 @@ class LawsController extends Controller
     /**
      * Creates a new Laws entity.
      *
-     * @Route("/new", name="manage_laws_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="manage_laws_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -65,8 +65,8 @@ class LawsController extends Controller
     /**
      * Finds and displays a Laws entity.
      *
-     * @Route("/{id}", name="manage_laws_show")
-     * @Method("GET")
+     * @Route("/{id}", name="manage_laws_show",
+     * methods={"GET"})
      */
     public function showAction(Laws $law)
     {
@@ -81,8 +81,8 @@ class LawsController extends Controller
     /**
      * Displays a form to edit an existing Laws entity.
      *
-     * @Route("/{id}/edit", name="manage_laws_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="manage_laws_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, Laws $law)
     {
@@ -110,8 +110,8 @@ class LawsController extends Controller
     /**
      * Deletes a Laws entity.
      *
-     * @Route("/{id}", name="manage_laws_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="manage_laws_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, Laws $law)
     {

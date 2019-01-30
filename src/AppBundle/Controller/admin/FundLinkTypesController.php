@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\FundLinkTypes;
 use AppBundle\Form\FundLinkTypesType;
 
@@ -19,8 +18,8 @@ class FundLinkTypesController extends Controller
     /**
      * Lists all FundLinkTypes entities.
      *
-     * @Route("/", name="admin_linktypes_index")
-     * @Method("GET")
+     * @Route("/", name="admin_linktypes_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -36,8 +35,8 @@ class FundLinkTypesController extends Controller
     /**
      * Creates a new FundLinkTypes entity.
      *
-     * @Route("/new", name="admin_linktypes_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_linktypes_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -64,8 +63,8 @@ class FundLinkTypesController extends Controller
     /**
      * Finds and displays a FundLinkTypes entity.
      *
-     * @Route("/{id}", name="admin_linktypes_show")
-     * @Method("GET")
+     * @Route("/{id}", name="admin_linktypes_show",
+     * methods={"GET"})
      */
     public function showAction(FundLinkTypes $fltype)
     {
@@ -80,8 +79,8 @@ class FundLinkTypesController extends Controller
     /**
      * Displays a form to edit an existing FundLinkTypes entity.
      *
-     * @Route("/{id}/edit", name="admin_linktypes_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="admin_linktypes_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, FundLinkTypes $fltype)
     {
@@ -109,8 +108,8 @@ class FundLinkTypesController extends Controller
     /**
      * Deletes a FundLinkTypes entity.
      *
-     * @Route("/{id}", name="admin_linktypes_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_linktypes_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, FundLinkTypes $fltype)
     {

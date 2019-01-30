@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\LoanTypes;
 use AppBundle\Form\LoanTypesType;
 
@@ -19,8 +18,8 @@ class LoanTypesController extends Controller
     /**
      * Lists all LoanTypes entities.
      *
-     * @Route("/", name="manage_loans_types_index")
-     * @Method("GET")
+     * @Route("/", name="manage_loans_types_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -36,8 +35,8 @@ class LoanTypesController extends Controller
     /**
      * Creates a new LoanTypes entity.
      *
-     * @Route("/new", name="manage_loans_types_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="manage_loans_types_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -62,8 +61,8 @@ class LoanTypesController extends Controller
     /**
      * Finds and displays a LoanTypes entity.
      *
-     * @Route("/{id}", name="manage_loans_types_show")
-     * @Method("GET")
+     * @Route("/{id}", name="manage_loans_types_show",
+     * methods={"GET"})
      */
     public function showAction(LoanTypes $loanType)
     {
@@ -78,8 +77,8 @@ class LoanTypesController extends Controller
     /**
      * Displays a form to edit an existing LoanTypes entity.
      *
-     * @Route("/{id}/edit", name="manage_loans_types_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="manage_loans_types_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, LoanTypes $loanType)
     {
@@ -105,8 +104,8 @@ class LoanTypesController extends Controller
     /**
      * Deletes a LoanTypes entity.
      *
-     * @Route("/{id}", name="manage_loans_types_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="manage_loans_types_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, LoanTypes $loanType)
     {

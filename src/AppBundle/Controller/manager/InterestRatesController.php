@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\InterestRates;
 
 /**
@@ -18,8 +17,8 @@ class InterestRatesController extends Controller
     /**
      * Lists all InterestRates entities.
      *
-     * @Route("/", name="manage_rates_index")
-     * @Method("GET")
+     * @Route("/", name="manage_rates_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -35,8 +34,8 @@ class InterestRatesController extends Controller
     /**
      * Creates a new InterestRates entity.
      *
-     * @Route("/new", name="manage_rates_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="manage_rates_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -64,12 +63,11 @@ class InterestRatesController extends Controller
     /**
      * Finds and displays a InterestRates entity.
      *
-     * @Route("/{id}", name="manage_rates_show")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}", name="manage_rates_show",
+     * methods={"GET", "POST"})
      */
     public function showAction(InterestRates $rate)
     {
-        //$deleteForm = $this->createDeleteForm($fund);
 
         return $this->render('manage/rates/show.html.twig', array(
             'rate' => $rate,
@@ -80,8 +78,8 @@ class InterestRatesController extends Controller
     /**
      * Displays a form to edit an existing InterestRates entity.
      *
-     * @Route("/{id}/edit", name="manage_rates_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="manage_rates_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, InterestRates $rate)
     {
@@ -110,8 +108,8 @@ class InterestRatesController extends Controller
     /**
      * Deletes a InterestRates entity.
      *
-     * @Route("/{id}", name="manage_rates_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="manage_rates_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, InterestRates $rate)
     {

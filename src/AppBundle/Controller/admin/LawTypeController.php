@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\LawType;
 use AppBundle\Entity\FundLinkTypes;
 use AppBundle\Form\FundLinkTypesType;
@@ -20,8 +19,8 @@ class LawTypeController extends Controller
     /**
      * Lists all FundLinkTypes entities.
      *
-     * @Route("/", name="admin_lawtypes_index")
-     * @Method("GET")
+     * @Route("/", name="admin_lawtypes_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -37,8 +36,8 @@ class LawTypeController extends Controller
     /**
      * Creates a new FundLinkTypes entity.
      *
-     * @Route("/new", name="admin_lawtypes_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_lawtypes_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -65,8 +64,8 @@ class LawTypeController extends Controller
     /**
      * Finds and displays a FundLinkTypes entity.
      *
-     * @Route("/{id}", name="admin_lawtypes_show")
-     * @Method("GET")
+     * @Route("/{id}", name="admin_lawtypes_show",
+     * methods={"GET"})
      */
     public function showAction(LawType $lawtype)
     {
@@ -81,8 +80,8 @@ class LawTypeController extends Controller
     /**
      * Displays a form to edit an existing FundLinkTypes entity.
      *
-     * @Route("/{id}/edit", name="admin_lawtypes_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="admin_lawtypes_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, LawType $lawtype)
     {
@@ -110,8 +109,8 @@ class LawTypeController extends Controller
     /**
      * Deletes a FundLinkTypes entity.
      *
-     * @Route("/{id}", name="admin_lawtypes_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_lawtypes_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, LawType $lawtype)
     {

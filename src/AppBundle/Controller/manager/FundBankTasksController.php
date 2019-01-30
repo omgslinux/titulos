@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\FundBanks;
 use AppBundle\Entity\FundBankTasks;
 use AppBundle\Form\FundBankTasksType;
@@ -21,8 +20,8 @@ class FundBankTasksController extends Controller
     /**
      * Creates a new FundBankTasks entity.
      *
-     * @Route("/{id}/tasks/new", name="manage_fundbanks_tasks_new")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/tasks/new", name="manage_fundbanks_tasks_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request, FundBanks $fundbank)
     {
@@ -50,8 +49,8 @@ class FundBankTasksController extends Controller
     /**
      * Creates a form to show a FundBankTasks entity.
      *
-     * @Route("/tasks/{id}", name="manage_fundbanks_tasks_show")
-     * @Method({"GET", "POST"})
+     * @Route("/tasks/{id}", name="manage_fundbanks_tasks_show",
+     * methods={"GET", "POST"})
      */
     public function showAction(Request $request, FundBank $fundbank)
     {
@@ -64,8 +63,8 @@ class FundBankTasksController extends Controller
     /**
      * Creates a form to edit a FundBanks entity.
      *
-     * @Route("/tasks/{id}/edit", name="manage_fundbanks__tasks_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/tasks/{id}/edit", name="manage_fundbanks__tasks_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, FundBankTasks $banktasks)
     {
@@ -93,8 +92,8 @@ class FundBankTasksController extends Controller
     /**
      * Deletes a FundBanks entity.
      *
-     * @Route("/tasks/{id}/delete", name="manage_fundbanks_tasks_delete")
-     * @Method({"GET", "DELETE"})
+     * @Route("/tasks/{id}/delete", name="manage_fundbanks_tasks_delete",
+     * methods={"GET", "DELETE"})
      */
     public function deleteAction(Request $request, FundBankTasks $banktasks)
     {

@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundBanks;
 use AppBundle\Entity\FundLinks;
@@ -24,8 +23,8 @@ class FundBanksController extends Controller
     /**
      * Creates a form to edit a FundBanks entity.
      *
-     * @Route("/banks/{id}", name="manage_funds_banks_show")
-     * @Method({"GET", "POST"})
+     * @Route("/banks/{id}", name="manage_funds_banks_show",
+     * methods={"GET", "POST"})
      */
     public function showAction(Request $request, FundBanks $fundbank)
     {
@@ -65,13 +64,11 @@ class FundBanksController extends Controller
     /**
      * Creates a new FundBanks entity.
      *
-     * @Route("/{id}/banks/new", name="manage_funds_banks_new")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/banks/new", name="manage_funds_banks_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request, Funds $fund)
     {
-        //$em = $this->getDoctrine()->getManager();
-        //$fundbanks = $em->getRepository('AppBundle:FundBanks')->find($fund);
         $fundbanks = new FundBanks();
         $fundbanks->setFund($fund);
         $form = $this->createForm('AppBundle\Form\FundBanksType', $fundbanks);
@@ -97,12 +94,11 @@ class FundBanksController extends Controller
     /**
      * Creates a form to edit a FundBanks entity.
      *
-     * @Route("/banks/{id}/edit", name="manage_funds_banks_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/banks/{id}/edit", name="manage_funds_banks_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, FundBanks $fundbank)
     {
-//        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
         $deleteForm = $this->createDeleteForm($fundbank);
         $editform = $this->createForm('AppBundle\Form\FundBanksType', $fundbank);
         $editform->handleRequest($request);
@@ -128,8 +124,8 @@ class FundBanksController extends Controller
     /**
      * Deletes a FundBanks entity.
      *
-     * @Route("/banks/{id}/delete", name="manage_funds_banks_delete")
-     * @Method({"GET", "DELETE"})
+     * @Route("/banks/{id}/delete", name="manage_funds_banks_delete",
+     * methods={"GET", "DELETE"})
      */
     public function deleteAction(Request $request, FundBanks $fundbank)
     {

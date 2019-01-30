@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundLinks;
 use AppBundle\Entity\FundLaws;
@@ -24,8 +23,8 @@ class FundsController extends Controller
     /**
      * Lists all Funds entities.
      *
-     * @Route("/", name="manage_funds_index")
-     * @Method("GET")
+     * @Route("/", name="manage_funds_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -41,8 +40,8 @@ class FundsController extends Controller
     /**
      * Creates a new Funds entity.
      *
-     * @Route("/new", name="manage_funds_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="manage_funds_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -70,8 +69,8 @@ class FundsController extends Controller
     /**
      * Finds and displays a Funds entity.
      *
-     * @Route("/{id}", name="manage_funds_show")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}", name="manage_funds_show",
+     * methods={"GET", "POST"})
      */
     public function showAction(Funds $fund)
     {
@@ -86,8 +85,8 @@ class FundsController extends Controller
     /**
      * Displays a form to edit an existing Funds entity.
      *
-     * @Route("/{id}/edit", name="manage_funds_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="manage_funds_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, Funds $fund)
     {
@@ -116,8 +115,8 @@ class FundsController extends Controller
     /**
      * Deletes a Funds entity.
      *
-     * @Route("/{id}", name="manage_funds_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="manage_funds_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, Funds $fund)
     {
@@ -153,8 +152,8 @@ class FundsController extends Controller
     /**
      * Displays a form to download a file.
      *
-     * @Route("/{id}/download", name="manage_funds_download")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/download", name="manage_funds_download",
+     * methods={"GET", "POST"})
      */
     public function downloadAction(Request $request, Funds $fund)
     {

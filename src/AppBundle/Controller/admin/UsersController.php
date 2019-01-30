@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Roles;
 use AppBundle\Entity\Users;
 
@@ -20,8 +19,8 @@ class UsersController extends Controller
     /**
      * Index for all Users entity.
      *
-     * @Route("/", name="admin_users_index")
-     * @Method("GET")
+     * @Route("/", name="admin_users_index",
+     * methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -37,12 +36,11 @@ class UsersController extends Controller
     /**
      * Creates a new Users entity.
      *
-     * @Route("/new", name="admin_users_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_users_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $user = new Users();
         $createForm = $this->createForm('AppBundle\Form\UsersType', $user);
         $createForm->handleRequest($request);
@@ -70,12 +68,11 @@ class UsersController extends Controller
     /**
      * Finds and displays a Users entity.
      *
-     * @Route("/{id}", name="admin_users_show")
-     * @Method("GET")
+     * @Route("/{id}", name="admin_users_show",
+     * methods={"GET"})
      */
     public function showAction(Request $request, Users $user)
     {
-        //$em = $this->getDoctrine()->getManager();
 
         return $this->render('admin/users/show.html.twig', array(
             'user' => $user,
@@ -87,12 +84,11 @@ class UsersController extends Controller
     /**
      * Creates a form to edit a Users entity.
      *
-     * @Route("/{id}/edit", name="admin_users_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="admin_users_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, Users $user)
     {
-//        $fund = $em->getRepository('AppBundle:Funds')->findOneBy(array('id' => $fundbanks->getFund()));
         $deleteForm = $this->createDeleteForm($user);
         $editform = $this->createForm('AppBundle\Form\UsersType', $user, array('require_password' => false));
         $editform->handleRequest($request);
@@ -123,8 +119,8 @@ class UsersController extends Controller
     /**
      * Deletes a Users entity.
      *
-     * @Route("/{id}/delete", name="admin_users_delete")
-     * @Method({"GET", "DELETE"})
+     * @Route("/{id}/delete", name="admin_users_delete",
+     * methods={"GET", "DELETE"})
      */
     public function deleteAction(Request $request, Users $users)
     {
@@ -159,12 +155,11 @@ class UsersController extends Controller
     /**
      * Creates a new Roles entity.
      *
-     * @Route("/{id}/roles/new", name="admin_user_roles_new")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/roles/new", name="admin_user_roles_new",
+     * methods={"GET", "POST"})
      */
     public function rolesnewAction(Request $request, Users $user)
     {
-        //$fundlinks = $em->getRepository('AppBundle:FundLinks')->find($fund);
         $roles = new Roles();
         $createForm = $this->createForm('AppBundle\Form\RolesType', $roles);
         $createForm->handleRequest($request);

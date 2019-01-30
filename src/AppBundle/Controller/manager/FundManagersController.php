@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\FundManagers;
 use AppBundle\Form\FundManagersType;
 
@@ -19,8 +18,8 @@ class FundManagersController extends Controller
     /**
      * Lists all FundManagers entities.
      *
-     * @Route("/", name="manage_fundmanagers_index")
-     * @Method("GET")
+     * @Route("/", name="manage_fundmanagers_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -36,8 +35,8 @@ class FundManagersController extends Controller
     /**
      * Creates a new FundManagers entity.
      *
-     * @Route("/new", name="manage_fundmanagers_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="manage_fundmanagers_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -62,8 +61,8 @@ class FundManagersController extends Controller
     /**
      * Finds and displays a FundManagers entity.
      *
-     * @Route("/{id}", name="manage_fundmanagers_show")
-     * @Method("GET")
+     * @Route("/{id}", name="manage_fundmanagers_show",
+     * methods={"GET"})
      */
     public function showAction(FundManagers $fundmanager)
     {
@@ -78,8 +77,8 @@ class FundManagersController extends Controller
     /**
      * Displays a form to edit an existing FundManagers entity.
      *
-     * @Route("/{id}/edit", name="manage_fundamanagers_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="manage_fundamanagers_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, FundManagers $fundmanager)
     {
@@ -107,8 +106,8 @@ class FundManagersController extends Controller
     /**
      * Deletes a FundManagers entity.
      *
-     * @Route("/{id}", name="manage_fundmanagers_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="manage_fundmanagers_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, FundManagers $fundmanager)
     {

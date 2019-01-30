@@ -4,8 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -27,8 +26,8 @@ class SearchController extends Controller
     /**
      * Search funds by selecting a FundBank entity
      *
-     * @Route("/fundsbybank", name="search_funds_bybank")
-     * @Method({"GET", "POST"})
+     * @Route("/fundsbybank", name="search_funds_bybank",
+     * methods={"GET", "POST"})
      */
     public function fundsByBankAction(Request $request)
     {
@@ -81,8 +80,8 @@ class SearchController extends Controller
     /**
      * Search all funds in a FundManagers entity
      *
-     * @Route("/fundsbymanager", name="search_funds_bymanager")
-     * @Method({"GET", "POST"})
+     * @Route("/fundsbymanager", name="search_funds_bymanager",
+     * methods={"GET", "POST"})
      */
     public function fundsByManagerAction(Request $request)
     {
@@ -113,8 +112,8 @@ class SearchController extends Controller
     /**
      * Search loans by selecting a FundBank entity
      *
-     * @Route("/fundsbyloan", name="search_funds_byloan")
-     * @Method({"GET", "POST"})
+     * @Route("/fundsbyloan", name="search_funds_byloan",
+     * methods={"GET", "POST"})
      */
     public function fundsByLoanAction(Request $request)
     {
@@ -179,8 +178,8 @@ class SearchController extends Controller
     /**
      * Creates a form to show a Funds entity.
      *
-     * @Route("/funds/{id}", name="search_funds")
-     * @Method({"GET"})
+     * @Route("/funds/{id}", name="search_funds",
+     * methods={"GET"})
      */
     public function searchFundAction(Request $request, Funds $fund)
     {
@@ -193,8 +192,8 @@ class SearchController extends Controller
     /**
      * Creates a form to show Laws entities.
      *
-     * @Route("/laws/", name="search_laws_index")
-     * @Method({"GET"})
+     * @Route("/laws/", name="search_laws_index",
+     * methods={"GET"})
      */
     public function searchLawsAction(Request $request)
     {
@@ -210,8 +209,8 @@ class SearchController extends Controller
     /**
      * Creates a form to show Laws entities.
      *
-     * @Route("/laws/{id}", name="search_laws_show")
-     * @Method({"GET"})
+     * @Route("/laws/{id}", name="search_laws_show",
+     * methods={"GET"})
      */
     public function showLawsAction(Request $request, Laws $law)
     {
@@ -224,8 +223,8 @@ class SearchController extends Controller
     /**
      * Search a mortgage
      *
-     * @Route("/floor", name="search_floor")
-     * @Method({"GET", "POST"})
+     * @Route("/floor", name="search_floor",
+     * methods={"GET", "POST"})
      */
     public function floorAction(Request $request)
     {

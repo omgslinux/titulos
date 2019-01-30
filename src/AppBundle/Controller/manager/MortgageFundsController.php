@@ -4,8 +4,7 @@ namespace AppBundle\Controller\manager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\MortgageFunds;
 use AppBundle\Form\MortgageFundsType;
@@ -21,8 +20,8 @@ class MortgageFundsController extends Controller
     /**
      * Creates a new MortgageFunds entity.
      *
-     * @Route("/{id}/extra/new", name="manage_funds_extra_new")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/extra/new", name="manage_funds_extra_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request, Funds $fund)
     {
@@ -50,8 +49,8 @@ class MortgageFundsController extends Controller
     /**
      * Displays a form to edit a MortgageFunds entity.
      *
-     * @Route("/extra/{id}/edit", name="manage_funds_extra_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/extra/{id}/edit", name="manage_funds_extra_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, MortgageFunds $mfund)
     {
@@ -80,8 +79,8 @@ class MortgageFundsController extends Controller
     /**
      * Deletes a MortgageFunds entity.
      *
-     * @Route("/extra/{id}/delete", name="manage_funds_extra_delete")
-     * @Method({"GET", "DELETE"})
+     * @Route("/extra/{id}/delete", name="manage_funds_extra_delete",
+     * methods={"GET", "DELETE"})
      */
     public function deleteAction(Request $request, MortgageFunds $mfund)
     {

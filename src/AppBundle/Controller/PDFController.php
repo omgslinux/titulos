@@ -3,8 +3,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Funds;
 use AppBundle\Entity\FundManagers;
 
@@ -18,8 +17,8 @@ class PDFController extends Controller
     /**
      * PDF index
      *
-     * @Route("/", name="pdf_index")
-     * @Method("GET")
+     * @Route("/", name="pdf_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -34,8 +33,8 @@ class PDFController extends Controller
     /**
      * PDF funds
      *
-     * @Route("/funds/{id}", name="pdf_funds")
-     * @Method({"GET", "POST"})
+     * @Route("/funds/{id}", name="pdf_funds",
+     * methods={"GET", "POST"})
      */
     public function fundsAction(FundManagers $fundmanager)
     {

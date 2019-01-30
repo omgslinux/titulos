@@ -22,6 +22,7 @@ security:
             http_basic: ~
             provider: our_db_provider
             # activate different ways to authenticate
+            logout_on_user_change: true
 
             # http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate

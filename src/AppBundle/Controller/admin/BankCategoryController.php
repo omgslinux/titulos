@@ -4,8 +4,7 @@ namespace AppBundle\Controller\admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Banks;
 use AppBundle\Entity\BankCategory;
 
@@ -19,8 +18,8 @@ class BankCategoryController extends Controller
     /**
      * Lists all BankCategory entities
      *
-     * @Route("/", name="admin_bankcategories_index")
-     * @Method("GET")
+     * @Route("/", name="admin_bankcategories_index",
+     * methods={"GET"})
      */
     public function indexAction()
     {
@@ -36,8 +35,8 @@ class BankCategoryController extends Controller
     /**
      * Creates a new BankCategory entity.
      *
-     * @Route("/new", name="admin_bankcategories_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_bankcategories_new",
+     * methods={"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -64,8 +63,8 @@ class BankCategoryController extends Controller
     /**
      * Finds and displays a Banks entity.
      *
-     * @Route("/{id}", name="admin_bankcategories_show")
-     * @Method("GET")
+     * @Route("/{id}", name="admin_bankcategories_show",
+     * methods={"GET"})
      */
     public function showAction(BankCategory $category)
     {
@@ -78,8 +77,8 @@ class BankCategoryController extends Controller
     /**
      * Displays a form to edit an existing BankCategory entity.
      *
-     * @Route("/{id}/edit", name="admin_bankcategories_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="admin_bankcategories_edit",
+     * methods={"GET", "POST"})
      */
     public function editAction(Request $request, BankCategory $category)
     {
@@ -107,8 +106,8 @@ class BankCategoryController extends Controller
     /**
      * Deletes a BankCategory entity.
      *
-     * @Route("/{id}", name="admin_bankcategories_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_bankcategories_delete",
+     * methods={"DELETE"})
      */
     public function deleteAction(Request $request, BankCategory $category)
     {
